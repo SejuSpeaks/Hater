@@ -21,6 +21,7 @@ class User(db.Model, UserMixin):
 
     albums = db.relationship("Album", back_populates='user')
     reviews = db.relationship("Review", back_populates='user')
+    likes = db.relationship('Like', back_populates='user')
     @property
     def password(self):
         return self.hashed_password
