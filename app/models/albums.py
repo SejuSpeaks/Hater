@@ -18,6 +18,17 @@ class Album(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
+
     user = db.relationship("User", back_populates='albums')
-    reviews = db.relationship('Review', back_populates='albums')
+    reviews = db.relationship('Review', back_populates='album')
     likes = db.relationship('Like', back_populates='albums')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'genre': self.genre,
+            'description': self.description,
+            'release_date':self.release_date,
+            'image_url': self.image_url
+        }
