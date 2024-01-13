@@ -21,7 +21,7 @@ class Album(db.Model):
 
     user = db.relationship("User", back_populates='albums')
     reviews = db.relationship('Review', back_populates='album')
-    likes = db.relationship('Like', back_populates='albums')
+    likes = db.relationship('Like', back_populates='album')
 
     def to_dict(self):
         return {
