@@ -26,9 +26,10 @@ class Album(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
+            'user_id': self.user_id,
             'title': self.title,
             'genre': self.genre,
             'description': self.description,
-            'release_date':self.release_date,
+            'release_date':self.release_date.strftime("%B %d %Y"),
             'image_url': self.image_url
         }
