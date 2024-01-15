@@ -5,11 +5,11 @@ from sqlalchemy.sql import text
 # Adds a demo user, you can add other users here if you want
 def seed_reviews():
     review1 = Review(
-        user_id=1, album_id=2, review_text='This album is amazing! I love the diversity of songs and the artist\'s unique style.', rating=5)
+        id=1, user_id=1, album_id=2, review_text='This album is amazing! I love the diversity of songs and the artist\'s unique style.', rating=5)
     review2 = Review(
-        user_id=2, album_id=3, review_text='Not bad, but some tracks could be better. Overall, a decent album.', rating=3)
+        id=2, user_id=2, album_id=3, review_text='Not bad, but some tracks could be better. Overall, a decent album.', rating=3)
     review3 = Review(
-        user_id=3, album_id=1, review_text='Incredible work! Every song is a masterpiece. I can\'t stop listening.', rating=4)
+        id=3, user_id=3, album_id=2, review_text='Incredible work! Every song is a masterpiece. I can\'t stop listening.', rating=4)
 
     db.session.add(review1)
     db.session.add(review2)
