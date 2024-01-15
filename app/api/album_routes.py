@@ -15,3 +15,18 @@ def get_user_albums():
     return {
         "user albums": [album.to_dict() for album in current_user.albums]
     }
+
+@album_routes.route('/<int:id>/likes')
+@album_routes.errorhandler(404)
+def album_likes(id):
+    album = Album.query.get(id)
+
+    if (not album):
+        error = {"Error": "Invalid album id"}
+        return error, 404
+
+    album_likes = album.likes
+
+    return {
+        f"{album.title} likes": [{"user_id" : like.user.id} for like in album_likes]
+    }
