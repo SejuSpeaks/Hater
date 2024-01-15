@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from app.models import Album, Like, db
+from app.models import Album, Like, db, Review
 from flask_login import current_user, login_required
 
 album_routes = Blueprint('albums', __name__)
@@ -60,3 +60,21 @@ def like_album(id):
     db.session.commit()
 
     return {"Success":"Album added to Likes"}
+
+@album_routes.route('/<int:id>')
+@album_routes.errorhandler(404)
+def album_details(id):
+    album = Album.query.get(id)
+
+    num_review = Review.query(func.count(Review)).filter(Review.album_id == id).all()
+    avg_review = Review.query(func.avg(Review.rating)).filter(Review.album_id == id).all()
+    num_likes = Like.query(func.count(Like)).filter(Like.album_id == id).all()
+
+
+    if (not album):
+        error = {"Error": "Invalid album id"}
+        return error, 404
+
+    return {
+        f"{album.title} details": [album.to_dict(), num_review, avg_review, num_likes]
+    }
