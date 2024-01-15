@@ -11,8 +11,7 @@ def get_albums():
 
 @album_routes.route('/current')
 @login_required
-def get_user_likes():
-    print(current_user.albums)
+def get_user_albums():
     return {
         "user albums": [album.to_dict() for album in current_user.albums]
     }
