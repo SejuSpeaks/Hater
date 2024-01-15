@@ -60,3 +60,22 @@ def like_album(id):
     db.session.commit()
 
     return {"Success":"Album added to Likes"}
+
+
+@album_routes.route('/<int:id>', methods=['PUT'])
+@login_required
+@album_routes.errorhandler(404)
+def edit_delete_album(id):
+    existing_album = Album.query.get(id)
+
+
+    #IF ALBUM IS NOT FOUND
+    if(not existing_album):
+        error = {"Error": "Invalid album id"}
+        return error, 404
+
+    #LIKE IS ALREADY PRESENT SO WE DELETE IT
+    if (existing_album.userId == current_user.id):
+        updated_album
+
+    return {"Success":"Album added to Likes"}
