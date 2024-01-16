@@ -20,8 +20,8 @@ class Album(db.Model):
 
 
     user = db.relationship("User", back_populates='albums')
-    reviews = db.relationship('Review', back_populates='album')
-    likes = db.relationship('Like', back_populates='album')
+    reviews = db.relationship('Review', back_populates='album', cascade="all, delete-orphan")
+    likes = db.relationship('Like', back_populates='album', cascade="all, delete-orphan")
 
     def to_dict(self):
         return {
