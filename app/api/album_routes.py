@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
 from app.models import Album, Like, db, Review
 from flask_login import current_user, login_required
+from sqlalchemy.sql import func
 
 album_routes = Blueprint('albums', __name__)
 
@@ -66,9 +67,11 @@ def like_album(id):
 def album_details(id):
     album = Album.query.get(id)
 
-    num_review = Review.query(func.count(Review)).filter(Review.album_id == id).all()
-    avg_review = Review.query(func.avg(Review.rating)).filter(Review.album_id == id).all()
-    num_likes = Like.query(func.count(Like)).filter(Like.album_id == id).all()
+    num_reviews = Review.query.filter(Review.album_id == id).count()
+    sum_reviews = db.session.query(func.sum(Review.rating)).filter(Review.album_id == id).all()
+    #avg_review = sum_reviews/num_reviews
+    #avg_review = db.session.query(func.avg(Review.rating).label("average_review")).join(Review).group_by(Album.id).filter(Review.album_id == id).first()
+    #num_likes = Like.query(func.count(Like)).filter(Like.album_id == id).all()
 
 
     if (not album):
@@ -76,5 +79,6 @@ def album_details(id):
         return error, 404
 
     return {
-        f"{album.title} details": [album.to_dict(), num_review, avg_review, num_likes]
+        "num_reviews": [sum_reviews]
     }
+        #f"{album.title} details": album.to_dict()
