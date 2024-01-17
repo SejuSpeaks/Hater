@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify
 from app.models import Album, Like, db, Review, User
 from flask_login import current_user, login_required
 from sqlalchemy.sql import func
-from sqlalchemy import inspect
+from collections import ChainMap
 
 album_routes = Blueprint('albums', __name__)
 
@@ -73,34 +73,73 @@ def album_details(id):
         error = {"Error": "Invalid album id"}
         return error, 404
 
-    query = db.session.query(Album, func.avg(Review.rating).label('avg_rating')) \
-                    .outerjoin(Review, Album.id == Review.album_id) \
-                    .outerjoin(User, Album.user_id == User.id) \
-                    # .add_entity(User)
-    #num_likes = Like.query(func.count(Like)).filter(Like.album_id == id).all()
-    #num_likes = db.session.query.filter(Like.album_id == id).count()
+##get avg reviews
+    reviews = Review.query.filter(Review.album_id == album.id).all()
+    review_details = [
+        {
+            'id': review.id,
+            'user_id': review.user_id,
+            'review_text': review.review_text,
+            'rating': review.rating
+        } for review in reviews]
 
-    query = query.group_by(Album.id)
-    avg_rating = query.all()
-    print(avg_rating)
-    avg_review = avg_rating if avg_rating else ""
-    # artist = User.query.filter(Album.user_id == User.id).all()
-    # artist_name = [user.username for user in artist]
+    merged_dict = {}
+
+    for sub in review_details:
+        for key, val in sub.items():
+            merged_dict.setdefault(key, []).append(val)
+
+    rating_list = list(merged_dict['rating'])
+    rating_sum = sum(rating_list)
+    rating_avg = rating_sum / len(rating_list)
+
+    avg_review = rating_avg if rating_avg else ""
+
+##get artist name
+    users = User.query.filter(User.id == album.user_id).all()
+    user_details = [
+        {
+            'id' : user.id,
+            'username' : user.username,
+            'first_name' : user.first_name,
+            'last_name' : user.last_name
+        } for user in users]
+    artist_name = user_details[0]['username']
+
+##get num likes
+    likes = Like.query.filter(Like.album_id == album.id).all()
+    like_details = [
+        {
+            'id': like.id,
+            'user_id': like.user_id,
+            'album_id': like.album_id,
+        } for like in likes]
+
+    merged_like_dict = {}
+
+    for sub in like_details:
+        for key, val in sub.items():
+            merged_like_dict.setdefault(key, []).append(val)
+
+    like_list = list(merged_like_dict['user_id'])
+    num_likes = len(like_list)
+
+    avg_review = rating_avg if rating_avg else ""
+    total_likes = num_likes if num_likes else ""
 
     album_details = {
             'id': album.id,
             'title': album.title,
-            # 'artist': artist_name,
+            'artist': artist_name,
             'genre': album.genre,
             'description': album.description,
             'release_date': album.release_date.strftime("%B %d %Y"),
             'image_url': album.image_url,
-            'avg_rating': avg_review
-            # 'num_likes': float(num_likes) if num_likes else ""
+            'avg_rating': avg_review,
+            'total_likes': total_likes
         }
 
 
     return {
         f"{album.title} details": album_details
     }
-        #f"{album.title} details": album.to_dict()
