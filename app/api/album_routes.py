@@ -2,7 +2,7 @@ from flask import Blueprint, request
 from app.models import Album, Like, User, Review, db
 from flask_login import current_user, login_required
 from datetime import datetime
-from sqlalchemy import or_, func
+from sqlalchemy import or_, func, desc, case
 
 album_routes = Blueprint('albums', __name__)
 
@@ -11,7 +11,8 @@ def get_albums():
 
     search_term = request.args.get('search')
 
-    query = db.session.query(Album, func.avg(Review.rating).label('avg_rating')) \
+    #first line of the query builds includes an average aggregate and replaces None values to 0
+    query = db.session.query(Album, func.coalesce(func.avg(Review.rating), 0).label('avg_rating')) \
              .outerjoin(Review, Album.id == Review.album_id) \
              .outerjoin(User, Album.user_id == User.id) \
              .add_entity(User)
@@ -22,7 +23,9 @@ def get_albums():
                                 User.username.ilike(search_term),
                                 Album.description.ilike(f'%{search_term}%')))
 
-    query = query.group_by(Album.id, User.id).limit(20)
+    query = query.group_by(Album.id, User.id) \
+                 .order_by(desc('avg_rating')) \
+                 .limit(20)
 
     albums = query.all()
 
