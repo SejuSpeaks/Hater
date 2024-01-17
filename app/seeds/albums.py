@@ -6,11 +6,11 @@ from sqlalchemy.sql import text
 # Adds a demo user, you can add other users here if you want
 def seed_albums():
     album1 = Album(
-        user_id=2, title='Album 1', genre='Rock', description='A fantastic rock album.', release_date=datetime.datetime(2022,1,15), image_url='https://example.com/album1.jpg')
+        id=1, user_id=2, title='Album 1', genre='Rock', description='A fantastic rock album.', release_date=datetime.datetime(2022,1,15), image_url='https://example.com/album1.jpg')
     album2 = Album(
-        user_id=3, title='Album 2', genre='Pop', description='A catchy pop music album.', release_date=datetime.datetime(2022,7,17), image_url='https://example.com/album2.jpg')
+        id=2, user_id=3, title='Album 2', genre='Pop', description='A catchy pop music album.', release_date=datetime.datetime(2022,7,17), image_url='https://example.com/album2.jpg')
     album3 = Album(
-         user_id=1, title='Album 3', genre='Country', description='Love my truck', release_date=datetime.datetime(2020,3,10), image_url='https://example.com/album3.jpg')
+        id=3, user_id=1, title='Album 3', genre='Country', description='Love my truck', release_date=datetime.datetime(2020,3,10), image_url='https://example.com/album3.jpg')
 
     db.session.add(album1)
     db.session.add(album2)

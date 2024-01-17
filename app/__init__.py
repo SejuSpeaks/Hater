@@ -9,6 +9,7 @@ from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.album_routes import album_routes
 from .api.likes_routes import likes_router
+from .api.review_routes import review_router
 from .seeds import seed_commands
 from .config import Config
 
@@ -32,6 +33,7 @@ app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(album_routes, url_prefix='/api/albums')
+app.register_blueprint(review_router, url_prefix='/api/reviews')
 app.register_blueprint(likes_router, url_prefix='/api/likes')
 db.init_app(app)
 Migrate(app, db)
@@ -56,13 +58,15 @@ def https_redirect():
 
 @app.after_request
 def inject_csrf_token(response):
+    csrf_token_testing = 'IjhhNzFmODNlODFiMTg5MDVhZTFjODkzNWMzYzI3ZTIyYTc3NmE2YTYi.Zab2Lw.byAAJP31ns1xkOIoHp6YVmXyk1k'
     response.set_cookie(
         'csrf_token',
-        generate_csrf(),
+        generate_csrf() if os.environ.get('FLASK_ENV') == 'production' else csrf_token_testing,
         secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
         samesite='Strict' if os.environ.get(
             'FLASK_ENV') == 'production' else None,
         httponly=True)
+
     return response
 
 

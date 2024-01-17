@@ -5,11 +5,11 @@ from sqlalchemy.sql import text
 # Adds a demo user, you can add other users here if you want
 def seed_likes():
     like1 = Like(
-        user_id=1, album_id=3)
+        id=1, user_id=1, album_id=3)
     like2 = Like(
-        user_id=2, album_id=1)
+        id=2, user_id=2, album_id=1)
     like3 = Like(
-        user_id=3, album_id=2)
+        id=3, user_id=3, album_id=2)
 
     db.session.add(like1)
     db.session.add(like2)
