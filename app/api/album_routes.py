@@ -94,8 +94,8 @@ def like_album(id):
 
     return {"Success":"Album added to Likes"}
 
-@album_routes.route('/create-album', methods=["POST"])
-@login_required
+@album_routes.route('/', methods=["POST"])
+# @login_required
 def post_album():
     userId = User.get(id)
     form = AlbumForm()
