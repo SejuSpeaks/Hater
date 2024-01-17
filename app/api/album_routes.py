@@ -1,6 +1,8 @@
-from flask import Blueprint, jsonify
-from app.models import Album, Like, db, Review, User
+from flask import Blueprint, request
+from app.models import Album, Like, User, Review, db, Review, User
 from flask_login import current_user, login_required
+from datetime import datetime
+from sqlalchemy import or_, func, desc, case
 from sqlalchemy.sql import func
 from collections import ChainMap
 
@@ -8,8 +10,41 @@ album_routes = Blueprint('albums', __name__)
 
 @album_routes.route('/')
 def get_albums():
-    albums = Album.query.all()
-    return {'albums': [album.to_dict() for album in albums]}
+
+    search_term = request.args.get('search')
+
+    #first line of the query builds includes an average aggregate and replaces None values to 0
+    query = db.session.query(Album, func.coalesce(func.avg(Review.rating), 0).label('avg_rating')) \
+             .outerjoin(Review, Album.id == Review.album_id) \
+             .outerjoin(User, Album.user_id == User.id) \
+             .add_entity(User)
+
+    if search_term:
+        query = query.filter(or_(Album.title.ilike(f'%{search_term}%'),
+                                Album.genre.ilike(search_term),
+                                User.username.ilike(search_term),
+                                Album.description.ilike(f'%{search_term}%')))
+
+    query = query.group_by(Album.id, User.id) \
+                 .order_by(desc('avg_rating')) \
+                 .limit(20)
+
+    albums = query.all()
+
+    albums_with_users = [
+        {
+            'id': album.id,
+            'title': album.title,
+            'artist': user.username,
+            'genre': album.genre,
+            'description': album.description,
+            'release_date': album.release_date.strftime("%B %d %Y"),
+            'image_url': album.image_url,
+            'avg_rating': float(avg_rating) if avg_rating else ""
+
+        } for album, avg_rating, user in albums]
+
+    return {'albums': albums_with_users}
 
 @album_routes.route('/current')
 @login_required
