@@ -1,5 +1,6 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, redirect
 from app.models import Album, Like, User, Review, db
+from app.forms import AlbumForm
 from flask_login import current_user, login_required
 from datetime import datetime
 from sqlalchemy import or_, func
@@ -12,9 +13,9 @@ def get_albums():
     search_term = request.args.get('search')
 
     query = db.session.query(Album, func.avg(Review.rating).label('avg_rating')) \
-             .outerjoin(Review, Album.id == Review.album_id) \
-             .outerjoin(User, Album.user_id == User.id) \
-             .add_entity(User)
+                .outerjoin(Review, Album.id == Review.album_id) \
+                .outerjoin(User, Album.user_id == User.id) \
+                .add_entity(User)
 
     if search_term:
         query = query.filter(or_(Album.title.ilike(f'%{search_term}%'),
@@ -93,7 +94,7 @@ def like_album(id):
 
     return {"Success":"Album added to Likes"}
 
-@album_routes.route('/', methods=["POST"])
+@album_routes.route('/create-album', methods=["POST"])
 @login_required
 def post_album():
     userId = User.get(id)
