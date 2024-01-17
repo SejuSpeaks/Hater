@@ -1,7 +1,8 @@
 from flask import Blueprint, jsonify
-from app.models import Album, Like, db, Review
+from app.models import Album, Like, db, Review, User
 from flask_login import current_user, login_required
 from sqlalchemy.sql import func
+from sqlalchemy import inspect
 
 album_routes = Blueprint('albums', __name__)
 
@@ -65,20 +66,41 @@ def like_album(id):
 @album_routes.route('/<int:id>')
 @album_routes.errorhandler(404)
 def album_details(id):
+
     album = Album.query.get(id)
-
-    num_reviews = Review.query.filter(Review.album_id == id).count()
-    sum_reviews = db.session.query(func.sum(Review.rating)).filter(Review.album_id == id).all()
-    #avg_review = sum_reviews/num_reviews
-    #avg_review = db.session.query(func.avg(Review.rating).label("average_review")).join(Review).group_by(Album.id).filter(Review.album_id == id).first()
-    #num_likes = Like.query(func.count(Like)).filter(Like.album_id == id).all()
-
 
     if (not album):
         error = {"Error": "Invalid album id"}
         return error, 404
 
+    query = db.session.query(Album, func.avg(Review.rating).label('avg_rating')) \
+                    .outerjoin(Review, Album.id == Review.album_id) \
+                    .outerjoin(User, Album.user_id == User.id) \
+                    # .add_entity(User)
+    #num_likes = Like.query(func.count(Like)).filter(Like.album_id == id).all()
+    #num_likes = db.session.query.filter(Like.album_id == id).count()
+
+    query = query.group_by(Album.id)
+    avg_rating = query.all()
+    print(avg_rating)
+    avg_review = avg_rating if avg_rating else ""
+    # artist = User.query.filter(Album.user_id == User.id).all()
+    # artist_name = [user.username for user in artist]
+
+    album_details = {
+            'id': album.id,
+            'title': album.title,
+            # 'artist': artist_name,
+            'genre': album.genre,
+            'description': album.description,
+            'release_date': album.release_date.strftime("%B %d %Y"),
+            'image_url': album.image_url,
+            'avg_rating': avg_review
+            # 'num_likes': float(num_likes) if num_likes else ""
+        }
+
+
     return {
-        "num_reviews": [sum_reviews]
+        f"{album.title} details": album_details
     }
         #f"{album.title} details": album.to_dict()
