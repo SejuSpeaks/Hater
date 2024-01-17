@@ -54,6 +54,7 @@ def get_user_albums():
     }
 
 @album_routes.route('/<int:id>/likes')
+@login_required
 @album_routes.errorhandler(404)
 def album_likes(id):
     album = Album.query.get(id)
@@ -70,6 +71,7 @@ def album_likes(id):
 
 
 @album_routes.route('/<int:id>/likes', methods=['POST','DELETE'])
+@login_required
 @album_routes.errorhandler(404)
 def like_album(id):
     album = Album.query.get(id)
