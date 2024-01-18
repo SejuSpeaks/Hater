@@ -13,15 +13,18 @@ def get_user_reviews():
 
 
 @review_router.route('/<int:id>', methods=['DELETE'])
-# Exits with status 404 if no review with the ID in the URL exists
-@review_router.errorhandler(404)
 @login_required
 def delete_review(id):
     # Selects the review to be deleted
     doomed_review = Review.query.get(id)
 
+    # Exits with status 404 if no review with the ID in the URL exists
+    if not doomed_review:
+        error = { "error": "No album with the specified ID exists" }
+        return error, 404
+
     # Sends an error response if the review was not created by the current user:
-    if not Review.user_id == current_user.id:
+    if not doomed_review.user_id == current_user.id:
         error = {"Error": "You are not authorized to delete this review."}
         return error, 401
 

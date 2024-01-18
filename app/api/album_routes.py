@@ -95,13 +95,18 @@ def like_album(id):
 
     return {"Success":"Album added to Likes"}
 
+
 @album_routes.route('/<int:id>/reviews', methods=['POST'])
-# Exits with status 404 if no album with the ID in the URL exists
-@album_routes.errorhandler(404)
 @login_required
 def add_album_review(id):
     current_user_id = current_user.id
     album_id = id
+
+    # Exits with status 404 if no album with the ID in the URL exists
+    album = Album.query.get(id)
+    if not album:
+        error = { "error": "Album with the specified id does not exist" }
+        return error, 404
 
     # Searches to see whether there is already a review of the album by the user
     existing_review = db.session.query(Review) \
@@ -113,17 +118,25 @@ def add_album_review(id):
         error = {"Error": "You have already reviewed this album."}
         return error, 403
 
-    # Collects review data from user:
     else:
-        review_form = ReviewForm()
-        # create a new review
-        review_form['csrf_token'].data = request.cookies['csrf_token']
-
-        if review_form.validate_on_submit():
-            new_review_text = review_form.review_text.data
-            new_review_rating = review_form.review_rating.data
-
             # Creates a new review and adds it to the database
+            new_review_rating = request.json.get("rating", None)
+            new_review_text = request.json.get("review_text", None)
+
+            validation_errors = {}
+
+            if new_review_rating is None:
+                validation_errors["rating"] = "Please provide a rating"
+
+            if new_review_text is None:
+                validation_errors["review_text"] = "Please provide a review"
+
+            if new_review_rating < 1 or new_review_rating > 5:
+                validation_errors["rating"] = "Please provide a rating between 1 and 5"
+
+            if validation_errors:
+                return validation_errors, 400
+
             new_review = Review(
                 user_id = current_user_id,
                 album_id = album_id,
@@ -141,9 +154,6 @@ def add_album_review(id):
 
             return created_review.to_dict()
 
-        # Returns all error messages from the review form
-        else:
-            return {'errors': review_form.errors}, 400
 
 @album_routes.route('/<int:id>/reviews', methods=['GET'])
 # Exits with status 404 if no album with the ID in the URL exists
