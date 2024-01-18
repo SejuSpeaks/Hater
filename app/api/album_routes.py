@@ -5,9 +5,18 @@ from flask_login import current_user, login_required
 from datetime import datetime
 from sqlalchemy import or_, func, desc, case
 from sqlalchemy.sql import func
-from collections import ChainMap
 
 album_routes = Blueprint('albums', __name__)
+
+def validation_errors_to_error_messages(validation_errors):
+    """
+    Simple function that turns the WTForms validation errors into a simple list
+    """
+    errorMessages = []
+    for field in validation_errors:
+        for error in validation_errors[field]:
+            errorMessages.append(f'{field} : {error}')
+    return errorMessages
 
 @album_routes.route('/')
 def get_albums():
@@ -27,8 +36,8 @@ def get_albums():
                                 Album.description.ilike(f'%{search_term}%')))
 
     query = query.group_by(Album.id, User.id) \
-                 .order_by(desc('avg_rating')) \
-                 .limit(20)
+                .order_by(desc('avg_rating')) \
+                .limit(20)
 
     albums = query.all()
 
@@ -181,10 +190,12 @@ def album_details(id):
     }
 
 @album_routes.route('/', methods=["POST"])
-# @login_required
-def post_album():
-    userId = User.get(id)
+@login_required
+def post_album(id):
+    userId = current_user.id
+
     form = AlbumForm()
+    # form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         title = form.title.data
         genre = form.genre.data
@@ -192,9 +203,11 @@ def post_album():
         release_date = form.release_date.data
         image_url = form.image_url.data
 
-        new_album = AlbumForm(userId=userId, title=title, genre=genre, description=description, release_date=release_date, image_url=image_url)
+        new_album = AlbumForm(title=title, genre=genre, description=description, release_date=release_date, image_url=image_url)
 
         db.session.add(new_album)
         db.session.commit()
-        return redirect('/')
-    return "Bad data", 401
+        # return redirect('/')
+        return "Album added"
+    # return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+    return "Not working"
