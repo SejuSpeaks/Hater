@@ -191,11 +191,11 @@ def album_details(id):
 
 @album_routes.route('/', methods=["POST"])
 @login_required
-def post_album(id):
+def post_album():
     userId = current_user.id
 
     form = AlbumForm()
-    # form['csrf_token'].data = request.cookies['csrf_token']
+    form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         title = form.title.data
         genre = form.genre.data
@@ -203,11 +203,9 @@ def post_album(id):
         release_date = form.release_date.data
         image_url = form.image_url.data
 
-        new_album = AlbumForm(title=title, genre=genre, description=description, release_date=release_date, image_url=image_url)
+        new_album = Album(user_id=userId, title=title, genre=genre, description=description, release_date=release_date, image_url=image_url)
 
         db.session.add(new_album)
         db.session.commit()
-        # return redirect('/')
-        return "Album added"
-    # return {'errors': validation_errors_to_error_messages(form.errors)}, 401
-    return "Not working"
+        return redirect('/')
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
