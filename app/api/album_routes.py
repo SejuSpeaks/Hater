@@ -211,3 +211,31 @@ def post_album():
         db.session.commit()
         return redirect('/')
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+@album_routes.route('/<int:id>', methods=['PUT','DELETE'])
+@album_routes.errorhandler(404)
+@login_required
+def edit_album(id):
+    userId = current_user.id
+
+    album = Album.query.get(id)
+
+    if request.method == "DELETE":
+        db.session.delete(album)
+        db.session.commit()
+        return {"DELETE": "Album deleted"}
+
+    if request.method == "PUT":
+        form = AlbumForm()
+        form['csrf_token'].data = request.cookies['csrf_token']
+        if form.validate_on_submit():
+            album.title = form.title.data
+            album.genre = form.genre.data
+            album.description = form.description.data
+            album.release_date = form.release_date.data
+            album.image_url = form.image_url.data
+
+            db.session.commit()
+            # return redirect('/')
+            return 'Edited Album'
+        return {'errors': validation_errors_to_error_messages(form.errors)}, 401
