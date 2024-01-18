@@ -19,9 +19,10 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
-    albums = db.relationship("Album", back_populates='user')
-    reviews = db.relationship("Review", back_populates='user')
-    likes = db.relationship('Like', back_populates='user')
+    albums = db.relationship("Album", back_populates='user', cascade="all, delete-orphan")
+    reviews = db.relationship("Review", back_populates='user', cascade="all, delete-orphan")
+    likes = db.relationship('Like', back_populates='user', cascade="all, delete-orphan")
+
     @property
     def password(self):
         return self.hashed_password
