@@ -1,6 +1,7 @@
-from flask import Blueprint
+from flask import Blueprint, request
+from datetime import datetime
 from flask_login import current_user, login_required
-from app.models import Review
+from app.models import Review, db
 
 review_router = Blueprint('reviews', __name__)
 
@@ -15,22 +16,38 @@ def get_user_reviews():
 @login_required
 def edit_review(id):
     review = Review.query.get(id)
-    return review.to_dict()
 
     # Returns a 404 error if the album with the ID in the URL could not be found
     if not review:
         error = "Review with the specified ID could not be found"
-        return { error, 404 }
+        return error, 404
 
+    # Returns a 403 unauthorized error if the review does not belong to the current user
     if not review.user_id == current_user.id:
         error = "You are unauthorized to edit this review"
-        return "unauthorized"
-        return { error, 403 }
+        return error, 403
 
-    return "made it through"
+    # Collects the user's updates to the review and changes the review attributes accordingly
+    new_review_text = request.json.get("review_text", None)
+    new_rating = request.json.get("rating", None)
 
-    # if it is,
-        # if the review's user_id is NOT current_user.id:
-            # unauthorized msg and 403
-        # else:
-    pass
+    if new_rating > 5 or new_rating < 1:
+        error = "Please submit a rating between 1 and 5"
+        return error, 400
+
+    if not new_review_text == None:
+        review.review_text = new_review_text
+
+    if not new_rating == None:
+        review.rating = new_rating
+
+    # Updates the review's updated_at if any changes have been applied
+    if new_rating or new_review_text:
+        review.updated_at = datetime.utcnow()
+
+    # Adds the review changes to the database
+    db.session.commit()
+
+    # Retrieves and returns the updated review
+    updated_review = Review.query.get(id)
+    return updated_review.to_dict()

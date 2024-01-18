@@ -26,5 +26,7 @@ class Review(db.Model):
             'user_id': self.user_id,
             'album_id': self.album_id,
             'review_text': self.review_text,
-            'rating': self.rating
+            'rating': self.rating,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at
         }
