@@ -92,3 +92,41 @@ def like_album(id):
     db.session.commit()
 
     return {"Success":"Album added to Likes"}
+
+
+@album_routes.route('/<int:id>/reviews', methods=['GET'])
+def get_album_reviews(id):
+    # Exits with status 404 if no album with the ID in the URL exists
+    album = Album.query.get(id)
+    if not album:
+        error = { "error": "No album with the specified ID found"}
+        return error, 404
+
+    # Queries for all reviews of a given album
+    query = db.session.query(Review, User) \
+        .outerjoin(User, Review.user_id == User.id) \
+        .filter(Review.album_id == id) \
+        .all()
+
+    # Formats the data from the query above
+    reviews_with_users = [
+        {
+            "review": {
+                "id": review.id,
+                "user_id": review.user_id,
+                "album_id": review.album_id,
+                "rating": review.rating,
+                "review_text": review.review_text,
+                "created_at": review.created_at,
+                "updated_at": review.updated_at
+            },
+            "user": {
+                "id": user.id,
+                "first_name": user.first_name,
+                "last_name": user.last_name
+            }
+        }
+        for review, user in query
+    ]
+
+    return { "reviews": reviews_with_users }
