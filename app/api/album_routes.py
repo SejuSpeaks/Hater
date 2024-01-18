@@ -119,10 +119,10 @@ def add_album_review(id):
         return error, 403
 
     else:
-            # Creates a new review and adds it to the database
             new_review_rating = request.json.get("rating", None)
             new_review_text = request.json.get("review_text", None)
 
+            # Backend validation
             validation_errors = {}
 
             if new_review_rating is None:
@@ -137,6 +137,7 @@ def add_album_review(id):
             if validation_errors:
                 return validation_errors, 400
 
+            # Creates a new review and adds it to the database
             new_review = Review(
                 user_id = current_user_id,
                 album_id = album_id,
