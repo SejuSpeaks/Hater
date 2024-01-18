@@ -214,6 +214,7 @@ def post_album():
 
 @album_routes.route('/<int:id>', methods=['PUT','DELETE'])
 @album_routes.errorhandler(404)
+@login_required
 def like_album(id):
     album = Album.query.get(id)
 
@@ -223,3 +224,17 @@ def like_album(id):
         return {"DELETE": "Album deleted"}
 
     if request.method == "PUT":
+        form = AlbumForm()
+        form['csrf_token'].data = request.cookies['csrf_token']
+        if form.validate_on_submit():
+            title = form.title.data
+            genre = form.genre.data
+            description = form.description.data
+            release_date = form.release_date.data
+            image_url = form.image_url.data
+
+            updated_album = Album(title=title, genre=genre, description=description, release_date=release_date, image_url=image_url)
+
+            db.session.add(updated_album)
+            db.session.commit()
+        return redirect('/')
