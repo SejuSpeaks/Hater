@@ -191,7 +191,7 @@ def album_details(id):
 
 @album_routes.route('/', methods=["POST"])
 @login_required
-def post_album(id):
+def post_album():
     userId = current_user.id
 
     form = AlbumForm()
@@ -203,7 +203,7 @@ def post_album(id):
         release_date = form.release_date.data
         image_url = form.image_url.data
 
-        new_album = AlbumForm(title=title, genre=genre, description=description, release_date=release_date, image_url=image_url)
+        new_album = Album(title=title, genre=genre, description=description, release_date=release_date, image_url=image_url)
 
         db.session.add(new_album)
         db.session.commit()
@@ -212,21 +212,14 @@ def post_album(id):
     # return {'errors': validation_errors_to_error_messages(form.errors)}, 401
     return "Not working"
 
-
-@album_routes.route('/<int:id>', methods=['PUT'])
-@login_required
+@album_routes.route('/<int:id>', methods=['PUT','DELETE'])
 @album_routes.errorhandler(404)
-def edit_delete_album(id):
-    existing_album = Album.query.get(id)
+def like_album(id):
+    album = Album.query.get(id)
 
+    if request.method == "DELETE":
+        album.delete()
+        db.session.commit()
+        return {"DELETE": "Album deleted"}
 
-    #IF ALBUM IS NOT FOUND
-    if(not existing_album):
-        error = {"Error": "Invalid album id"}
-        return error, 404
-
-    #LIKE IS ALREADY PRESENT SO WE DELETE IT
-    if (existing_album.userId == current_user.id):
-        updated_album
-
-    return {"Success":"Album added to Likes"}
+    if request.method == "PUT":
