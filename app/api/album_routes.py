@@ -1,12 +1,22 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, redirect
 from app.models import Album, Like, User, Review, db, Review, User
+from app.forms import AlbumForm
 from flask_login import current_user, login_required
 from datetime import datetime
 from sqlalchemy import or_, func, desc, case
 from sqlalchemy.sql import func
-from collections import ChainMap
 
 album_routes = Blueprint('albums', __name__)
+
+def validation_errors_to_error_messages(validation_errors):
+    """
+    Simple function that turns the WTForms validation errors into a simple list
+    """
+    errorMessages = []
+    for field in validation_errors:
+        for error in validation_errors[field]:
+            errorMessages.append(f'{field} : {error}')
+    return errorMessages
 
 @album_routes.route('/')
 def get_albums():
@@ -15,9 +25,9 @@ def get_albums():
 
     #first line of the query builds includes an average aggregate and replaces None values to 0
     query = db.session.query(Album, func.coalesce(func.avg(Review.rating), 0).label('avg_rating')) \
-             .outerjoin(Review, Album.id == Review.album_id) \
-             .outerjoin(User, Album.user_id == User.id) \
-             .add_entity(User)
+                .outerjoin(Review, Album.id == Review.album_id) \
+                .outerjoin(User, Album.user_id == User.id) \
+                .add_entity(User)
 
     if search_term:
         query = query.filter(or_(Album.title.ilike(f'%{search_term}%'),
@@ -26,8 +36,8 @@ def get_albums():
                                 Album.description.ilike(f'%{search_term}%')))
 
     query = query.group_by(Album.id, User.id) \
-                 .order_by(desc('avg_rating')) \
-                 .limit(20)
+                .order_by(desc('avg_rating')) \
+                .limit(20)
 
     albums = query.all()
 
@@ -180,3 +190,24 @@ def album_details(id):
     return {
         f"{album.title} details": album_details
     }
+
+@album_routes.route('/', methods=["POST"])
+@login_required
+def post_album():
+    userId = current_user.id
+
+    form = AlbumForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        title = form.title.data
+        genre = form.genre.data
+        description = form.description.data
+        release_date = form.release_date.data
+        image_url = form.image_url.data
+
+        new_album = Album(user_id=userId, title=title, genre=genre, description=description, release_date=release_date, image_url=image_url)
+
+        db.session.add(new_album)
+        db.session.commit()
+        return redirect('/')
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
