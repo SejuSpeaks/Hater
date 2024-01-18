@@ -154,15 +154,3 @@ def add_album_review(id):
                 .first()
 
             return created_review.to_dict()
-
-
-@album_routes.route('/<int:id>/reviews', methods=['GET'])
-# Exits with status 404 if no album with the ID in the URL exists
-@album_routes.errorhandler(404)
-def get_album_reviews(id):
-    # Queries the reviews by joining the Users table and Albums table
-    reviews_users_query = db.session.query(Review, User) \
-        .outerjoin(User, Review.user_id == User.id) \
-        .filter(Review.album_id == id).all()
-
-    return { "Reviews": reviews_users_query }
