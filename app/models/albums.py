@@ -31,5 +31,7 @@ class Album(db.Model):
             'genre': self.genre,
             'description': self.description,
             'release_date':self.release_date.strftime("%B %d %Y"),
-            'image_url': self.image_url
+            'image_url': self.image_url,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at
         }
