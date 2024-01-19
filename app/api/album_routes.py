@@ -1,10 +1,11 @@
 from flask import Blueprint, request, redirect
 from app.models import Album, Like, User, Review, db, Review, User
-from app.forms import AlbumForm
+from app.forms import AlbumForm, ReviewForm
 from flask_login import current_user, login_required
 from datetime import datetime
 from sqlalchemy import or_, func, desc, case
 from sqlalchemy.sql import func
+# from app.api import validation_errors_to_error_messages
 
 album_routes = Blueprint('albums', __name__)
 
@@ -109,6 +110,104 @@ def like_album(id):
     db.session.commit()
 
     return {"Success":"Album added to Likes"}
+
+
+@album_routes.route('/<int:id>/reviews', methods=['GET'])
+def get_album_reviews(id):
+    # Exits with status 404 if no album with the ID in the URL exists
+    album = Album.query.get(id)
+    if not album:
+        error = { "error": "No album with the specified ID found"}
+        return error, 404
+
+    # Queries for all reviews of a given album
+    query = db.session.query(Review, User) \
+        .outerjoin(User, Review.user_id == User.id) \
+        .filter(Review.album_id == id) \
+        .all()
+
+    # Formats the data from the query above
+    reviews_with_users = [
+        {
+            "review": {
+                "id": review.id,
+                "user_id": review.user_id,
+                "album_id": review.album_id,
+                "rating": review.rating,
+                "review_text": review.review_text,
+                "created_at": review.created_at,
+                "updated_at": review.updated_at
+            },
+            "user": {
+                "id": user.id,
+                "first_name": user.first_name,
+                "last_name": user.last_name
+            }
+        }
+        for review, user in query
+    ]
+
+    return { "reviews": reviews_with_users }
+
+
+@album_routes.route('/<int:id>/reviews', methods=['POST'])
+@login_required
+def add_album_review(id):
+    current_user_id = current_user.id
+    album_id = id
+
+    # Exits with status 404 if no album with the ID in the URL exists
+    album = Album.query.get(id)
+    if not album:
+        error = { "error": "Album with the specified id does not exist" }
+        return error, 404
+
+    # Searches to see whether there is already a review of the album by the user
+    existing_review = db.session.query(Review) \
+        .filter(Review.user_id == current_user_id, Review.album_id == album_id) \
+        .first()
+
+    # If it exists, exits with status 403
+    if existing_review:
+        error = {"Error": "You have already reviewed this album."}
+        return error, 403
+
+    else:
+            new_review_rating = request.json.get("rating", None)
+            new_review_text = request.json.get("review_text", None)
+
+            # Backend validation
+            validation_errors = {}
+
+            if new_review_rating is None:
+                validation_errors["rating"] = "Please provide a rating"
+
+            if new_review_text is None:
+                validation_errors["review_text"] = "Please provide a review"
+
+            if new_review_rating < 1 or new_review_rating > 5:
+                validation_errors["rating"] = "Please provide a rating between 1 and 5"
+
+            if validation_errors:
+                return validation_errors, 400
+
+            # Creates a new review and adds it to the database
+            new_review = Review(
+                user_id = current_user_id,
+                album_id = album_id,
+                review_text = new_review_text,
+                rating = new_review_rating
+            )
+
+            db.session.add(new_review)
+            db.session.commit()
+
+            # Finds the newly created review to confirm sucess of operation
+            created_review = db.session.query(Review) \
+                .filter(Review.user_id == current_user_id, Review.album_id == album_id) \
+                .first()
+
+            return created_review.to_dict()
 
 @album_routes.route('/<int:id>')
 @album_routes.errorhandler(404)
