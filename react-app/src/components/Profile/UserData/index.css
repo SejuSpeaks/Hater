@@ -1,0 +1,10 @@
+.user-profile-nav-links {
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+}
+
+.user-profile-nav-links>li:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
