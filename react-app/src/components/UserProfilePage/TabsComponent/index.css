@@ -1,0 +1,5 @@
+.user-profile-tabs-container {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+}

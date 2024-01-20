@@ -31,6 +31,7 @@ export const fetchUserReviews = () => async dispatch => {
 
 const reviews = (state = {}, action) => {
     let newState;
+
     switch (action.type) {
         case GET_USER_REVIEWS:
             newState = { ...state };
