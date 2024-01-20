@@ -3,18 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchLikes } from "../../../store/likes";
 
 
-const Likes = ({ changedState }) => {
+const Likes = () => {
     const dispatch = useDispatch();
     const [isLoaded, setIsLoaded] = useState(false);
     const likes = useSelector(state => state.likes);
 
     useEffect(() => {
-        console.log('state in likes componenet', changedState)
         dispatch(fetchLikes())
             .then(() => {
                 setIsLoaded(true)
             })
-    }, [])
+    }, [dispatch])
 
     const userLikes = Object.values(likes).map(like => {
         return (

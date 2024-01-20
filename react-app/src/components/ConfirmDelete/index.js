@@ -1,14 +1,9 @@
 
 
 import { useModal } from "../../context/Modal";
-import { fetchDeleteAlbum, fetchUserAlbums } from "../../store/albums";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 
 const ConfirmDelete = ({ albumId, deleteAlbum }) => {
-    const dispatch = useDispatch();
-    const history = useHistory()
     const { closeModal } = useModal();
 
 
