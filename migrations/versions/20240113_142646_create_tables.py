@@ -1,7 +1,7 @@
 """create tables
 
 Revision ID: 1694860fc06d
-Revises: 
+Revises:
 Create Date: 2024-01-13 14:26:46.546494
 
 """
@@ -21,8 +21,6 @@ def upgrade():
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('username', sa.String(length=40), nullable=False),
-    sa.Column('first_name', sa.String(length=250), nullable=False),
-    sa.Column('last_name', sa.String(length=250), nullable=False),
     sa.Column('email', sa.String(length=255), nullable=False),
     sa.Column('hashed_password', sa.String(length=255), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=False),
