@@ -1,5 +1,3 @@
-import { csrfFetch } from "./csrf"
-
 export const ALBUM_DETAILS = 'albums/ALBUM_DETAILS';
 
 

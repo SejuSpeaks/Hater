@@ -308,7 +308,7 @@ def post_album():
 
         db.session.add(new_album)
         db.session.commit()
-        return { f"{album.title} details": new_album}
+        return { f"{new_album.title} details": new_album}
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 @album_routes.route('/<int:id>', methods=['PUT','DELETE'])
