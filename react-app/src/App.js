@@ -6,7 +6,7 @@ import LoginFormPage from "./components/LoginFormPage";
 import GetAlbums from "./components/GetAlbums";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
-import AlbumDetails from "./components/Albums/AlbumDetails";
+import AlbumDetails from "./components/AlbumDetails/AlbumDetails";
 
 function App() {
   const dispatch = useDispatch();
