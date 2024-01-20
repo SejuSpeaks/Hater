@@ -7,7 +7,7 @@ import OpenModalButton from "../../OpenModalButton";
 
 
 
-const Albums = () => {
+const Albums = ({ refresh }) => {
     const dispatch = useDispatch();
     const [isLoaded, setIsLoaded] = useState(false);
     const [isDeleted, setIsDeleted] = useState(false);
@@ -23,7 +23,8 @@ const Albums = () => {
     const deleteAlbum = (id) => {
         dispatch(fetchDeleteAlbum(id))
             .then(closeModal)
-            .then(setIsDeleted(true))
+            .then(() => refresh())
+            .then(setIsDeleted())
     }
 
 

@@ -4,15 +4,16 @@ import { fetchUserReviews } from "../../../store/reviews"
 
 
 
-const Reviews = () => {
+const Reviews = ({ changedState }) => {
     const dispatch = useDispatch()
     const [isLoaded, setIsLoaded] = useState(false);
     const reviews = useSelector(state => state.reviews)
 
     useEffect(() => {
+        console.log(changedState, 'state in reviews')
         dispatch(fetchUserReviews())
             .then(() => setIsLoaded(true))
-    }, [])
+    }, [changedState])
 
     const userReviews = Object.values(reviews).map(review => {
         return (

@@ -11,10 +11,13 @@ const getLikes = (likes) => {
 
 
 export const fetchLikes = () => async dispatch => {
+    console.log('we are fetching likes')
     const response = await fetch('/api/likes/current');
 
     if (response.ok) {
+        console.log('response worked for likes')
         const data = await response.json();
+        console.log(data, 'this is the data');
         dispatch(getLikes(data['user likes']));
         return data['user likes'];
     }

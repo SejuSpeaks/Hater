@@ -12,12 +12,18 @@ const UserProfilePage = () => {
     const reviewState = useSelector(state => state.reviews);
     const dispatch = useDispatch();
     const [isLoaded, setIsLoaded] = useState(false);
+    const [changedState, setChangeState] = useState(false);
     const [tab, setTab] = useState('reviews');
 
     useEffect(() => {
+        console.log(changedState, 'current parent state')
         dispatch(fetchUserReviews())
             .then(() => setIsLoaded(true))
-    }, [])
+    }, [changedState])
+
+    const refresh = () => {
+        return setChangeState(true)
+    }
 
 
     const userReviews = Object.values(reviewState).length
@@ -40,9 +46,9 @@ const UserProfilePage = () => {
             </div>
 
             <div>
-                {tab == 'reviews' && <Reviews />}
-                {tab == 'likes' && <Likes />}
-                {tab == 'albums' && <Albums />}
+                {tab == 'reviews' && <Reviews changedState={changedState} />}
+                {tab == 'likes' && <Likes changedState={changedState} />}
+                {tab == 'albums' && <Albums refresh={refresh} />}
             </div>
 
         </div>
