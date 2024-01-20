@@ -1,10 +1,16 @@
 const GET_ALBUMS = "albums/GET_ALBUMS";
+export const ALBUM_DETAILS = 'albums/ALBUM_DETAILS';
 
 
 export const getAlbumsAction = (albums) => ({
     type: GET_ALBUMS,
     albums: albums.albums
 });
+
+export const albumDetails = (album) => ({
+    type: ALBUM_DETAILS,
+    album: album.album
+})
 
 export const getAlbums = search => async dispatch => {
     let query = '';
@@ -22,30 +28,6 @@ export const getAlbums = search => async dispatch => {
     }
 };
 
-const albumsReducer = (state = {}, action) => {
-    switch(action.type) {
-        case GET_ALBUMS: {
-            const albums = action.albums.reduce((obj, album) => {
-                obj[album.id] = album;
-                return obj
-            }, {});
-            return { ...albums, albumsByRating: action.albums }
-        }
-        default: {
-            return state;
-        }
-    }
-}
-
-export default albumsReducer
-export const ALBUM_DETAILS = 'albums/ALBUM_DETAILS';
-
-
-export const albumDetails = (album) => ({
-    type: ALBUM_DETAILS,
-    album
-})
-
 export const getAlbumDetails = (albumId) => async (dispatch) => {
     const res = await fetch(`/api/albums/${albumId}`)
 
@@ -59,10 +41,18 @@ export const getAlbumDetails = (albumId) => async (dispatch) => {
 
 const albumsReducer = (state = {}, action) => {
     switch(action.type) {
+        case GET_ALBUMS: {
+            const albums = action.albums.reduce((obj, album) => {
+                obj[album.id] = album;
+                return obj
+            }, {});
+            return { ...albums, albumsByRating: action.albums }
+        }
         case ALBUM_DETAILS:
             return { ...state, [action.album.id]: action.album}
-        default:
+        default: {
             return state;
+        }
     }
 }
 
