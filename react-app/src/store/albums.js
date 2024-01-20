@@ -6,9 +6,14 @@ export const getAlbumsAction = (albums) => ({
     albums: albums.albums
 });
 
-export const getAlbums = () => async dispatch => {
+export const getAlbums = search => async dispatch => {
+    let query = '';
+    if (search) {
+        query = `?search=${search}`;
+    }
+
     try {
-        const res = await fetch('/api/albums');
+        const res = await fetch(`/api/albums${query}`);
         const albums = await res.json();
         dispatch(getAlbumsAction(albums));
         return albums;
