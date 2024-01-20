@@ -1,8 +1,31 @@
-
-
+const GET_ALBUMS = "albums/GET_ALBUMS";
 
 const GET_USER_CREATED_ALBUMS = 'ALBUMS/GET_USER_CREATED_ALBUMS'
 const DELETE_USER_ALBUM = 'ALBUMS/DELETE_USER_ALBUM';
+
+
+export const getAlbumsAction = (albums) => ({
+    type: GET_ALBUMS,
+    albums: albums.albums
+});
+
+export const getAlbums = search => async dispatch => {
+    let query = '';
+    if (search) {
+        query = `?search=${search}`;
+    }
+
+    try {
+        const res = await fetch(`/api/albums${query}`);
+        const albums = await res.json();
+        dispatch(getAlbumsAction(albums));
+        return albums;
+    } catch (err) {
+        return err;
+    }
+};
+
+
 
 
 /*------------------GET USER ALBUMS------------------------------------- */
@@ -51,15 +74,17 @@ export const fetchDeleteAlbum = (id) => async dispatch => {
 }
 
 
-/*------------------------------------------------------------------------------------- */
 
 
-
-
-
-const albums = (state = {}, action) => {
-    let newState;
+const albumsReducer = (state = {}, action) => {
     switch (action.type) {
+        case GET_ALBUMS: {
+            const albums = action.albums.reduce((obj, album) => {
+                obj[album.id] = album;
+                return obj
+            }, {});
+            return { ...albums, albumsByRating: action.albums }
+        }
         case GET_USER_CREATED_ALBUMS:
             newState = { ...state }
             action.albums.map(album => newState[album.id] = album)
@@ -70,9 +95,20 @@ const albums = (state = {}, action) => {
             delete newState[action.id]
             return newState;
 
-        default:
+        default: {
             return state;
+        }
     }
 }
 
-export default albums;
+export default albumsReducer
+
+
+
+
+
+
+
+
+
+/*------------------------------------------------------------------------------------- */
