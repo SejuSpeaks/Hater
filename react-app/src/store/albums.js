@@ -85,15 +85,19 @@ const albumsReducer = (state = {}, action) => {
             }, {});
             return { ...albums, albumsByRating: action.albums }
         }
+
         case GET_USER_CREATED_ALBUMS:
-            newState = { ...state }
-            action.albums.map(album => newState[album.id] = album)
-            return newState;
+            const albums = action.albums.reduce((obj, album) => {
+                obj[album.id] = album;
+                return obj
+            }, {});
+            return { ...state, ...albums }
 
         case DELETE_USER_ALBUM:
-            newState = { ...state }
+            let newState = { ...state }
             delete newState[action.id]
             return newState;
+
 
         default: {
             return state;

@@ -4,7 +4,6 @@ import session from './session'
 import reviews from './reviews';
 import albums from './albums';
 import likes from './likes';
-import albums from './albums'
 
 const rootReducer = combineReducers({
   session, reviews, likes, albums

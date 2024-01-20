@@ -6,10 +6,11 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 
-const ConfirmDelete = ({ album, deleteAlbum }) => {
+const ConfirmDelete = ({ albumId, deleteAlbum }) => {
     const dispatch = useDispatch();
     const history = useHistory()
     const { closeModal } = useModal();
+
 
 
 
@@ -19,11 +20,11 @@ const ConfirmDelete = ({ album, deleteAlbum }) => {
             <p>Are you sure you want to remove this Album?</p>
 
             <div>
-                <button onClick={() => deleteAlbum(album.id)}>Yes (Delete Album)</button>
+                <button onClick={() => deleteAlbum(albumId)}>Yes (Delete Album)</button>
                 <button onClick={closeModal}>No (Keep Album)</button>
             </div>
         </div>
     )
 }
 
-export default ConfirmDelete
+export default ConfirmDelete;
