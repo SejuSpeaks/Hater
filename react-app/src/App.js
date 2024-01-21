@@ -7,6 +7,7 @@ import GetAlbums from "./components/GetAlbums";
 import UserProfilePage from "./components/UserProfilePage";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
+import AlbumDetails from "./components/AlbumDetails/AlbumDetails";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ function App() {
           <Route path="/login" component={LoginFormPage} />
           <Route path="/signup" component={SignupFormPage} />
           <Route path='/current' component={UserProfilePage} />
+          <Route exact path="/albums/:albumId" component={AlbumDetails} />
         </Switch>
       )}
     </>
