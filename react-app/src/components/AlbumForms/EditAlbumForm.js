@@ -6,9 +6,11 @@ import AlbumForm from './AlbumForm';
 
 
 const EditAlbumForm = () => {
-    const { albumId } = useParams();
-    const album = useSelector((state) => state.albums.undefined)
     const dispatch = useDispatch();
+    const { albumId } = useParams();
+    const album = useSelector((state) => {
+        return state.albums.undefined
+    })
 
     useEffect(() => {
         dispatch(getAlbumDetails(albumId));
@@ -17,10 +19,12 @@ const EditAlbumForm = () => {
 
     if (!album) return <></>
 
+    const existingAlbum = album.album
+    console.log("STATE", existingAlbum)
     return (
-        Object.keys(album).length > 1 && (
+        Object.keys(existingAlbum).length > 1 && (
             <>
-                <AlbumForm album={album} formType="Update Album" />
+                <AlbumForm album={existingAlbum} formType="Update Album" />
             </>
         )
     );

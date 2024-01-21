@@ -3,7 +3,6 @@ const GET_ALBUMS = "albums/GET_ALBUMS";
 const GET_USER_CREATED_ALBUMS = 'ALBUMS/GET_USER_CREATED_ALBUMS'
 const DELETE_USER_ALBUM = 'ALBUMS/DELETE_USER_ALBUM';
 const ALBUM_DETAILS = 'albums/ALBUM_DETAILS';
-const CREATE_ALBUM = 'albums/CREATE_ALBUM';
 const UPDATE_ALBUM = 'albums/UPDATE_ALBUM';
 
 
@@ -99,7 +98,7 @@ export const getAlbumDetails = (albumId) => async dispatch => {
 }
 
 export const createAlbum = (payload) => async (dispatch) => {
-    const rest = await csrfFetch('/api/albums', {
+    const res = await fetch('/api/albums', {
         method: 'POST',
         header: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -114,7 +113,7 @@ export const createAlbum = (payload) => async (dispatch) => {
 }
 
 export const updateAlbum = (payload) => async (dispatch) => {
-    const res = await csrfFetch(`/api/albums/${payload.id}`, {
+    const res = await fetch(`/api/albums/${payload.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

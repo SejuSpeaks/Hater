@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { createAlbum, updateAlbum } from "../../store/albums";
@@ -49,8 +49,62 @@ const AlbumForm = ({ album, formType}) => {
         <form onSubmit={handleSubmit} className="album-form">
             <h1>{header}</h1>
             <h2 className="form-titles">Name of Album</h2>
-
-
+            <label>
+                Title
+                <input
+                    type="text"
+                    id="title"
+                    placeholder="title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    />
+            <div className="errors">{errors.title}</div>
+            </label>
+            <label>
+                Genre
+                <input
+                    type="text"
+                    id="genre"
+                    placeholder="genre"
+                    value={genre}
+                    onChange={(e) => setGenre(e.target.value)}
+                    />
+            <div className="errors">{errors.genre}</div>
+            </label>
+            <label>
+                Description
+                <input
+                    type="text"
+                    id="description"
+                    placeholder="description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    />
+            <div className="errors">{errors.description}</div>
+            </label>
+            <label>
+                Release Date
+                <input
+                    type="text"
+                    id="release_date"
+                    placeholder="YYYY-MM-DD"
+                    value={release_date}
+                    onChange={(e) => setRelease_date(e.target.value)}
+                    />
+            <div className="errors">{errors.release_date}</div>
+            </label>
+            <label htmlFor="image_url">
+                Album Image
+                <input
+                    type="url"
+                    id="image_url"
+                    placeholder="Image URL"
+                    value={image_url}
+                    onChange={(e) => setImage_url(e.target.value)}
+                    />
+            </label>
         </form>
     )
 }
+
+export default AlbumForm

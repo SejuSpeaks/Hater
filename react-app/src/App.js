@@ -8,6 +8,8 @@ import UserProfilePage from "./components/UserProfilePage";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import AlbumDetails from "./components/AlbumDetails/AlbumDetails";
+import CreateAlbumForm from "./components/AlbumForms/CreateAlbumForm";
+import EditAlbumForm from "./components/AlbumForms/EditAlbumForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,7 +27,9 @@ function App() {
           <Route path="/login" component={LoginFormPage} />
           <Route path="/signup" component={SignupFormPage} />
           <Route path='/current' component={UserProfilePage} />
+          <Route path="/albums/new" component={CreateAlbumForm} />
           <Route exact path="/albums/:albumId" component={AlbumDetails} />
+          <Route exact path="/albums/:albumId/edit" component={EditAlbumForm} />
         </Switch>
       )}
     </>

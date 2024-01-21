@@ -31,7 +31,6 @@ const AlbumDetails = () => {
         avg_rating,
         total_likes
     } = album.album
-    console.log(album.album)
     return (
         <section className='page'>
             <h2>{title}</h2>
