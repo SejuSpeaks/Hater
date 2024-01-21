@@ -9,7 +9,6 @@ const AlbumDetails = () => {
     const dispatch = useDispatch();
     const { albumId } = useParams();
     const album = useSelector((state) => {
-        console.log("state", state.albums.undefined)
         return state.albums.undefined
     })
 
@@ -32,7 +31,6 @@ const AlbumDetails = () => {
         avg_rating,
         total_likes
     } = album.album
-    console.log(album.album)
     return (
         <section className='page'>
             <h2>{title}</h2>
