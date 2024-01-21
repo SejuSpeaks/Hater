@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-// import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { createReview, updateReview } from "../../store/review";
 import { useModal } from "../../context/Modal";
 import './ReviewForm.css';
@@ -9,6 +9,8 @@ const ReviewForm = (props) => {
     const dispatch = useDispatch();
     // const { albumId } = useParams();
     const { review, formType } = props
+    const user = useSelector((state) => state.session.user);
+    const albumId = useSelector((state) => state.albums.undefined.album.id);
 
     const [errors, setErrors] = useState({})
     const [rating, setRating] = useState(review?.rating)
@@ -19,12 +21,23 @@ const ReviewForm = (props) => {
     const { closeModal } = useModal();
 
     useEffect(() => {
+        setErrors({});
+
         if (!reviewText
-            || ! rating) {
+            || !rating) {
                 setIsDisabled(true)
             } else {
                 setIsDisabled(false)
             }
+
+            // if (!reviewText.length) {
+            //     setErrors(prevErrors => ({ ...prevErrors, "reviewText": "Please add your review" }));
+            // }
+
+            // if (!rating) {
+            //     setErrors(prevErrors => ({ ...prevErrors, "rating": "Please select a star rating" }));
+            // }
+
     }, [reviewText, rating])
 
     const handleStarHover = (num) => {
@@ -41,9 +54,14 @@ const ReviewForm = (props) => {
         e.preventDefault();
         setErrors({});
 
-        review = { rating, reviewText }
+        let newReview = {};
+        newReview.user_id = user.id;
+        newReview.album_id = albumId;
+        newReview.rating = rating;
+        newReview.reviewText = reviewText;
 
-        let newReview;
+        console.log(Object.keys(newReview))
+        console.log(Object.values(newReview))
 
         if (formType === "Create Review") {
             newReview = await dispatch((createReview(review)))
