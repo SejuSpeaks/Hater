@@ -2,6 +2,8 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAlbumDetails } from "../../store/albums";
+import OpenModalButton from "../OpenModalButton";
+import ReviewForm from "../ReviewForms/ReviewForm";
 // import { IoHeart } from "react-icons/fa";
 import "./AlbumDetails.css"
 
@@ -50,6 +52,15 @@ const AlbumDetails = () => {
             <div className="review_like_box">
             <div className="one">{avg_rating}</div>
             <div className="two">{total_likes}</div>
+            </div>
+            <div className="reviews">
+                <div className={`review-button`}>
+                    <OpenModalButton
+                    className="post-review-button clickable"
+                    buttonText="Post Your Review"
+                    modalComponent={<ReviewForm/>}
+                    />
+                </div>
             </div>
         </section>
     )

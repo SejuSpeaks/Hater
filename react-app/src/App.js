@@ -10,6 +10,7 @@ import Navigation from "./components/Navigation";
 import AlbumDetails from "./components/AlbumDetails/AlbumDetails";
 import CreateAlbumForm from "./components/AlbumForms/CreateAlbumForm";
 import EditAlbumForm from "./components/AlbumForms/EditAlbumForm";
+import ReviewForm from "./components/ReviewForms/ReviewForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ function App() {
           <Route path="/albums/new" component={CreateAlbumForm} />
           <Route exact path="/albums/:albumId" component={AlbumDetails} />
           <Route exact path="/albums/:albumId/edit" component={EditAlbumForm} />
+          <Route exact path="/albums/:albumId/reviews/create-review" component={ReviewForm} formType="Create Review"/>
         </Switch>
       )}
     </>
