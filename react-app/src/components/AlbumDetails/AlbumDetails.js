@@ -39,7 +39,13 @@ const AlbumDetails = () => {
             <h3>{artist}</h3>
             <div>
                 <img className="image" alt='album_image' src={image_url}/>
-                <button className="review-btn">+ POST A REVIEW</button>
+                <div className={`review-button`}>
+                    <OpenModalButton
+                    className="post-review-button clickable"
+                    buttonText="+POST A REVIEW"
+                    modalComponent={<ReviewForm/>}
+                    />
+                </div>
             </div>
             <h4>{release_date}</h4>
             <h4>{genre}</h4>
@@ -52,15 +58,6 @@ const AlbumDetails = () => {
             <div className="review_like_box">
             <div className="one">{avg_rating}</div>
             <div className="two">{total_likes}</div>
-            </div>
-            <div className="reviews">
-                <div className={`review-button`}>
-                    <OpenModalButton
-                    className="post-review-button clickable"
-                    buttonText="Post Your Review"
-                    modalComponent={<ReviewForm/>}
-                    />
-                </div>
             </div>
         </section>
     )
