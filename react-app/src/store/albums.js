@@ -9,8 +9,9 @@ export const getAlbumsAction = (albums) => ({
 
 export const albumDetails = (album) => ({
     type: ALBUM_DETAILS,
-    album: album.album
+    album: album
 })
+
 
 export const getAlbums = search => async dispatch => {
     let query = '';
@@ -28,13 +29,13 @@ export const getAlbums = search => async dispatch => {
     }
 };
 
-export const getAlbumDetails = (albumId) => async (dispatch) => {
+export const getAlbumDetails = (albumId) => async dispatch => {
     const res = await fetch(`/api/albums/${albumId}`)
 
     if (res.ok) {
         const data = await res.json();
         dispatch(albumDetails(data));
-        return data
+        return data;
     }
     return res;
 }

@@ -221,34 +221,36 @@ def album_details(id):
 
 ##get avg reviews
     reviews = Review.query.filter(Review.album_id == album.id).all()
-    review_details = [
-        {
-            'id': review.id,
-            'user_id': review.user_id,
-            'review_text': review.review_text,
-            'rating': review.rating
-        } for review in reviews]
 
-    merged_dict = {}
+    if (not reviews):
+        avg_review = ""
+    else:
+        review_details = [
+            {
+                'id': review.id,
+                'user_id': review.user_id,
+                'review_text': review.review_text,
+                'rating': review.rating
+            } for review in reviews]
 
-    for sub in review_details:
-        for key, val in sub.items():
-            merged_dict.setdefault(key, []).append(val)
+        merged_dict = {}
 
-    rating_list = list(merged_dict['rating'])
-    rating_sum = sum(rating_list)
-    rating_avg = rating_sum / len(rating_list)
+        for sub in review_details:
+            for key, val in sub.items():
+                merged_dict.setdefault(key, []).append(val)
 
-    avg_review = rating_avg if rating_avg else ""
+        rating_list = list(merged_dict['rating'])
+        rating_sum = sum(rating_list)
+        rating_avg = rating_sum / len(rating_list)
+
+        avg_review = rating_avg if rating_avg else ""
 
 ##get artist name
     users = User.query.filter(User.id == album.user_id).all()
     user_details = [
         {
             'id' : user.id,
-            'username' : user.username,
-            'first_name' : user.first_name,
-            'last_name' : user.last_name
+            'username' : user.username
         } for user in users]
     artist_name = user_details[0]['username']
 
@@ -270,7 +272,6 @@ def album_details(id):
     like_list = list(merged_like_dict['user_id'])
     num_likes = len(like_list)
 
-    avg_review = rating_avg if rating_avg else ""
     total_likes = num_likes if num_likes else ""
 
     album_details = {
@@ -286,9 +287,7 @@ def album_details(id):
         }
 
 
-    return {
-        f"{album.title} details": album_details
-    }
+    return { "album": album_details }
 
 @album_routes.route('/', methods=["POST"])
 @login_required

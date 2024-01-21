@@ -9,7 +9,8 @@ const AlbumDetails = () => {
     const dispatch = useDispatch();
     const { albumId } = useParams();
     const album = useSelector((state) => {
-        return state.albums[albumId]
+        console.log("state", state.albums.undefined)
+        return state.albums.undefined
     })
 
     const [isLoading, setIsLoading] = useState(false)
@@ -20,7 +21,7 @@ const AlbumDetails = () => {
     }, [dispatch, albumId]);
 
     if (!isLoading) return <h1>Loading...</h1>
-    console.log(album)
+
     const {
         title,
         artist,
@@ -30,8 +31,8 @@ const AlbumDetails = () => {
         image_url,
         avg_rating,
         total_likes
-    } = album
-
+    } = album.album
+    console.log(album.album)
     return (
         <section className='page'>
             <h2>{title}</h2>
@@ -59,4 +60,4 @@ const AlbumDetails = () => {
 export default AlbumDetails
 
 
-{/* <div className="two"><IoHeart /> {total_likes}</div> */}
+/* <div className="two"><IoHeart /> {total_likes}</div> */
