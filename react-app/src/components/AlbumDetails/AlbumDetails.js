@@ -2,6 +2,8 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAlbumDetails } from "../../store/albums";
+import OpenModalButton from "../OpenModalButton";
+import ReviewForm from "../ReviewForms/ReviewForm";
 // import { IoHeart } from "react-icons/fa";
 import "./AlbumDetails.css"
 
@@ -37,7 +39,13 @@ const AlbumDetails = () => {
             <h3>{artist}</h3>
             <div>
                 <img className="image" alt='album_image' src={image_url}/>
-                <button className="review-btn">+ POST A REVIEW</button>
+                <div className={`review-button`}>
+                    <OpenModalButton
+                    className="post-review-button clickable"
+                    buttonText="+POST A REVIEW"
+                    modalComponent={<ReviewForm/>}
+                    />
+                </div>
             </div>
             <h4>{release_date}</h4>
             <h4>{genre}</h4>
