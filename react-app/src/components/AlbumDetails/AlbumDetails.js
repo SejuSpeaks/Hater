@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAlbumDetails } from "../../store/albums";
 import OpenModalButton from "../OpenModalButton";
 import ReviewForm from "../ReviewForms/ReviewForm";
+import { fetchAlbumReviews } from "../../store/reviews"
 // import { IoHeart } from "react-icons/fa";
 import "./AlbumDetails.css"
 
@@ -17,9 +18,17 @@ const AlbumDetails = () => {
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
-        dispatch(getAlbumDetails(albumId))
-        .then(() => setIsLoading(true));
-    }, [dispatch, albumId]);
+        const fetchAlbumAndReviewData = async () => {
+            try {
+                await dispatch(getAlbumDetails(albumId));
+                await dispatch(fetchAlbumReviews(albumId));
+                setIsLoading(true);
+            } catch (error) {
+                console.error("error fetching album and review data")
+            }
+        }
+        fetchAlbumAndReviewData()
+    }, [dispatch, albumId, setIsLoading]);
 
     if (!isLoading) return <h1>Loading...</h1>
 
@@ -33,6 +42,11 @@ const AlbumDetails = () => {
         avg_rating,
         total_likes
     } = album.album
+
+
+
+    // console.log("albums: " + albums)
+
     return (
         <section className='page'>
             <h2>{title}</h2>
@@ -58,6 +72,9 @@ const AlbumDetails = () => {
             <div className="review_like_box">
             <div className="one">{avg_rating}</div>
             <div className="two">{total_likes}</div>
+            </div>
+            <div className="display-reviews">
+
             </div>
         </section>
     )
