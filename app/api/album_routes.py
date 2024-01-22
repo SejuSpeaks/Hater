@@ -127,7 +127,7 @@ def get_album_reviews(id):
         .all()
 
     # Formats the data from the query above
-    reviews_with_users = [
+    reviews = [
         {
             "review": {
                 "id": review.id,
@@ -138,13 +138,8 @@ def get_album_reviews(id):
                 "created_at": review.created_at,
                 "updated_at": review.updated_at
             },
-            "user": {
-                "id": user.id,
-                "first_name": user.first_name,
-                "last_name": user.last_name
-            }
         }
-        for review, user in query
+        for review in query
     ]
 
     return { "reviews": reviews_with_users }
