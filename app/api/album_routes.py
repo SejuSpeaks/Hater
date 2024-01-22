@@ -120,15 +120,13 @@ def get_album_reviews(id):
         return error, 404
 
     # Queries for all reviews of a given album
-    query = db.session.query(Review, User) \
-        .outerjoin(User, Review.user_id == User.id) \
+    query = db.session.query(Review) \
         .filter(Review.album_id == id) \
         .all()
 
     # Formats the data from the query above
     reviews = [
         {
-            "review": {
                 "id": review.id,
                 "user_id": review.user_id,
                 "album_id": review.album_id,
@@ -136,12 +134,11 @@ def get_album_reviews(id):
                 "review_text": review.review_text,
                 "created_at": review.created_at,
                 "updated_at": review.updated_at
-            },
         }
         for review in query
     ]
 
-    return { "reviews": reviews_with_users }
+    return { "reviews": reviews }
 
 
 @album_routes.route('/<int:id>/reviews', methods=['POST'])
