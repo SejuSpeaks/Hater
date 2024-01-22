@@ -103,6 +103,9 @@ const AlbumForm = ({ album, formType}) => {
                     onChange={(e) => setImage_url(e.target.value)}
                     />
             </label>
+            <div className="btn">
+            <button type="submit" className="submit-btn">{formType}</button>
+            </div>
         </form>
     )
 }
