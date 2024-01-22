@@ -1,6 +1,6 @@
 
 const GET_USER_REVIEWS = 'reviews/GETREVIEWS';
-
+const ADD_REVIEW = "reviews/ADD_REVIEW";
 
 
 /*---------------------------------------------------------------------------------------------- */
@@ -11,6 +11,12 @@ const getReviews = (reviews) => {
         reviews
     }
 }
+
+const addReview = (review) => ({
+	type: ADD_REVIEW,
+	payload: review,
+    // should have: userId, albumId, rating, reviewText
+});
 
 
 export const fetchUserReviews = () => async dispatch => {
@@ -23,11 +29,37 @@ export const fetchUserReviews = () => async dispatch => {
     }
 }
 
+export const createReview = (review) => async (dispatch) => {
+    console.log("inside createReview in Redux")
+    const { album_id, rating, review_text} = review;
+	const response = await fetch(`/api/albums/${album_id}/reviews`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+            rating,
+            review_text
+		}),
+	});
 
+	if (response.ok) {
+		const data = await response.json();
+		dispatch(addReview(data));
+		return null;
+	} else if (response.status < 500) {
+		const data = await response.json();
+		if (data.errors) {
+			return data.errors;
+		}
+	} else {
+		return ["An error occurred. Please try again."];
+	}
+};
 
 
 /*---------------------------------------------------------------------------------------------- */
-
+const initialState = { reviews: null };
 
 const reviews = (state = {}, action) => {
 
@@ -38,7 +70,8 @@ const reviews = (state = {}, action) => {
                 return obj
             }, {});
             return { ...reviews }
-
+        case ADD_REVIEW:
+            return { ...state, [action.payload.id]: action.payload };
         default:
             return state;
     }

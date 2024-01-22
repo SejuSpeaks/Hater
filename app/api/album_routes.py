@@ -173,30 +173,30 @@ def add_album_review(id):
         return error, 403
 
     else:
-            new_review_rating = request.json.get("rating", None)
-            new_review_text = request.json.get("review_text", None)
+            rating = request.json.get("rating", None)
+            review_text = request.json.get("review_text", None)
 
             # Backend validation
             validation_errors = {}
 
-            if new_review_rating is None:
+            if rating is None:
                 validation_errors["rating"] = "Please provide a rating"
 
-            if new_review_text is None:
+            if review_text is None:
                 validation_errors["review_text"] = "Please provide a review"
 
-            if new_review_rating < 1 or new_review_rating > 5:
+            if rating < 1 or rating > 5:
                 validation_errors["rating"] = "Please provide a rating between 1 and 5"
 
             if validation_errors:
                 return validation_errors, 400
-
+            print("inside backend route, about to add review: ")
             # Creates a new review and adds it to the database
             new_review = Review(
                 user_id = current_user_id,
                 album_id = album_id,
-                review_text = new_review_text,
-                rating = new_review_rating
+                review_text = review_text,
+                rating = rating
             )
 
             db.session.add(new_review)

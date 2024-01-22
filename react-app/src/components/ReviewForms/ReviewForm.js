@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createReview, updateReview } from "../../store/review";
+import { updateReview } from "../../store/review";
+import { createReview } from "../../store/reviews";
 import { useModal } from "../../context/Modal";
 import './ReviewForm.css';
 
@@ -54,17 +55,21 @@ const ReviewForm = (props) => {
         e.preventDefault();
         setErrors({});
 
+        let reviewData = {};
         let newReview = {};
-        newReview.user_id = user.id;
-        newReview.album_id = albumId;
-        newReview.rating = rating;
-        newReview.reviewText = reviewText;
+        // newReview.user_id = user.id;
+        // newReview.album_id = albumId;
+        reviewData.rating = rating;
+        reviewData.review_text = reviewText;
+        reviewData.album_id = albumId;
 
-        console.log(Object.keys(newReview))
-        console.log(Object.values(newReview))
+        console.log("in react, about to dispatch: ")
+        console.log(Object.keys(reviewData))
+        console.log(Object.values(reviewData))
 
-        if (formType === "Create Review") {
-            newReview = await dispatch((createReview(review)))
+        if (!review) {
+            console.log("create review triggered React")
+            newReview = await dispatch((createReview(reviewData)))
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) {
