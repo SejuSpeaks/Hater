@@ -5,7 +5,6 @@ from flask_login import current_user, login_required
 from datetime import datetime
 from sqlalchemy import or_, func, desc, case
 from sqlalchemy.sql import func
-# from app.api import validation_errors_to_error_messages
 
 album_routes = Blueprint('albums', __name__)
 
@@ -127,7 +126,7 @@ def get_album_reviews(id):
         .all()
 
     # Formats the data from the query above
-    reviews_with_users = [
+    reviews = [
         {
             "review": {
                 "id": review.id,
@@ -138,13 +137,8 @@ def get_album_reviews(id):
                 "created_at": review.created_at,
                 "updated_at": review.updated_at
             },
-            "user": {
-                "id": user.id,
-                "first_name": user.first_name,
-                "last_name": user.last_name
-            }
         }
-        for review, user in query
+        for review in query
     ]
 
     return { "reviews": reviews_with_users }
@@ -173,30 +167,30 @@ def add_album_review(id):
         return error, 403
 
     else:
-            new_review_rating = request.json.get("rating", None)
-            new_review_text = request.json.get("review_text", None)
+            rating = request.json.get("rating", None)
+            review_text = request.json.get("review_text", None)
 
             # Backend validation
             validation_errors = {}
 
-            if new_review_rating is None:
+            if rating is None:
                 validation_errors["rating"] = "Please provide a rating"
 
-            if new_review_text is None:
+            if review_text is None:
                 validation_errors["review_text"] = "Please provide a review"
 
-            if new_review_rating < 1 or new_review_rating > 5:
+            if rating < 1 or rating > 5:
                 validation_errors["rating"] = "Please provide a rating between 1 and 5"
 
             if validation_errors:
                 return validation_errors, 400
-
+            print("inside backend route, about to add review: ")
             # Creates a new review and adds it to the database
             new_review = Review(
                 user_id = current_user_id,
                 album_id = album_id,
-                review_text = new_review_text,
-                rating = new_review_rating
+                review_text = review_text,
+                rating = rating
             )
 
             db.session.add(new_review)
@@ -221,34 +215,36 @@ def album_details(id):
 
 ##get avg reviews
     reviews = Review.query.filter(Review.album_id == album.id).all()
-    review_details = [
-        {
-            'id': review.id,
-            'user_id': review.user_id,
-            'review_text': review.review_text,
-            'rating': review.rating
-        } for review in reviews]
 
-    merged_dict = {}
+    if (not reviews):
+        avg_review = ""
+    else:
+        review_details = [
+            {
+                'id': review.id,
+                'user_id': review.user_id,
+                'review_text': review.review_text,
+                'rating': review.rating
+            } for review in reviews]
 
-    for sub in review_details:
-        for key, val in sub.items():
-            merged_dict.setdefault(key, []).append(val)
+        merged_dict = {}
 
-    rating_list = list(merged_dict['rating'])
-    rating_sum = sum(rating_list)
-    rating_avg = rating_sum / len(rating_list)
+        for sub in review_details:
+            for key, val in sub.items():
+                merged_dict.setdefault(key, []).append(val)
 
-    avg_review = rating_avg if rating_avg else ""
+        rating_list = list(merged_dict['rating'])
+        rating_sum = sum(rating_list)
+        rating_avg = rating_sum / len(rating_list)
+
+        avg_review = rating_avg if rating_avg else ""
 
 ##get artist name
     users = User.query.filter(User.id == album.user_id).all()
     user_details = [
         {
             'id' : user.id,
-            'username' : user.username,
-            'first_name' : user.first_name,
-            'last_name' : user.last_name
+            'username' : user.username
         } for user in users]
     artist_name = user_details[0]['username']
 
@@ -270,7 +266,6 @@ def album_details(id):
     like_list = list(merged_like_dict['user_id'])
     num_likes = len(like_list)
 
-    avg_review = rating_avg if rating_avg else ""
     total_likes = num_likes if num_likes else ""
 
     album_details = {
@@ -286,9 +281,7 @@ def album_details(id):
         }
 
 
-    return {
-        f"{album.title} details": album_details
-    }
+    return { "album": album_details }
 
 @album_routes.route('/', methods=["POST"])
 @login_required
@@ -308,7 +301,7 @@ def post_album():
 
         db.session.add(new_album)
         db.session.commit()
-        return redirect('/')
+        return { f"{new_album.title} details": new_album}
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 @album_routes.route('/<int:id>', methods=['PUT','DELETE'])
@@ -335,6 +328,5 @@ def edit_album(id):
             album.image_url = form.image_url.data
 
             db.session.commit()
-            # return redirect('/')
-            return 'Edited Album'
+            return { 'Edited Album': album}
         return {'errors': validation_errors_to_error_messages(form.errors)}, 401
