@@ -11,17 +11,25 @@ import "./AlbumDetails.css"
 const AlbumDetails = () => {
     const dispatch = useDispatch();
     const { albumId } = useParams();
+
     const album = useSelector((state) => {
         return state.albums.undefined
     })
+
+    const reviews = useSelector((state) => {
+        return state.reviews.albumReviews
+    });
+
+    let reviewArray;
+    if (reviews) reviewArray = Object.values(reviews)
 
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         const fetchAlbumAndReviewData = async () => {
             try {
-                await dispatch(getAlbumDetails(albumId));
-                await dispatch(fetchAlbumReviews(albumId));
+                dispatch(getAlbumDetails(albumId));
+                dispatch(fetchAlbumReviews(albumId));
                 setIsLoading(true);
             } catch (error) {
                 console.error("error fetching album and review data")
@@ -31,6 +39,26 @@ const AlbumDetails = () => {
     }, [dispatch, albumId, setIsLoading]);
 
     if (!isLoading) return <h1>Loading...</h1>
+
+    if (!album) return <h1>Album not found</h1>
+
+    let renderedReviews;
+    if (reviews) {
+        const reviewArray = Object.values(reviews);
+        const reviewArrayIds = Object.keys(reviewArray)
+
+        renderedReviews = reviewArrayIds.reverse().map((id) => {
+            const review = reviewArray[id]
+            return (
+            <div key={id}>
+                <p>{review["created_at"]}</p>
+                <p>user_id, will be username: {review["user_id"]}</p>
+                <p>{review["rating"]} stars</p>
+                <p>{review["review_text"]}</p>
+            </div>
+            )
+            });
+    }
 
     const {
         title,
@@ -42,8 +70,6 @@ const AlbumDetails = () => {
         avg_rating,
         total_likes
     } = album.album
-
-
 
     // console.log("albums: " + albums)
 
@@ -74,7 +100,11 @@ const AlbumDetails = () => {
             <div className="two">{total_likes}</div>
             </div>
             <div className="display-reviews">
-
+            {Object.keys(reviews).length > 0 ? (
+                renderedReviews
+                ) : (
+                <p>Be the first to post a review!</p>
+            )}
             </div>
         </section>
     )
