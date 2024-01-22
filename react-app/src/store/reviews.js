@@ -4,6 +4,7 @@ const ADD_REVIEW = "reviews/ADD_REVIEW";
 const GET_ALBUM_REVIEWS = 'reviews/GET_ALBUM_REVIEWS';
 const EDIT_REVIEW = "reviews/EDIT_REVIEW"
 
+
 /*---------------------------------------------------------------------------------------------- */
 
 const getReviews = (reviews) => {
@@ -30,6 +31,10 @@ const getReviewsByAlbum = (reviews) => {
     }
 }
 
+const updateAReview = (review) => ({
+	type: EDIT_REVIEW,
+	payload: review,
+});
 
 export const fetchUserReviews = () => async dispatch => {
     const response = await fetch('api/reviews/current');
