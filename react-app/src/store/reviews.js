@@ -15,7 +15,6 @@ const getReviews = (reviews) => {
 const addReview = (review) => ({
 	type: ADD_REVIEW,
 	payload: review,
-    // should have: userId, albumId, rating, reviewText
 });
 
 
@@ -30,7 +29,6 @@ export const fetchUserReviews = () => async dispatch => {
 }
 
 export const createReview = (review) => async (dispatch) => {
-    console.log("inside createReview in Redux")
     const { album_id, rating, review_text} = review;
 	const response = await fetch(`/api/albums/${album_id}/reviews`, {
 		method: "POST",
@@ -59,7 +57,6 @@ export const createReview = (review) => async (dispatch) => {
 
 
 /*---------------------------------------------------------------------------------------------- */
-const initialState = { reviews: null };
 
 const reviews = (state = {}, action) => {
 

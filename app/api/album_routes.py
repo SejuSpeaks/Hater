@@ -5,7 +5,6 @@ from flask_login import current_user, login_required
 from datetime import datetime
 from sqlalchemy import or_, func, desc, case
 from sqlalchemy.sql import func
-# from app.api import validation_errors_to_error_messages
 
 album_routes = Blueprint('albums', __name__)
 

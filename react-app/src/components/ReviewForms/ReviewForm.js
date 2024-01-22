@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateReview } from "../../store/review";
 import { createReview } from "../../store/reviews";
@@ -8,38 +7,28 @@ import './ReviewForm.css';
 
 const ReviewForm = (props) => {
     const dispatch = useDispatch();
-    // const { albumId } = useParams();
     const { review, formType } = props
-    const user = useSelector((state) => state.session.user);
     const albumId = useSelector((state) => state.albums.undefined.album.id);
 
     const [errors, setErrors] = useState({})
     const [rating, setRating] = useState(review?.rating)
     const [reviewText, setReviewText] = useState(review?.reviewText);
-    const [isDisabled, setIsDisabled] = useState(true)
+    // const [isDisabled, setIsDisabled] = useState(true)
     const [hoveredStarNum, setHoveredStarNum] = useState(null);
 
     const { closeModal } = useModal();
 
-    useEffect(() => {
-        setErrors({});
+    // useEffect(() => {
+    //     setErrors({});
 
-        if (!reviewText
-            || !rating) {
-                setIsDisabled(true)
-            } else {
-                setIsDisabled(false)
-            }
+    //     if (!reviewText
+    //         || !rating) {
+    //             setIsDisabled(true)
+    //         } else {
+    //             setIsDisabled(false)
+    //         }
 
-            // if (!reviewText.length) {
-            //     setErrors(prevErrors => ({ ...prevErrors, "reviewText": "Please add your review" }));
-            // }
-
-            // if (!rating) {
-            //     setErrors(prevErrors => ({ ...prevErrors, "rating": "Please select a star rating" }));
-            // }
-
-    }, [reviewText, rating])
+    // }, [reviewText, rating])
 
     const handleStarHover = (num) => {
         setHoveredStarNum(num);
@@ -55,20 +44,21 @@ const ReviewForm = (props) => {
         e.preventDefault();
         setErrors({});
 
+        if (!reviewText) {
+            setErrors(prevErrors => ({ ...prevErrors, "reviewText": "Please add your review" }));
+        }
+
+        if (!rating || rating < 1 || rating > 5) {
+            setErrors(prevErrors => ({ ...prevErrors, "rating": "Please select a star rating" }));
+        }
+
         let reviewData = {};
         let newReview = {};
-        // newReview.user_id = user.id;
-        // newReview.album_id = albumId;
         reviewData.rating = rating;
         reviewData.review_text = reviewText;
         reviewData.album_id = albumId;
 
-        console.log("in react, about to dispatch: ")
-        console.log(Object.keys(reviewData))
-        console.log(Object.values(reviewData))
-
         if (!review) {
-            console.log("create review triggered React")
             newReview = await dispatch((createReview(reviewData)))
             .catch(async (res) => {
                 const data = await res.json();
@@ -95,7 +85,7 @@ const ReviewForm = (props) => {
     return (
         <form className="review-form" onSubmit={handleSubmit}>
             <h1>{header}</h1>
-            {Object.keys(errors).length !== 0 && <p>{`Errors: ${Object.keys(errors)}`}</p>}
+            {Object.keys(errors).length !== 0 && <p>{`Errors: ${Object.values(errors)}`}</p>}
             <h2>How was this album?</h2>
             <textarea
             type="textarea"
@@ -118,8 +108,7 @@ const ReviewForm = (props) => {
             </div>
             <button
             type="submit"
-            disabled={isDisabled}
-            className={`${isDisabled.toString()} clickable`}
+            className={`clickable`}
             id="submit-review-button"
             >
             Submit
