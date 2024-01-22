@@ -1,7 +1,7 @@
 
 const GET_USER_REVIEWS = 'reviews/GETREVIEWS';
 const ADD_REVIEW = "reviews/ADD_REVIEW";
-
+const GET_ALBUM_REVIEWS = 'reviews/GET_ALBUM_REVIEWS';
 
 /*---------------------------------------------------------------------------------------------- */
 
@@ -16,6 +16,13 @@ const addReview = (review) => ({
 	type: ADD_REVIEW,
 	payload: review,
 });
+
+const getReviewsByAlbum = (reviews) => {
+    return {
+        type: GET_ALBUM_REVIEWS,
+        reviews
+    }
+}
 
 
 export const fetchUserReviews = () => async dispatch => {
@@ -55,6 +62,18 @@ export const createReview = (review) => async (dispatch) => {
 	}
 };
 
+export const fetchAlbumReviews = (albumId) => async(dispatch) => {
+    const response = await fetch(`/api/albums/${albumId}/reviews`);
+
+    if (response.ok) {
+        const data = await response.json()
+        dispatch(getReviewsByAlbum(data["reviews"]))
+        return response;
+    } else {
+        console.error("error in fetchAlbumReviews")
+    }
+}
+
 
 /*---------------------------------------------------------------------------------------------- */
 
@@ -69,6 +88,16 @@ const reviews = (state = {}, action) => {
             return { ...reviews }
         case ADD_REVIEW:
             return { ...state, [action.payload.id]: action.payload };
+        case GET_ALBUM_REVIEWS:
+            if (action.reviews) {
+                const albumReviews = action.reviews.reduce((obj, review) => {
+                obj[review.id] = review;
+                return obj;
+            }, {});
+            return { ...state, albumReviews: albumReviews}
+            } else {
+                return state;
+            }
         default:
             return state;
     }
