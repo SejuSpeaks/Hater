@@ -30,11 +30,6 @@ const editReview = (review) => ({
     review
 })
 
-const updateAReview = (review) => ({
-	type: EDIT_REVIEW,
-	payload: review,
-});
-
 export const fetchUserReviews = () => async dispatch => {
     const response = await fetch('api/reviews/current');
 

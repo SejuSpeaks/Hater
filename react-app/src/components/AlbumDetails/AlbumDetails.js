@@ -20,9 +20,6 @@ const AlbumDetails = () => {
         return state.reviews.albumReviews
     });
 
-    let reviewArray;
-    if (reviews) reviewArray = Object.values(reviews)
-
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
