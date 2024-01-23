@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateReview } from "../../store/review";
-import { createReview } from "../../store/reviews";
+import { createReview, fetchEditReview } from "../../store/reviews";
 import { useModal } from "../../context/Modal";
 import './ReviewForm.css';
 
@@ -67,7 +66,7 @@ const ReviewForm = (props) => {
                 }
             })
         } else if (formType === "Update Review") {
-            newReview = await dispatch(updateReview(review))
+            newReview = await dispatch(fetchEditReview(review))
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) {
