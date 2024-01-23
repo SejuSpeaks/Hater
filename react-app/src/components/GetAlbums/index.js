@@ -9,7 +9,7 @@ const GetAlbums = () => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [noResultsMessage, setNoResultsMessage] = useState('');
     const [delayedSearchTimeout, setDelayedSearchTimeout] = useState(null);
-    console.log("albums", albums)
+
     useEffect(() => {
         dispatch(getAlbums()).then(() => {
             setIsLoaded(true);
