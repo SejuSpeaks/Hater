@@ -18,6 +18,8 @@ const Reviews = () => {
         return (
             <>
                 <p>{review.title}</p>
+                <p>{review["review_text"]}</p>
+                <p>{review["rating"]}</p>
             </>
         )
     })

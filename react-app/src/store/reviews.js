@@ -2,6 +2,8 @@
 const GET_USER_REVIEWS = 'reviews/GETREVIEWS';
 const ADD_REVIEW = "reviews/ADD_REVIEW";
 const GET_ALBUM_REVIEWS = 'reviews/GET_ALBUM_REVIEWS';
+const EDIT_REVIEW = "reviews/EDIT_REVIEW"
+const GET_ALBUM_REVIEWS = 'reviews/GET_ALBUM_REVIEWS';
 
 /*---------------------------------------------------------------------------------------------- */
 
@@ -24,6 +26,22 @@ const getReviewsByAlbum = (reviews) => {
     }
 }
 
+const editReview = (review) => ({
+    type: EDIT_REVIEW,
+    review
+})
+
+const getReviewsByAlbum = (reviews) => {
+    return {
+        type: GET_ALBUM_REVIEWS,
+        reviews
+    }
+}
+
+const updateAReview = (review) => ({
+	type: EDIT_REVIEW,
+	payload: review,
+});
 
 export const fetchUserReviews = () => async dispatch => {
     const response = await fetch('api/reviews/current');
@@ -51,6 +69,33 @@ export const createReview = (review) => async (dispatch) => {
 	if (response.ok) {
 		const data = await response.json();
 		dispatch(addReview(data));
+		return null;
+	} else if (response.status < 500) {
+		const data = await response.json();
+		if (data.errors) {
+			return data.errors;
+		}
+	} else {
+		return ["An error occurred. Please try again."];
+	}
+};
+
+export const fetchEditReview = (review) => async (dispatch) => {
+    const { review_id, rating, review_text} = review;
+	const response = await fetch(`/api/reviews/${review_id}`, {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+            rating,
+            review_text
+		}),
+	});
+
+	if (response.ok) {
+		const data = await response.json();
+		dispatch(editReview(data));
 		return null;
 	} else if (response.status < 500) {
 		const data = await response.json();
