@@ -307,7 +307,7 @@ def post_album():
 
         db.session.add(new_album)
         db.session.commit()
-        return { f"{new_album.title} details": new_album}
+        return { "album": new_album}
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 @album_routes.route('/<int:id>', methods=['PUT','DELETE'])
@@ -334,5 +334,5 @@ def edit_album(id):
             album.image_url = form.image_url.data
 
             db.session.commit()
-            return { 'Edited Album': album}
+            return { 'album': album.to_dict()}
         return {'errors': validation_errors_to_error_messages(form.errors)}, 401

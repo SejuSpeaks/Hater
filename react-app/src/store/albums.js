@@ -104,12 +104,13 @@ export const getAlbumDetails = (albumId) => async dispatch => {
 }
 
 export const createAlbum = (payload) => async (dispatch) => {
+    console.log("payload", payload)
     const res = await fetch('/api/albums', {
         method: 'POST',
         header: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
     });
-
+    console.log("res", res)
     if (res.ok) {
         const data = await res.json();
         dispatch(addAlbum(data))
@@ -119,17 +120,21 @@ export const createAlbum = (payload) => async (dispatch) => {
 }
 
 export const updateAlbum = (payload) => async (dispatch) => {
-    const res = await fetch(`/api/albums/${payload.id}`, {
+    // console.log("payloadID", typeof payload.id)
+    const res = await fetch(`/api/albums/${parseInt(payload.id)}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
     });
-
     if (res.ok) {
         const data = await res.json();
+        // console.log("data", data)
         dispatch(editAlbum(data));
         return data
     }
+    console.log("res", res)
+    const data = await res.json()
+    console.log('data', data)
     return res;
 }
 

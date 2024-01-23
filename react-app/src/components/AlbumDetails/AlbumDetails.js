@@ -56,6 +56,3 @@ const AlbumDetails = () => {
 }
 
 export default AlbumDetails
-
-
-/* <div className="two"><IoHeart /> {total_likes}</div> */
