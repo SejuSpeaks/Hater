@@ -3,7 +3,6 @@ const GET_USER_REVIEWS = 'reviews/GETREVIEWS';
 const ADD_REVIEW = "reviews/ADD_REVIEW";
 const GET_ALBUM_REVIEWS = 'reviews/GET_ALBUM_REVIEWS';
 const EDIT_REVIEW = "reviews/EDIT_REVIEW"
-const GET_ALBUM_REVIEWS = 'reviews/GET_ALBUM_REVIEWS';
 
 /*---------------------------------------------------------------------------------------------- */
 
@@ -30,13 +29,6 @@ const editReview = (review) => ({
     type: EDIT_REVIEW,
     review
 })
-
-const getReviewsByAlbum = (reviews) => {
-    return {
-        type: GET_ALBUM_REVIEWS,
-        reviews
-    }
-}
 
 const updateAReview = (review) => ({
 	type: EDIT_REVIEW,
