@@ -9,7 +9,12 @@ review_router = Blueprint('reviews', __name__)
 @login_required
 def get_user_reviews():
     return {
-        "user reviewed albums": [review.album.to_dict() for review in current_user.reviews]
+        "user reviewed albums": [{
+            "artist": review.album.user.username,
+            "title": review.album.title,
+            "rating": review.rating,
+            "image_url": review.album.image_url,
+         } for review in current_user.reviews]
     }
 
 @review_router.route('/<int:id>', methods=["PUT"])

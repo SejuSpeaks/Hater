@@ -17,14 +17,17 @@ const Likes = () => {
 
     const userLikes = Object.values(likes).map(like => {
         return (
-            <>
+            <div>
+                <img src={like.image_url} alt="album cover" />
                 <p>{like.title}</p>
-            </>
+                <p>{like.artist}</p>
+                <p>{like.release_date}</p>
+            </div>
         );
     })
 
     return (
-        <div>
+        <div className="profile-page-content-container">
             {isLoaded && userLikes}
         </div>
     )

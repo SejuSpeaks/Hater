@@ -16,16 +16,18 @@ const Reviews = () => {
 
     const userReviews = Object.values(reviews).map(review => {
         return (
-            <>
+            <div>
+                <img src={review.image_url} alt="album cover" />
                 <p>{review.title}</p>
-                <p>{review["review_text"]}</p>
-                <p>{review["rating"]}</p>
-            </>
+                <p>{review.artist}</p>
+                <p>{review.release_date}</p>
+                <p>{review.rating}</p>
+            </div>
         )
     })
 
     return (
-        <div>
+        <div className="profile-page-content-container">
             {isLoaded && userReviews}
         </div>
     );

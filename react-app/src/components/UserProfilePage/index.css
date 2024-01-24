@@ -32,6 +32,7 @@
 
 #profile-page-reviews {
     color: grey;
+    font-size: 13px;
     position: relative;
     bottom: 10px;
 }
@@ -51,27 +52,52 @@
 
 /*-------------------------------------------------------*/
 
-#profile-page-album-image {
-    width: 100px;
-    height: 100px;
-}
-
-#profile-page-all-albums-container {
+.profile-page-content-container {
     display: flex;
     margin: 30px 40px;
 }
 
-/* #profile-page-album-artist {
-    position: relative;
-    bottom: 10px;
-} */
 
-#profile-page-album-title {
-    position: relative;
-    bottom: 10px;
+.profile-page-album-buttons {
+    padding: 4px 7px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    color: #FFFFFFFF;
+    background: #71BBB2FF;
+    opacity: 1;
+    border: none;
+    border-radius: 4px;
+    margin-right: 5px;
 }
 
+/* .profile-page-album-buttons-container {
+    display: flex;
+    gap: 10px;
+} */
+
+#profile-page-album-image {
+    width: 150px;
+    height: 150px;
+}
+
+
+.profile-page-albums-container {
+    margin: 0px 25px;
+}
+
+
+#profile-page-album-artist {
+    font-weight: bold;
+}
+
+
 #profile-page-album-data-container {
-    position: relative;
-    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    margin: 10px 0px;
+    /* position: relative;
+    bottom: 20px; */
 }

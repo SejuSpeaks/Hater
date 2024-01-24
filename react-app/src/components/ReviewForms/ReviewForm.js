@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createReview, fetchEditReview } from "../../store/reviews";
 import { useModal } from "../../context/Modal";
@@ -7,7 +8,7 @@ import './ReviewForm.css';
 const ReviewForm = (props) => {
     const dispatch = useDispatch();
     const { review, formType } = props
-    const albumId = useSelector((state) => state.albums.undefined.album.id);
+    const { albumId } = useParams();
 
     const [errors, setErrors] = useState({})
     const [rating, setRating] = useState(review?.rating)
@@ -59,20 +60,20 @@ const ReviewForm = (props) => {
 
         if (!review) {
             newReview = await dispatch((createReview(reviewData)))
-            .catch(async (res) => {
-                const data = await res.json();
-                if (data && data.errors) {
-                    setErrors(data.errors)
-                }
-            })
+                .catch(async (res) => {
+                    const data = await res.json();
+                    if (data && data.errors) {
+                        setErrors(data.errors)
+                    }
+                })
         } else if (formType === "Update Review") {
             newReview = await dispatch(fetchEditReview(review))
-            .catch(async (res) => {
-                const data = await res.json();
-                if (data && data.errors) {
-                    setErrors(data.errors)
-                }
-            });
+                .catch(async (res) => {
+                    const data = await res.json();
+                    if (data && data.errors) {
+                        setErrors(data.errors)
+                    }
+                });
         }
         if (newReview) {
             closeModal();
@@ -87,11 +88,11 @@ const ReviewForm = (props) => {
             {Object.keys(errors).length !== 0 && <p>{`Errors: ${Object.values(errors)}`}</p>}
             <h2>How was this album?</h2>
             <textarea
-            type="textarea"
-            id="review-text-input"
-            placeholder="Leave your review here..."
-            value={reviewText}
-            onChange={(e) => setReviewText(e.target.value)}
+                type="textarea"
+                id="review-text-input"
+                placeholder="Leave your review here..."
+                value={reviewText}
+                onChange={(e) => setReviewText(e.target.value)}
             ></textarea>
             <div className="star-container">
                 {
@@ -106,11 +107,11 @@ const ReviewForm = (props) => {
                 }
             </div>
             <button
-            type="submit"
-            className={`clickable`}
-            id="submit-review-button"
+                type="submit"
+                className={`clickable`}
+                id="submit-review-button"
             >
-            Submit
+                Submit
             </button>
         </form>
     )

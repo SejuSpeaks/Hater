@@ -19,23 +19,24 @@ const Albums = ({ deleteAlbum, isDeleted }) => {
 
     const userAlbums = Object.values(albums).map(album => {
         return (
-            <div>
+            <div className="profile-page-albums-container">
                 <img src={album.image_url} alt="album picture" id="profile-page-album-image" />
-
                 <div id="profile-page-album-data-container">
-                    <p id="profile-page-album-artist">{album.artist}</p>
                     <p id="profile-page-album-title">{album.title}</p>
+                    <p id="profile-page-album-artist">{album.artist}</p>
                 </div>
 
-                <button id="profile-page-album-button">UPDATE</button>
-                <OpenModalButton buttonText={"DELETE"} modalComponent={<ConfirmDelete deleteAlbum={deleteAlbum} albumId={album.id} />} />
+                <div className="profile-page-album-buttons-container">
+                    <button className="profile-page-album-buttons">UPDATE</button>
+                    <OpenModalButton className={'profile-page-album-buttons'} buttonText={"DELETE"} modalComponent={<ConfirmDelete deleteAlbum={deleteAlbum} albumId={album.id} />} />
+                </div>
             </div>
         );
     })
 
 
     return (
-        <div id="profile-page-all-albums-container">
+        <div className="profile-page-content-container">
             {isLoaded && userAlbums}
         </div>
     );

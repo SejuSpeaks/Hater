@@ -35,6 +35,7 @@ const UserProfilePage = () => {
     }
 
     const userReviews = Object.values(reviewState).length
+    const plural = userReviews <= 1 ? 'Review' : 'Reviews';
     const nonActiveTabCss = 'profile-page-tab-item';
     const activeTabCss = 'profile-page-tab-item-active';
 
@@ -48,7 +49,7 @@ const UserProfilePage = () => {
 
                 <div className="profile-page-user-info-container">
                     <p id="profile-page-username">{user.username}</p>
-                    <p id="profile-page-reviews">{userReviews}: Reviews</p>
+                    <p id="profile-page-reviews">{userReviews}: {plural}</p>
                 </div>
 
             </div>
