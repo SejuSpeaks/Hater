@@ -67,7 +67,7 @@ const AlbumDetails = () => {
         avg_rating,
         total_likes
     } = album
-    return (
+    return  (
         <section className='page'>
             <h2>{title}</h2>
             <h3>{artist}</h3>

@@ -247,23 +247,27 @@ def album_details(id):
 
 ##get num likes
     likes = Like.query.filter(Like.album_id == album.id).all()
-    like_details = [
-        {
-            'id': like.id,
-            'user_id': like.user_id,
-            'album_id': like.album_id,
-        } for like in likes]
 
-    merged_like_dict = {}
+    if (not likes):
+        total_likes = ""
+    else:
+        like_details = [
+            {
+                'id': like.id,
+                'user_id': like.user_id,
+                'album_id': like.album_id,
+            } for like in likes]
 
-    for sub in like_details:
-        for key, val in sub.items():
-            merged_like_dict.setdefault(key, []).append(val)
+        merged_like_dict = {}
 
-    like_list = list(merged_like_dict['user_id'])
-    num_likes = len(like_list)
+        for sub in like_details:
+            for key, val in sub.items():
+                merged_like_dict.setdefault(key, []).append(val)
 
-    total_likes = num_likes if num_likes else ""
+        like_list = list(merged_like_dict['user_id'])
+        num_likes = len(like_list)
+
+        total_likes = num_likes if num_likes else ""
 
     album_details = {
             'id': album.id,
@@ -288,7 +292,7 @@ def post_album():
 
     form = AlbumForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    print("???????????", form.data)
+
     if form.validate_on_submit():
         title = form.title.data
         genre = form.genre.data
