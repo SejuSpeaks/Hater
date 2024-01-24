@@ -97,7 +97,7 @@ const AlbumDetails = () => {
             <div className="two">{total_likes}</div>
             </div>
             <div className="display-reviews">
-            {Object.keys(reviews).length > 0 ? (
+            {(reviews && Object.keys(reviews).length > 0) ? (
                 renderedReviews
                 ) : (
                 <p>Be the first to post a review!</p>
