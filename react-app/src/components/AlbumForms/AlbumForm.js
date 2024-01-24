@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { createAlbum, updateAlbum } from "../../store/albums";
+import * as moment from 'moment';
 import './AlbumForm.css'
 
 const AlbumForm = ({ album, formType}) => {
@@ -11,26 +12,32 @@ const AlbumForm = ({ album, formType}) => {
     const [title, setTitle] = useState(album?.title);
     const [genre, setGenre] = useState(album?.genre);
     const [description, setDescription] = useState(album?.description);
-    const [release_date, setRelease_date] = useState(album?.release_date);
+    let [release_date, setRelease_date] = useState(album?.release_date);
     const [image_url, setImage_url] = useState(album?.image_url)
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors({});
         album = { ...album, title, genre, description, release_date, image_url}
-
+        // album.release_date = moment(release_date).format('YYYY-MM-DD')
         let newAlbum;
 
         if (formType === "Create Album") {
             newAlbum = await dispatch((createAlbum(album)))
+            .then((newAlbum) => history.push(`/albums/${newAlbum.id}`))
             .catch(async (res) => {
+                // console.log("RES", res)
                 const data = await res.json();
                 if (data && data.errors) {
+                    console.log("data??????????2", data)
                     setErrors(data.errors)
                 }
             })
+        console.log("newAlbum0", newAlbum)
         } else if (formType === "Update Album") {
             newAlbum = await dispatch(updateAlbum(album))
+            .then((newAlbum) => history.push(`/albums/${newAlbum.album.id}`))
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) {
@@ -38,12 +45,18 @@ const AlbumForm = ({ album, formType}) => {
                 }
             });
         }
-        if (newAlbum) {
-            history.push(`/albums/${newAlbum.id}`)
-        }
+        // if (newAlbum) {
+        //     console.log("newAlbum", newAlbum)
+        //     history.push(`/albums/${newAlbum.album.id}`)
+        // }
     }
 
     const header = formType === "Create Album" ? "Create a Album" : "Update your Album"
+
+    if (release_date) {
+        release_date = moment(release_date).format('YYYY-MM-DD')
+    }
+
 
     return (
         <form onSubmit={handleSubmit} className="album-form">

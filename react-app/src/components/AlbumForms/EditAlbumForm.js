@@ -9,7 +9,7 @@ const EditAlbumForm = () => {
     const dispatch = useDispatch();
     const { albumId } = useParams();
     const album = useSelector((state) => {
-        return state.albums.undefined
+        return state.albums.album
     })
 
     useEffect(() => {
@@ -19,8 +19,7 @@ const EditAlbumForm = () => {
 
     if (!album) return <></>
 
-    const existingAlbum = album.album
-    console.log("STATE", existingAlbum)
+    const existingAlbum = album
     return (
         Object.keys(existingAlbum).length > 1 && (
             <>

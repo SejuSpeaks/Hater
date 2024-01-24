@@ -281,12 +281,14 @@ def album_details(id):
     return { "album": album_details }
 
 @album_routes.route('/', methods=["POST"])
+@album_routes.errorhandler(404)
 @login_required
 def post_album():
     userId = current_user.id
 
     form = AlbumForm()
     form['csrf_token'].data = request.cookies['csrf_token']
+    print("???????????", form.data)
     if form.validate_on_submit():
         title = form.title.data
         genre = form.genre.data
@@ -298,7 +300,7 @@ def post_album():
 
         db.session.add(new_album)
         db.session.commit()
-        return { f"{new_album.title} details": new_album}
+        return { "album": new_album.to_dict()}
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 @album_routes.route('/<int:id>', methods=['PUT','DELETE'])
@@ -309,21 +311,29 @@ def edit_album(id):
 
     album = Album.query.get(id)
 
-    if request.method == "DELETE":
-        db.session.delete(album)
-        db.session.commit()
-        return {"DELETE": "Album deleted"}
+    if (not album):
+        error = {"Error": "Invalid album id"}
+        return error, 404
 
-    if request.method == "PUT":
-        form = AlbumForm()
-        form['csrf_token'].data = request.cookies['csrf_token']
-        if form.validate_on_submit():
-            album.title = form.title.data
-            album.genre = form.genre.data
-            album.description = form.description.data
-            album.release_date = form.release_date.data
-            album.image_url = form.image_url.data
-
+    if (album.user_id == userId):
+        if request.method == "DELETE":
+            db.session.delete(album)
             db.session.commit()
-            return { 'Edited Album': album}
-        return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+            return {"DELETE": "Album deleted"}
+
+        if request.method == "PUT":
+            form = AlbumForm()
+            form['csrf_token'].data = request.cookies['csrf_token']
+            if form.validate_on_submit():
+                album.title = form.title.data
+                album.genre = form.genre.data
+                album.description = form.description.data
+                album.release_date = form.release_date.data
+                album.image_url = form.image_url.data
+
+                db.session.commit()
+                return { 'album': album.to_dict()}
+    else:
+        error = {"Error": "Album must belong to current user"}
+        return error, 403
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401

@@ -13,7 +13,7 @@ const AlbumDetails = () => {
     const { albumId } = useParams();
 
     const album = useSelector((state) => {
-        return state.albums.undefined
+        return state.albums.album
     })
 
     const reviews = useSelector((state) => {
@@ -66,10 +66,7 @@ const AlbumDetails = () => {
         image_url,
         avg_rating,
         total_likes
-    } = album.album
-
-    // console.log("albums: " + albums)
-
+    } = album
     return (
         <section className='page'>
             <h2>{title}</h2>
@@ -108,6 +105,3 @@ const AlbumDetails = () => {
 }
 
 export default AlbumDetails
-
-
-/* <div className="two"><IoHeart /> {total_likes}</div> */
