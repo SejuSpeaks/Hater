@@ -22,6 +22,11 @@ const AlbumDetails = () => {
         return state.reviews.albumReviews
     });
 
+    const sessionUser = useSelector((state) => {
+        return state.session.user
+    })
+
+
     const [isLoading, setIsLoading] = useState(true)
     const [userLiked, setUserLiked] = useState(null)
 
@@ -86,12 +91,13 @@ const AlbumDetails = () => {
         total_likes
     } = album
 
+
     return  (
         <section className='page'>
             <div className="top-half">
             <div className="left">
                 <img className="image" alt='album_image' src={image_url}/>
-                <div className={`review-button`}>
+                <div hidden={sessionUser == null} className={`review-button`}>
                     <OpenModalButton
                     className="post-review-button clickable"
                     buttonText="+POST A REVIEW"

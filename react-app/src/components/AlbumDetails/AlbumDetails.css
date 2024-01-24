@@ -3,11 +3,12 @@
 }
 
 .top-half {
-    display: inline-flex;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
 }
 
 .image {
-    width: 20%
+    width: auto
 }
 
 h2 {
