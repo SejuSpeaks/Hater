@@ -5,10 +5,12 @@ import { getAlbumDetails } from "../../store/albums";
 import OpenModalButton from "../OpenModalButton";
 import ReviewForm from "../ReviewForms/ReviewForm";
 import { fetchAlbumReviews } from "../../store/reviews"
+import { postAlbumLike, deleteAlbumLike } from "../../store/likes";
 // import { IoHeart } from "react-icons/fa";
 import "./AlbumDetails.css"
 
 const AlbumDetails = () => {
+    const user = useSelector(state => state.session.user);
     const dispatch = useDispatch();
     const { albumId } = useParams();
 
@@ -20,22 +22,28 @@ const AlbumDetails = () => {
         return state.reviews.albumReviews
     });
 
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
+    const [userLiked, setUserLiked] = useState(null)
 
     useEffect(() => {
         const fetchAlbumAndReviewData = async () => {
             try {
-                dispatch(getAlbumDetails(albumId));
-                dispatch(fetchAlbumReviews(albumId));
-                setIsLoading(true);
+                dispatch(getAlbumDetails(albumId))
+                    .then(() => dispatch(fetchAlbumReviews(albumId))
+                    .then(() => setIsLoading(false)));
             } catch (error) {
                 console.error("error fetching album and review data")
             }
         }
         fetchAlbumAndReviewData()
-    }, [dispatch, albumId, setIsLoading]);
+    }, [dispatch, albumId, setIsLoading, userLiked]);
 
-    if (!isLoading) return <h1>Loading...</h1>
+    // set user liked if album is available
+    useEffect(() => {
+        setUserLiked(album?.user_liked);
+    }, [album?.user_liked]);
+
+    if (isLoading) return <h1>Loading...</h1>
 
     if (!album) return <h1>Album not found</h1>
 
@@ -57,6 +65,16 @@ const AlbumDetails = () => {
             });
     }
 
+    const handleLike = async () => {
+        console.log('/////////////handleLike before', userLiked);
+        if (!userLiked) {
+            dispatch(postAlbumLike(albumId)).then(() => setUserLiked(true))
+        }
+        else {
+            dispatch(deleteAlbumLike(albumId)).then(() => setUserLiked(false))
+        }
+    }
+
     const {
         title,
         artist,
@@ -67,6 +85,7 @@ const AlbumDetails = () => {
         avg_rating,
         total_likes
     } = album
+
     return  (
         <section className='page'>
             <div className="top-half">
@@ -95,6 +114,7 @@ const AlbumDetails = () => {
             <div className="right">
             <div className="one">{avg_rating}</div>
             <div className="two">{total_likes}</div>
+            {album && user && user.username !== album.artist && <button onClick={handleLike}>{!userLiked ? 'Like' : 'Unlike'}</button>}
             </div>
             </div>
             <div className="display-reviews">
