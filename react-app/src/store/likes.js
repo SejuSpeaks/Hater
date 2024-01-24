@@ -9,7 +9,6 @@ const getLikes = (likes) => {
     }
 }
 
-
 export const fetchLikes = () => async dispatch => {
     console.log('we are fetching likes')
     const response = await fetch('/api/likes/current');
@@ -19,6 +18,30 @@ export const fetchLikes = () => async dispatch => {
         dispatch(getLikes(data['user likes']));
         return data['user likes'];
     }
+}
+
+export const postAlbumLike = (albumId) => async dispatch => {
+    try {
+        await fetch(`/api/albums/${albumId}/likes`, {
+            method: 'POST'
+        })
+    }
+    catch (err) {
+        return err
+    }
+
+}
+
+export const deleteAlbumLike = (albumId) => async dispatch => {
+    try {
+        await fetch(`/api/albums/${albumId}/likes`, {
+            method: 'DELETE'
+        })
+    }
+    catch (err) {
+        return err
+    }
+
 }
 
 
