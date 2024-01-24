@@ -3,7 +3,6 @@ const GET_ALBUMS = "albums/GET_ALBUMS";
 const GET_USER_CREATED_ALBUMS = 'ALBUMS/GET_USER_CREATED_ALBUMS'
 const DELETE_USER_ALBUM = 'ALBUMS/DELETE_USER_ALBUM';
 const ALBUM_DETAILS = 'albums/ALBUM_DETAILS';
-const ADD_ALBUM = 'albums/ADD_ALBUM';
 const UPDATE_ALBUM = 'albums/UPDATE_ALBUM';
 
 
@@ -17,10 +16,6 @@ export const albumDetails = (album) => ({
     album: album
 })
 
-export const addAlbum = (album) => ({
-    type: ADD_ALBUM,
-    payload: album
-})
 
 export const editAlbum = (album) => ({
     type: UPDATE_ALBUM,
@@ -99,6 +94,8 @@ export const getAlbumDetails = (albumId) => async dispatch => {
         dispatch(albumDetails(data));
         return data;
     }
+    const data = await res.json();
+    console.log("data", data)
     return res;
 }
 
@@ -109,9 +106,7 @@ export const createAlbum = (payload) => async (dispatch) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
     });
-    // if (res.ok) {
         const data = await res.json();
-        // console.log("Data", data)
         dispatch(albumDetails(data))
         return data;
     } catch (err){
@@ -159,13 +154,7 @@ const albumsReducer = (state = {}, action) => {
 
         case ALBUM_DETAILS:
             return { ...action.album}
-        // case ADD_ALBUM:
-        //     const reducer = state
-        //     console.log("reducer", reducer)
-        //     return { ...state, [action.payload.id]: action.payload };
         case UPDATE_ALBUM:
-            // const reducer = { ...state, [action.album.id]: action.album}
-            // console.log("reducer", state)
             return { ...state, [action.album.id]: action.album}
 
         default: {
