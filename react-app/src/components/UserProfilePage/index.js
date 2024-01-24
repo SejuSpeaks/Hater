@@ -21,14 +21,11 @@ const UserProfilePage = () => {
 
     useEffect(() => {
         dispatch(fetchUserReviews())
-    }, [isDeleted, dispatch])
+    }, [isDeleted, tab, dispatch])
 
     if (!user) {
         return <Redirect to='/' />
     }
-
-    console.log('this is the user when logged in', user);
-
 
 
     const deleteAlbum = (id) => {
@@ -37,9 +34,9 @@ const UserProfilePage = () => {
             .then(() => setIsDeleted(true))
     }
 
-
-
     const userReviews = Object.values(reviewState).length
+    const nonActiveTabCss = 'profile-page-tab-item';
+    const activeTabCss = 'profile-page-tab-item-active';
 
     return (
         <div>
@@ -59,9 +56,9 @@ const UserProfilePage = () => {
             <div className="profile-page-tabs-container">
 
                 <ul className="profile-page-tabs-ul">
-                    <li className="profile-page-tab-item" onClick={() => setTab('reviews')}>Reviews</li>
-                    <li className="profile-page-tab-item" onClick={() => setTab('likes')}>Likes</li>
-                    <li className="profile-page-tab-item" onClick={() => setTab('albums')}>Albums</li>
+                    <li className={tab === 'reviews' ? activeTabCss : nonActiveTabCss} onClick={() => setTab('reviews')}>Reviews</li>
+                    <li className={tab === 'likes' ? activeTabCss : nonActiveTabCss} onClick={() => setTab('likes')}>Likes</li>
+                    <li className={tab === 'albums' ? activeTabCss : nonActiveTabCss} onClick={() => setTab('albums')}>Albums</li>
                 </ul>
             </div>
 

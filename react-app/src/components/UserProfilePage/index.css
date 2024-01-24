@@ -12,6 +12,10 @@
     margin: 0px;
 }
 
+.profile-page-tab-item-active {
+    border-bottom: solid 2px black;
+}
+
 .profile-page-tab-item:hover {
     border-bottom: solid 2px black;
 }
