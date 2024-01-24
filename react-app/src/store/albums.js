@@ -94,7 +94,6 @@ export const fetchDeleteAlbum = (id) => async dispatch => {
 
 export const getAlbumDetails = (albumId) => async dispatch => {
     const res = await fetch(`/api/albums/${albumId}`)
-
     if (res.ok) {
         const data = await res.json();
         dispatch(albumDetails(data));
@@ -104,40 +103,36 @@ export const getAlbumDetails = (albumId) => async dispatch => {
 }
 
 export const createAlbum = (payload) => async (dispatch) => {
-    console.log("payload", payload)
+    try {
     const res = await fetch('/api/albums/', {
         method: 'POST',
-        header: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
     });
-    console.log("res", res)
-    if (res.ok) {
+    // if (res.ok) {
         const data = await res.json();
-        dispatch(addAlbum(data))
+        // console.log("Data", data)
+        dispatch(albumDetails(data))
         return data;
-    }
-    const data = await res.json()
-    console.log('data', data)
-    return res
+    } catch (err){
+        return err;
+	}
 }
 
 export const updateAlbum = (payload) => async (dispatch) => {
-    // console.log("payloadID", typeof payload.id)
+    try {
     const res = await fetch(`/api/albums/${parseInt(payload.id)}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
     });
-    if (res.ok) {
-        const data = await res.json();
-        // console.log("data", data)
-        dispatch(editAlbum(data));
-        return data
+    const data = await res.json();
+    dispatch(editAlbum(data));
+    return data;
+    // if (res.ok) {
+	} catch (err) {
+        return err
     }
-    // console.log("res", res)
-    const data = await res.json()
-    // console.log('data', data)
-    return res;
 }
 
 const albumsReducer = (state = {}, action) => {
@@ -164,9 +159,10 @@ const albumsReducer = (state = {}, action) => {
 
         case ALBUM_DETAILS:
             return { ...action.album}
-
-        case ADD_ALBUM:
-            return { ...state, [action.payload.id]: action.payload };
+        // case ADD_ALBUM:
+        //     const reducer = state
+        //     console.log("reducer", reducer)
+        //     return { ...state, [action.payload.id]: action.payload };
         case UPDATE_ALBUM:
             // const reducer = { ...state, [action.album.id]: action.album}
             // console.log("reducer", state)
