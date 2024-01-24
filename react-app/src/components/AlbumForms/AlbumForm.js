@@ -25,16 +25,19 @@ const AlbumForm = ({ album, formType}) => {
 
         if (formType === "Create Album") {
             newAlbum = await dispatch((createAlbum(album)))
+            .then((newAlbum) => history.push(`/albums/${newAlbum.id}`))
             .catch(async (res) => {
+                // console.log("RES", res)
                 const data = await res.json();
                 if (data && data.errors) {
+                    console.log("data??????????2", data)
                     setErrors(data.errors)
                 }
             })
         console.log("newAlbum0", newAlbum)
         } else if (formType === "Update Album") {
-            release_date = moment(release_date).format('YYYY-MM-DD')
             newAlbum = await dispatch(updateAlbum(album))
+            .then((newAlbum) => history.push(`/albums/${newAlbum.album.id}`))
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) {
@@ -42,13 +45,18 @@ const AlbumForm = ({ album, formType}) => {
                 }
             });
         }
-        if (newAlbum) {
-            console.log("newAlbum", newAlbum)
-            history.push(`/albums/${newAlbum.album.id}`)
-        }
+        // if (newAlbum) {
+        //     console.log("newAlbum", newAlbum)
+        //     history.push(`/albums/${newAlbum.album.id}`)
+        // }
     }
 
     const header = formType === "Create Album" ? "Create a Album" : "Update your Album"
+
+    if (release_date) {
+        release_date = moment(release_date).format('YYYY-MM-DD')
+    }
+
 
     return (
         <form onSubmit={handleSubmit} className="album-form">
