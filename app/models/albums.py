@@ -26,7 +26,7 @@ class Album(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'user_id': self.user_id,
+            'artist': self.user.username,
             'title': self.title,
             'genre': self.genre,
             'description': self.description,

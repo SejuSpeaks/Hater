@@ -1,0 +1,73 @@
+/*UL TABS, NAV*/
+
+.profile-page-tabs-container {
+    border-bottom: solid lightgrey 1px;
+    margin: 0px 20px;
+}
+
+.profile-page-tabs-ul {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    margin: 0px;
+}
+
+.profile-page-tab-item:hover {
+    border-bottom: solid 2px black;
+}
+
+/*------------USER CONTAINER------------------------*/
+
+.profile-page-user-container {
+    display: flex;
+    align-items: center;
+    margin: 25px 25px;
+    /* border: dotted 3px black; */
+}
+
+
+#profile-page-reviews {
+    color: grey;
+    position: relative;
+    bottom: 10px;
+}
+
+#profile-page-user-img {
+    height: 100px;
+    width: 100px;
+    margin: 0px 6px;
+    border-radius: 100px;
+}
+
+#profile-page-username {
+    font-size: 33px;
+    font-weight: bold;
+    margin: 0px;
+}
+
+/*-------------------------------------------------------*/
+
+#profile-page-album-image {
+    width: 100px;
+    height: 100px;
+}
+
+#profile-page-all-albums-container {
+    display: flex;
+    margin: 30px 40px;
+}
+
+/* #profile-page-album-artist {
+    position: relative;
+    bottom: 10px;
+} */
+
+#profile-page-album-title {
+    position: relative;
+    bottom: 10px;
+}
+
+#profile-page-album-data-container {
+    position: relative;
+    bottom: 20px;
+}
