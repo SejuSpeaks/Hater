@@ -8,7 +8,7 @@ import './ReviewForm.css';
 const ReviewForm = (props) => {
     const dispatch = useDispatch();
     const { review, formType } = props
-    const { albumId } = useParams();
+    const albumId = useSelector((state) => state.albums.album.id);
 
     const [errors, setErrors] = useState({})
     const [rating, setRating] = useState(review?.rating)

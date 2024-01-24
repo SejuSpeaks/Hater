@@ -249,6 +249,9 @@ def album_details(id):
 ##get num likes
     likes = Like.query.filter(Like.album_id == album.id).all()
 
+    #initialize when no likes exist
+    user_liked = None
+
     if (not likes):
         total_likes = ""
     else:
@@ -266,6 +269,11 @@ def album_details(id):
                 merged_like_dict.setdefault(key, []).append(val)
 
         like_list = list(merged_like_dict['user_id'])
+
+        #boolean to check if current user liked album - AG
+        if current_user.get_id():
+            user_liked = int(current_user.get_id()) in like_list
+
         num_likes = len(like_list)
 
         total_likes = num_likes if num_likes else ""
@@ -280,9 +288,9 @@ def album_details(id):
             'release_date': album.release_date.strftime("%B %d %Y"),
             'image_url': album.image_url,
             'avg_rating': avg_review,
-            'total_likes': total_likes
+            'total_likes': total_likes,
+            'user_liked': user_liked
         }
-
 
     return { "album": album_details }
 
