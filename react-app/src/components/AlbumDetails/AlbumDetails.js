@@ -22,6 +22,11 @@ const AlbumDetails = () => {
         return state.reviews.albumReviews
     });
 
+    const sessionUser = useSelector((state) => {
+        return state.session.user
+    })
+
+
     const [isLoading, setIsLoading] = useState(true)
     const [userLiked, setUserLiked] = useState(null)
 
@@ -86,13 +91,13 @@ const AlbumDetails = () => {
         total_likes
     } = album
 
+
     return  (
         <section className='page'>
-            <h2>{title}</h2>
-            <h3>{artist}</h3>
-            <div>
+            <div className="top-half">
+            <div className="left">
                 <img className="image" alt='album_image' src={image_url}/>
-                <div className={`review-button`}>
+                <div hidden={sessionUser == null} className={`review-button`}>
                     <OpenModalButton
                     className="post-review-button clickable"
                     buttonText="+POST A REVIEW"
@@ -100,6 +105,9 @@ const AlbumDetails = () => {
                     />
                 </div>
             </div>
+            <div className="center">
+            <h2>{title}</h2>
+            <h3>{artist}</h3>
             <h4>{release_date}</h4>
             <h4>{genre}</h4>
             <p>{description ? description : `Lorem ipsum dolor sit amet, consectetur adipiscing elit
@@ -108,10 +116,12 @@ const AlbumDetails = () => {
                 amet nulla facilisi morbi. Porttitor eget dolor morbi non arcu.
                 Pellentesque massa placerat duis ultricies lacus sed turpis tincidunt.`}
             </p>
-            <div className="review_like_box">
+            </div>
+            <div className="right">
             <div className="one">{avg_rating}</div>
             <div className="two">{total_likes}</div>
             {album && user && user.username !== album.artist && <button onClick={handleLike}>{!userLiked ? 'Like' : 'Unlike'}</button>}
+            </div>
             </div>
             <div className="display-reviews">
             {(reviews && Object.keys(reviews).length > 0) ? (
