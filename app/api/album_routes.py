@@ -244,6 +244,7 @@ def album_details(id):
             'username' : user.username
         } for user in users]
     artist_name = user_details[0]['username']
+    user_id = user_details[0]['id']
 
 ##get num likes
     likes = Like.query.filter(Like.album_id == album.id).all()
@@ -279,6 +280,7 @@ def album_details(id):
 
     album_details = {
             'id': album.id,
+            'user_id': user_id,
             'title': album.title,
             'artist': artist_name,
             'genre': album.genre,
