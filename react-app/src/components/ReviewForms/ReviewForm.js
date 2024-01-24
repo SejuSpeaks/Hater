@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createReview, fetchEditReview } from "../../store/reviews";
 import { useModal } from "../../context/Modal";
@@ -10,24 +10,22 @@ const ReviewForm = (props) => {
     const albumId = useSelector((state) => state.albums.undefined.album.id);
 
     const [errors, setErrors] = useState({})
-    const [rating, setRating] = useState(review?.rating)
-    const [reviewText, setReviewText] = useState(review?.reviewText);
-    // const [isDisabled, setIsDisabled] = useState(true)
+    const [rating, setRating] = useState(review ? review.rating : "")
+    const [reviewText, setReviewText] = useState(review ? review.review_text : "");
+    const [isDisabled, setIsDisabled] = useState(true);
     const [hoveredStarNum, setHoveredStarNum] = useState(null);
 
     const { closeModal } = useModal();
 
-    // useEffect(() => {
-    //     setErrors({});
+    useEffect(() => {
+        if (reviewText.length < 10
+            || !rating) {
+                setIsDisabled(true);
+            } else {
+                setIsDisabled(false);
+            }
 
-    //     if (!reviewText
-    //         || !rating) {
-    //             setIsDisabled(true)
-    //         } else {
-    //             setIsDisabled(false)
-    //         }
-
-    // }, [reviewText, rating])
+    }, [reviewText, rating]);
 
     const handleStarHover = (num) => {
         setHoveredStarNum(num);
@@ -43,13 +41,14 @@ const ReviewForm = (props) => {
         e.preventDefault();
         setErrors({});
 
-        if (!reviewText) {
-            setErrors(prevErrors => ({ ...prevErrors, "reviewText": "Please add your review" }));
-        }
+        // unnecessary with isDisabled
+        // if (!reviewText) {
+        //     setErrors(prevErrors => ({ ...prevErrors, "reviewText": "Please add your review" }));
+        // }
 
-        if (!rating || rating < 1 || rating > 5) {
-            setErrors(prevErrors => ({ ...prevErrors, "rating": "Please select a star rating" }));
-        }
+        // if (!rating || rating < 1 || rating > 5) {
+        //     setErrors(prevErrors => ({ ...prevErrors, "rating": "Please select a star rating" }));
+        // }
 
         let reviewData = {};
         let newReview = {};
@@ -82,10 +81,11 @@ const ReviewForm = (props) => {
     const header = review ? "Update Your Review" : "Create a Review"
 
     return (
-        <form className="review-form" onSubmit={handleSubmit}>
+        <form className="review-form"
+        onSubmit={handleSubmit}>
             <h1>{header}</h1>
             {Object.keys(errors).length !== 0 && <p>{`Errors: ${Object.values(errors)}`}</p>}
-            <h2>How was this album?</h2>
+            <label for="review-text-input" id="review-text-input-label">How was this album?</label>
             <textarea
             type="textarea"
             id="review-text-input"
@@ -93,11 +93,12 @@ const ReviewForm = (props) => {
             value={reviewText}
             onChange={(e) => setReviewText(e.target.value)}
             ></textarea>
+            {/*change classname to stars-container if needed*/}
             <div className="star-container">
                 {
                     starArray.map((starVal) => (
                         <i key={starVal}
-                            className={`fa-solid fa-star star ${starVal <= (hoveredStarNum || rating ? "active" : "")}`}
+                            className={`far fa-star star ${starVal <= (hoveredStarNum || rating) ? "active fas" : ""}`}
                             onMouseEnter={() => handleStarHover(starVal)}
                             onMouseLeave={() => handleStarHover(null)}
                             onClick={handleStarClick}
@@ -107,7 +108,8 @@ const ReviewForm = (props) => {
             </div>
             <button
             type="submit"
-            className={`clickable`}
+            isDisabled={isDisabled}
+            className={`${isDisabled.toString()} ${!isDisabled ? " clickable" : ""}`}
             id="submit-review-button"
             >
             Submit
