@@ -16,6 +16,7 @@ const AlbumForm = ({ album, formType}) => {
     const [image_url, setImage_url] = useState(album?.image_url)
 
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         // setErrors({});
