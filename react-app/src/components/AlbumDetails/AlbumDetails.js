@@ -6,7 +6,7 @@ import OpenModalButton from "../OpenModalButton";
 import ReviewForm from "../ReviewForms/ReviewForm";
 import { fetchAlbumReviews } from "../../store/reviews"
 import { postAlbumLike, deleteAlbumLike } from "../../store/likes";
-// import { IoHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import "./AlbumDetails.css"
 
 const AlbumDetails = () => {
@@ -106,10 +106,10 @@ const AlbumDetails = () => {
                 </div>
             </div>
             <div className="center">
-            <h2>{title}</h2>
-            <h3>{artist}</h3>
-            <h4>{release_date}</h4>
-            <h4>{genre}</h4>
+            <h2 className="h2">{title}</h2>
+            <h3 className="h3">{artist}</h3>
+            <h4 className="h4">{release_date}</h4>
+            <h4 className="h4">{genre}</h4>
             <p>{description ? description : `Lorem ipsum dolor sit amet, consectetur adipiscing elit
                 sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 Eu ultrices vitae auctor eu augue ut lectus. Elit at imperdiet dui accumsan sit
@@ -118,10 +118,12 @@ const AlbumDetails = () => {
             </p>
             </div>
             <div className="right">
-            <div className="one">{avg_rating}</div>
-            <div className="two">{total_likes}</div>
+                <div className="rating-container">
+                    <div className="rating">{avg_rating}</div>
+                </div>
+                <div className="likes"><FaHeart className="heart" /> {total_likes === 1 ? `${total_likes} like` : `${total_likes} likes`}</div>
             {album && user && user.username !== album.artist && <button onClick={handleLike}>{!userLiked ? 'Like' : 'Unlike'}</button>}
-            </div>
+                </div>
             </div>
             <div className="display-reviews">
             {(reviews && Object.keys(reviews).length > 0) ? (
