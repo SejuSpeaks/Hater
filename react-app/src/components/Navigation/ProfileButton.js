@@ -39,7 +39,7 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={openMenu}>
+      <button className="header__avatar" onClick={openMenu}>
         <i className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
@@ -48,7 +48,7 @@ function ProfileButton({ user }) {
             <li>{user.username}</li>
             <li>{user.email}</li>
             <li>
-              <button onClick={handleLogout}>Log Out</button>
+              <button className="header__logout" onClick={handleLogout}>Log Out</button>
             </li>
           </>
         ) : (
@@ -57,12 +57,14 @@ function ProfileButton({ user }) {
               buttonText="Log In"
               onItemClick={closeMenu}
               modalComponent={<LoginFormModal />}
+              className="header__login"
             />
 
             <OpenModalButton
               buttonText="Sign Up"
               onItemClick={closeMenu}
               modalComponent={<SignupFormModal />}
+              className="header__signup"
             />
           </>
         )}

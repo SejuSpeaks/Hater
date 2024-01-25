@@ -32,6 +32,7 @@ function App() {
           <Route exact path="/albums/:albumId" component={AlbumDetails} />
           <Route exact path="/albums/:albumId/edit" component={EditAlbumForm} />
           <Route exact path="/albums/:albumId/reviews/create-review" component={ReviewForm} formType="Create Review"/>
+          <Route><h1>Page Not Found</h1></Route>
         </Switch>
       )}
     </>
