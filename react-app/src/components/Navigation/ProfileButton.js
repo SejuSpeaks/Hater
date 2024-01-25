@@ -48,7 +48,7 @@ function ProfileButton({ user }) {
           <>
             <li>{user.username}</li>
             <li>{user.email}</li>
-            <li><Link to={'/albums/current'} className="header__profile-link">My Albums</Link></li>
+            <li><Link to={'/current'} className="header__profile-link">My Albums</Link></li>
             <li><hr></hr></li>
             <li>
               <button className="header__logout" onClick={handleLogout}>Log Out</button>
