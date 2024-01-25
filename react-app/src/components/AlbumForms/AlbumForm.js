@@ -49,8 +49,10 @@ const AlbumForm = ({ album, formType}) => {
 
     const header = formType === "Create Album" ? "Create a Album" : "Update your Album"
 
-    if (release_date) {
-        release_date = moment(release_date).format('YYYY-MM-DD')
+    if (formType === "Update Album") {
+        const dateObj = new Date(release_date)
+        release_date = dateObj.toISOString().split('T')[0];
+        // release_date = moment(release_date).format('YYYY-MM-DD')
     }
 
 
@@ -62,7 +64,7 @@ const AlbumForm = ({ album, formType}) => {
             ))}
         </ul>
             <h1>{header}</h1>
-            <h2 className="form-titles">Name of Album</h2>
+            {/* <h2 className="form-titles">Name of Album</h2> */}
             <label>
                 Title
                 <input
@@ -99,7 +101,7 @@ const AlbumForm = ({ album, formType}) => {
             <label>
                 Release Date
                 <input
-                    type="text"
+                    type="date"
                     id="release_date"
                     placeholder="YYYY-MM-DD"
                     value={release_date}
