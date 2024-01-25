@@ -22,7 +22,7 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      <main className="main__content">
+      <main className="main__content"
       {isLoaded && (
         <Switch>
           <Route exact path="/" component={GetAlbums} />
