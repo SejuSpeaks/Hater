@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/session";
+import { Link } from 'react-router-dom';
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
@@ -47,6 +48,8 @@ function ProfileButton({ user }) {
           <>
             <li>{user.username}</li>
             <li>{user.email}</li>
+            <li><Link to={'/albums/current'} className="header__profile-link">My Albums</Link></li>
+            <li><hr></hr></li>
             <li>
               <button className="header__logout" onClick={handleLogout}>Log Out</button>
             </li>
