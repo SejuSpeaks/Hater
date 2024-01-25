@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createReview, fetchEditReview } from "../../store/reviews";
 import { useModal } from "../../context/Modal";

@@ -10,7 +10,9 @@ review_router = Blueprint('reviews', __name__)
 def get_user_reviews():
     return {
         "user reviewed albums": [{
+            "id": review.id,
             "artist": review.album.user.username,
+            "album_id":review.album.id,
             "title": review.album.title,
             "rating": review.rating,
             "image_url": review.album.image_url,

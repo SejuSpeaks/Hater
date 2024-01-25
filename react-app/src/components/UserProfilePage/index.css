@@ -26,6 +26,7 @@
     display: flex;
     align-items: center;
     margin: 25px 25px;
+    gap: 10px;
     /* border: dotted 3px black; */
 }
 
@@ -47,7 +48,7 @@
 #profile-page-username {
     font-size: 33px;
     font-weight: bold;
-    margin: 0px;
+    margin: 6px 0px;
 }
 
 /*-------------------------------------------------------*/
@@ -76,18 +77,33 @@
     gap: 10px;
 } */
 
-#profile-page-album-image {
+.profile-page-album-image {
     width: 150px;
     height: 150px;
 }
 
+.profile-page-albums-rating-star {
+    mix-blend-mode: hard-light;
+    width: 10px;
+}
+
+.profile-page-albums-rating-container {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.profile-page-albums-container:hover {
+    cursor: pointer;
+}
 
 .profile-page-albums-container {
     margin: 0px 25px;
 }
 
 
-#profile-page-album-artist {
+.profile-page-album-artist {
     font-weight: bold;
 }
 
