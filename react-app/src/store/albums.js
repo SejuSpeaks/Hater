@@ -101,31 +101,31 @@ export const getAlbumDetails = (albumId) => async dispatch => {
 
 export const createAlbum = (payload) => async (dispatch) => {
     try {
-    const res = await fetch('/api/albums/', {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-    });
+        const res = await fetch('/api/albums/', {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+        });
         const data = await res.json();
         dispatch(albumDetails(data))
         return data;
-    } catch (err){
+    } catch (err) {
         return err;
-	}
+    }
 }
 
 export const updateAlbum = (payload) => async (dispatch) => {
     try {
-    const res = await fetch(`/api/albums/${parseInt(payload.id)}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-    });
-    const data = await res.json();
-    dispatch(editAlbum(data));
-    return data;
-    // if (res.ok) {
-	} catch (err) {
+        const res = await fetch(`/api/albums/${parseInt(payload.id)}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        dispatch(editAlbum(data));
+        return data;
+        // if (res.ok) {
+    } catch (err) {
         return err
     }
 }
@@ -145,7 +145,7 @@ const albumsReducer = (state = {}, action) => {
                 obj[album.id] = album;
                 return obj
             }, {});
-            return { ...state, ...albums }
+            return { ...albums }
 
         case DELETE_USER_ALBUM:
             let newState = { ...state }
@@ -153,9 +153,9 @@ const albumsReducer = (state = {}, action) => {
             return newState;
 
         case ALBUM_DETAILS:
-            return { ...action.album}
+            return { ...action.album }
         case UPDATE_ALBUM:
-            return { ...state, [action.album.id]: action.album}
+            return { ...state, [action.album.id]: action.album }
 
         default: {
             return state;

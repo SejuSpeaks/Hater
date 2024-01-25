@@ -20,10 +20,10 @@ const ReviewForm = (props) => {
     useEffect(() => {
         if (reviewText.length < 10
             || !rating) {
-                setIsDisabled(true);
-            } else {
-                setIsDisabled(false);
-            }
+            setIsDisabled(true);
+        } else {
+            setIsDisabled(false);
+        }
 
     }, [reviewText, rating]);
 
@@ -53,8 +53,8 @@ const ReviewForm = (props) => {
             }
             catch (error) {
                 console.error("Error:", error);
-                }
             }
+        }
 
         // else if (formType === "Update Review") {
         //     newReview = await dispatch(fetchEditReview(review))
@@ -74,40 +74,40 @@ const ReviewForm = (props) => {
 
     return (
         <div className="review-form-modal">
-        <form className="review-form"
-        onSubmit={handleSubmit}>
-            <h1>{header}</h1>
-            {Object.keys(errors).length !== 0 && <p>{`Errors: ${Object.values(errors)}`}</p>}
-            <label htmlFor="review-text-input" id="review-text-input-label">How was this album?</label>
-            <textarea
-            type="textarea"
-            id="review-text-input"
-            placeholder="Love it or hate it?"
-            value={reviewText}
-            onChange={(e) => setReviewText(e.target.value)}
-            ></textarea>
-            {/*change classname to stars-container if needed*/}
-            <div className="star-container">
-                {
-                    starArray.map((starVal) => (
-                        <i key={starVal}
-                            className={`far fa-star star ${starVal <= (hoveredStarNum || rating) ? "active fas" : ""}`}
-                            onMouseEnter={() => handleStarHover(starVal)}
-                            onMouseLeave={() => handleStarHover(null)}
-                            onClick={handleStarClick}
-                        ></i>
-                    ))
-                }
-            </div>
-            <button
-            type="submit"
-            isdisabled={isDisabled.toString()}
-            className={`${isDisabled.toString()} ${!isDisabled ? " clickable" : ""}`}
-            id="submit-review-button"
-            >
-            Submit
-            </button>
-        </form>
+            <form className="review-form"
+                onSubmit={handleSubmit}>
+                <h1>{header}</h1>
+                {Object.keys(errors).length !== 0 && <p>{`Errors: ${Object.values(errors)}`}</p>}
+                <label htmlFor="review-text-input" id="review-text-input-label">How was this album?</label>
+                <textarea
+                    type="textarea"
+                    id="review-text-input"
+                    placeholder="Love it or hate it?"
+                    value={reviewText}
+                    onChange={(e) => setReviewText(e.target.value)}
+                ></textarea>
+                {/*change classname to stars-container if needed*/}
+                <div className="star-container">
+                    {
+                        starArray.map((starVal) => (
+                            <i key={starVal}
+                                className={`far fa-star star ${starVal <= (hoveredStarNum || rating) ? "active fas" : ""}`}
+                                onMouseEnter={() => handleStarHover(starVal)}
+                                onMouseLeave={() => handleStarHover(null)}
+                                onClick={handleStarClick}
+                            ></i>
+                        ))
+                    }
+                </div>
+                <button
+                    type="submit"
+                    isdisabled={isDisabled.toString()}
+                    className={`${isDisabled.toString()} ${!isDisabled ? " clickable" : ""}`}
+                    id="submit-review-button"
+                >
+                    Submit
+                </button>
+            </form>
         </div>
     )
 }
