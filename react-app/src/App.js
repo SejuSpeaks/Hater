@@ -22,17 +22,21 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      {isLoaded && (
-        <Switch>
-          <Route exact path="/" component={GetAlbums} />
-          <Route path="/login" component={LoginFormPage} />
-          <Route path="/signup" component={SignupFormPage} />
-          <Route path='/current' component={UserProfilePage} />
-          <Route path="/albums/new" component={CreateAlbumForm} />
-          <Route path="/albums/:albumId/edit" component={EditAlbumForm} />
-          <Route path="/albums/:albumId" component={AlbumDetails} />
-        </Switch>
-      )}
+      <main className="main__content">
+        {isLoaded && (
+          <Switch>
+            <Route exact path="/" component={GetAlbums} />
+            <Route path="/login" component={LoginFormPage} />
+            <Route path="/signup" component={SignupFormPage} />
+            <Route path='/current' component={UserProfilePage} />
+            <Route path="/albums/new" component={CreateAlbumForm} />
+            <Route path="/albums/:albumId(\\d+)/edit" component={EditAlbumForm} />
+            <Route path="/albums/:albumId(\\d+)" component={AlbumDetails} />
+            <Route><h1>Page Not Found</h1></Route>
+          </Switch>
+        )}
+      </main>
+
     </>
   );
 }
