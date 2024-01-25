@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/session";
+import { Link } from 'react-router-dom';
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
@@ -39,7 +40,7 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={openMenu}>
+      <button className="header__avatar" onClick={openMenu}>
         <i className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
@@ -47,8 +48,10 @@ function ProfileButton({ user }) {
           <>
             <li>{user.username}</li>
             <li>{user.email}</li>
+            <li><Link to={'/current'} className="header__profile-link">My Albums</Link></li>
+            <li><hr></hr></li>
             <li>
-              <button onClick={handleLogout}>Log Out</button>
+              <button className="header__logout" onClick={handleLogout}>Log Out</button>
             </li>
           </>
         ) : (
@@ -57,12 +60,14 @@ function ProfileButton({ user }) {
               buttonText="Log In"
               onItemClick={closeMenu}
               modalComponent={<LoginFormModal />}
+              className="header__login"
             />
 
             <OpenModalButton
               buttonText="Sign Up"
               onItemClick={closeMenu}
               modalComponent={<SignupFormModal />}
+              className="header__signup"
             />
           </>
         )}

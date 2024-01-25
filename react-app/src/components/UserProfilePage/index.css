@@ -1,0 +1,121 @@
+/*UL TABS, NAV*/
+
+.profile-page-tabs-container {
+    border-bottom: solid lightgrey 1px;
+    margin: 0px 20px;
+}
+
+.profile-page-tabs-ul {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    margin: 0px;
+}
+
+.profile-page-tab-item-active {
+    border-bottom: solid 2px black;
+    cursor: pointer;
+}
+
+.profile-page-tab-item:hover {
+    cursor: pointer;
+    border-bottom: solid 2px black;
+}
+
+/*------------USER CONTAINER------------------------*/
+
+.profile-page-user-container {
+    display: flex;
+    align-items: center;
+    margin: 25px 25px;
+    gap: 10px;
+    /* border: dotted 3px black; */
+}
+
+
+#profile-page-reviews {
+    color: grey;
+    font-size: 13px;
+    position: relative;
+    bottom: 10px;
+}
+
+#profile-page-user-img {
+    height: 100px;
+    width: 100px;
+    margin: 0px 6px;
+    border-radius: 100px;
+}
+
+#profile-page-username {
+    font-size: 33px;
+    font-weight: bold;
+    margin: 6px 0px;
+}
+
+/*-------------------------------------------------------*/
+
+.profile-page-content-container {
+    display: flex;
+    margin: 30px 40px;
+}
+
+
+.profile-page-album-buttons {
+    padding: 4px 7px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    color: #FFFFFFFF;
+    background: #71BBB2FF;
+    opacity: 1;
+    border: none;
+    border-radius: 4px;
+    margin-right: 5px;
+}
+
+/* .profile-page-album-buttons-container {
+    display: flex;
+    gap: 10px;
+} */
+
+.profile-page-album-image {
+    width: 150px;
+    height: 150px;
+}
+
+.profile-page-albums-rating-star {
+    mix-blend-mode: hard-light;
+    width: 10px;
+}
+
+.profile-page-albums-rating-container {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.profile-page-albums-container:hover {
+    cursor: pointer;
+}
+
+.profile-page-albums-container {
+    margin: 0px 25px;
+}
+
+
+.profile-page-album-artist {
+    font-weight: bold;
+}
+
+
+#profile-page-album-data-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    margin: 10px 0px;
+    /* position: relative;
+    bottom: 20px; */
+}

@@ -1,1 +1,10 @@
 /* TODO Add site wide styles */
+body {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.main__content {
+    margin-top: 120px;
+}
