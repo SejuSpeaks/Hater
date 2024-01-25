@@ -9,7 +9,11 @@ const EditAlbumForm = () => {
     const dispatch = useDispatch();
     const { albumId } = useParams();
     const album = useSelector((state) => {
-        return state.albums.undefined
+        return state.albums.album
+    })
+
+    const sessionUser = useSelector((state) => {
+        return state.session
     })
 
     useEffect(() => {
@@ -19,8 +23,9 @@ const EditAlbumForm = () => {
 
     if (!album) return <></>
 
-    const existingAlbum = album.album
-    console.log("STATE", existingAlbum)
+    if (sessionUser.user.id !== album.user_id) return <h1>You are not authorized to edit this album</h1>
+
+    const existingAlbum = album
     return (
         Object.keys(existingAlbum).length > 1 && (
             <>

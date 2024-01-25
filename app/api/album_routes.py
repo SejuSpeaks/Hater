@@ -244,29 +244,43 @@ def album_details(id):
             'username' : user.username
         } for user in users]
     artist_name = user_details[0]['username']
+    user_id = user_details[0]['id']
 
 ##get num likes
     likes = Like.query.filter(Like.album_id == album.id).all()
-    like_details = [
-        {
-            'id': like.id,
-            'user_id': like.user_id,
-            'album_id': like.album_id,
-        } for like in likes]
 
-    merged_like_dict = {}
+    #initialize when no likes exist
+    user_liked = None
 
-    for sub in like_details:
-        for key, val in sub.items():
-            merged_like_dict.setdefault(key, []).append(val)
+    if (not likes):
+        total_likes = ""
+    else:
+        like_details = [
+            {
+                'id': like.id,
+                'user_id': like.user_id,
+                'album_id': like.album_id,
+            } for like in likes]
 
-    like_list = list(merged_like_dict['user_id'])
-    num_likes = len(like_list)
+        merged_like_dict = {}
 
-    total_likes = num_likes if num_likes else ""
+        for sub in like_details:
+            for key, val in sub.items():
+                merged_like_dict.setdefault(key, []).append(val)
+
+        like_list = list(merged_like_dict['user_id'])
+
+        #boolean to check if current user liked album - AG
+        if current_user.get_id():
+            user_liked = int(current_user.get_id()) in like_list
+
+        num_likes = len(like_list)
+
+        total_likes = num_likes if num_likes else ""
 
     album_details = {
             'id': album.id,
+            'user_id': user_id,
             'title': album.title,
             'artist': artist_name,
             'genre': album.genre,
@@ -274,19 +288,21 @@ def album_details(id):
             'release_date': album.release_date.strftime("%B %d %Y"),
             'image_url': album.image_url,
             'avg_rating': avg_review,
-            'total_likes': total_likes
+            'total_likes': total_likes,
+            'user_liked': user_liked
         }
-
 
     return { "album": album_details }
 
 @album_routes.route('/', methods=["POST"])
+@album_routes.errorhandler(404)
 @login_required
 def post_album():
     userId = current_user.id
 
     form = AlbumForm()
     form['csrf_token'].data = request.cookies['csrf_token']
+
     if form.validate_on_submit():
         title = form.title.data
         genre = form.genre.data
@@ -298,7 +314,7 @@ def post_album():
 
         db.session.add(new_album)
         db.session.commit()
-        return { f"{new_album.title} details": new_album}
+        return { "album": new_album.to_dict()}
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 @album_routes.route('/<int:id>', methods=['PUT','DELETE'])
@@ -309,21 +325,29 @@ def edit_album(id):
 
     album = Album.query.get(id)
 
-    if request.method == "DELETE":
-        db.session.delete(album)
-        db.session.commit()
-        return {"DELETE": "Album deleted"}
+    if (not album):
+        error = {"Error": "Invalid album id"}
+        return error, 404
 
-    if request.method == "PUT":
-        form = AlbumForm()
-        form['csrf_token'].data = request.cookies['csrf_token']
-        if form.validate_on_submit():
-            album.title = form.title.data
-            album.genre = form.genre.data
-            album.description = form.description.data
-            album.release_date = form.release_date.data
-            album.image_url = form.image_url.data
-
+    if (album.user_id == userId):
+        if request.method == "DELETE":
+            db.session.delete(album)
             db.session.commit()
-            return { 'Edited Album': album}
-        return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+            return {"DELETE": "Album deleted"}
+
+        if request.method == "PUT":
+            form = AlbumForm()
+            form['csrf_token'].data = request.cookies['csrf_token']
+            if form.validate_on_submit():
+                album.title = form.title.data
+                album.genre = form.genre.data
+                album.description = form.description.data
+                album.release_date = form.release_date.data
+                album.image_url = form.image_url.data
+
+                db.session.commit()
+                return { 'album': album.to_dict()}
+    else:
+        error = {"Error": "Album must belong to current user"}
+        return error, 403
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401

@@ -5,37 +5,50 @@ import { getAlbumDetails } from "../../store/albums";
 import OpenModalButton from "../OpenModalButton";
 import ReviewForm from "../ReviewForms/ReviewForm";
 import { fetchAlbumReviews } from "../../store/reviews"
+import { postAlbumLike, deleteAlbumLike } from "../../store/likes";
 // import { IoHeart } from "react-icons/fa";
 import "./AlbumDetails.css"
 
 const AlbumDetails = () => {
+    const user = useSelector(state => state.session.user);
     const dispatch = useDispatch();
     const { albumId } = useParams();
 
     const album = useSelector((state) => {
-        return state.albums.undefined
+        return state.albums.album
     })
 
     const reviews = useSelector((state) => {
         return state.reviews.albumReviews
     });
 
-    const [isLoading, setIsLoading] = useState(false)
+    const sessionUser = useSelector((state) => {
+        return state.session.user
+    })
+
+
+    const [isLoading, setIsLoading] = useState(true)
+    const [userLiked, setUserLiked] = useState(null)
 
     useEffect(() => {
         const fetchAlbumAndReviewData = async () => {
             try {
-                dispatch(getAlbumDetails(albumId));
-                dispatch(fetchAlbumReviews(albumId));
-                setIsLoading(true);
+                dispatch(getAlbumDetails(albumId))
+                    .then(() => dispatch(fetchAlbumReviews(albumId))
+                    .then(() => setIsLoading(false)));
             } catch (error) {
                 console.error("error fetching album and review data")
             }
         }
         fetchAlbumAndReviewData()
-    }, [dispatch, albumId, setIsLoading]);
+    }, [dispatch, albumId, setIsLoading, userLiked]);
 
-    if (!isLoading) return <h1>Loading...</h1>
+    // set user liked if album is available
+    useEffect(() => {
+        setUserLiked(album?.user_liked);
+    }, [album?.user_liked]);
+
+    if (isLoading) return <h1>Loading...</h1>
 
     if (!album) return <h1>Album not found</h1>
 
@@ -57,6 +70,16 @@ const AlbumDetails = () => {
             });
     }
 
+    const handleLike = async () => {
+        console.log('/////////////handleLike before', userLiked);
+        if (!userLiked) {
+            dispatch(postAlbumLike(albumId)).then(() => setUserLiked(true))
+        }
+        else {
+            dispatch(deleteAlbumLike(albumId)).then(() => setUserLiked(false))
+        }
+    }
+
     const {
         title,
         artist,
@@ -66,17 +89,15 @@ const AlbumDetails = () => {
         image_url,
         avg_rating,
         total_likes
-    } = album.album
+    } = album
 
-    // console.log("albums: " + albums)
 
-    return (
+    return  (
         <section className='page'>
-            <h2>{title}</h2>
-            <h3>{artist}</h3>
-            <div>
+            <div className="top-half">
+            <div className="left">
                 <img className="image" alt='album_image' src={image_url}/>
-                <div className={`review-button`}>
+                <div hidden={sessionUser == null} className={`review-button`}>
                     <OpenModalButton
                     className="post-review-button clickable"
                     buttonText="+POST A REVIEW"
@@ -84,6 +105,9 @@ const AlbumDetails = () => {
                     />
                 </div>
             </div>
+            <div className="center">
+            <h2>{title}</h2>
+            <h3>{artist}</h3>
             <h4>{release_date}</h4>
             <h4>{genre}</h4>
             <p>{description ? description : `Lorem ipsum dolor sit amet, consectetur adipiscing elit
@@ -92,12 +116,15 @@ const AlbumDetails = () => {
                 amet nulla facilisi morbi. Porttitor eget dolor morbi non arcu.
                 Pellentesque massa placerat duis ultricies lacus sed turpis tincidunt.`}
             </p>
-            <div className="review_like_box">
+            </div>
+            <div className="right">
             <div className="one">{avg_rating}</div>
             <div className="two">{total_likes}</div>
+            {album && user && user.username !== album.artist && <button onClick={handleLike}>{!userLiked ? 'Like' : 'Unlike'}</button>}
+            </div>
             </div>
             <div className="display-reviews">
-            {(reviews && Object.keys(reviews).length) > 0 ? (
+            {(reviews && Object.keys(reviews).length > 0) ? (
                 renderedReviews
                 ) : (
                 <p>Be the first to post a review!</p>
@@ -108,6 +135,3 @@ const AlbumDetails = () => {
 }
 
 export default AlbumDetails
-
-
-/* <div className="two"><IoHeart /> {total_likes}</div> */
