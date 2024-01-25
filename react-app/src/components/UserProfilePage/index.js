@@ -8,6 +8,7 @@ import Likes from "./tabs/likes";
 import Albums from "./tabs/albums";
 import { Redirect } from "react-router-dom";
 
+import './index.css';
 
 const UserProfilePage = () => {
     const user = useSelector(state => state.session.user);
@@ -20,14 +21,11 @@ const UserProfilePage = () => {
 
     useEffect(() => {
         dispatch(fetchUserReviews())
-    }, [isDeleted, dispatch])
+    }, [isDeleted, tab, dispatch])
 
     if (!user) {
         return <Redirect to='/' />
     }
-
-    console.log('this is the user when logged in', user);
-
 
 
     const deleteAlbum = (id) => {
@@ -36,24 +34,32 @@ const UserProfilePage = () => {
             .then(() => setIsDeleted(true))
     }
 
-
-
     const userReviews = Object.values(reviewState).length
+    const plural = userReviews <= 1 ? 'Review' : 'Reviews';
+    const nonActiveTabCss = 'profile-page-tab-item';
+    const activeTabCss = 'profile-page-tab-item-active';
 
     return (
         <div>
-            <div>
-                <img src="example" alt="user-profile-pic" />
-                <p>{user.username}</p>
-                <p>{userReviews}: Reviews</p>
+            <div className="profile-page-user-container">
+
+                <div>
+                    <img id="profile-page-user-img" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png" alt="user-profile-pic" />
+                </div>
+
+                <div className="profile-page-user-info-container">
+                    <p id="profile-page-username">{user.username}</p>
+                    <p id="profile-page-reviews">{userReviews}: {plural}</p>
+                </div>
+
             </div>
 
-            <div>
+            <div className="profile-page-tabs-container">
 
-                <ul>
-                    <li onClick={() => setTab('reviews')}>Reviews</li>
-                    <li onClick={() => setTab('likes')}>Likes</li>
-                    <li onClick={() => setTab('albums')}>Albums</li>
+                <ul className="profile-page-tabs-ul">
+                    <li className={tab === 'reviews' ? activeTabCss : nonActiveTabCss} onClick={() => setTab('reviews')}>Reviews</li>
+                    <li className={tab === 'likes' ? activeTabCss : nonActiveTabCss} onClick={() => setTab('likes')}>Likes</li>
+                    <li className={tab === 'albums' ? activeTabCss : nonActiveTabCss} onClick={() => setTab('albums')}>Albums</li>
                 </ul>
             </div>
 

@@ -77,9 +77,10 @@
     text-align: left;
 }
 
-.h4 {
-    font-size: 14pt;
-    font-weight: lighter;
+p {
+    /* display: inline-block; */
+    /* width: 40%; */
+    text-align: left;
 }
 
 section {
