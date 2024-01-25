@@ -8,17 +8,22 @@ function Navigation({ isLoaded }){
 	const sessionUser = useSelector(state => state.session.user);
 
 	return (
-		<ul>
-			<li>
-				<NavLink exact to="/">Home</NavLink>
-			</li>
-			<Link to={'/albums/new'} hidden={sessionUser == null} className="link">Create a New Album</Link>
-			{isLoaded && (
-				<li>
-					<ProfileButton user={sessionUser} />
-				</li>
-			)}
-		</ul>
+		<header>
+			<div className="header__logo"><NavLink exact to="/">HATER</NavLink></div>
+			<div className="header__profile">
+				{isLoaded && sessionUser && (
+					<>
+					<Link to={'/albums/new'} className="header__post-album">POST AN ALBUM</Link>
+					<Link to={'/albums/new'} className="header__post-album-plus">+</Link>
+					</>
+				)}
+				{isLoaded && (
+					<div>
+						<ProfileButton user={sessionUser} />
+					</div>
+				)}
+			</div>
+		</header>
 	);
 }
 

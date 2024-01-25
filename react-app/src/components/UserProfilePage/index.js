@@ -18,7 +18,6 @@ const UserProfilePage = () => {
     const [isDeleted, setIsDeleted] = useState(false);
     const [tab, setTab] = useState('reviews');
 
-
     useEffect(() => {
         dispatch(fetchUserReviews())
     }, [isDeleted, tab, dispatch])
@@ -26,7 +25,6 @@ const UserProfilePage = () => {
     if (!user) {
         return <Redirect to='/' />
     }
-
 
     const deleteAlbum = (id) => {
         dispatch(fetchDeleteAlbum(id))
