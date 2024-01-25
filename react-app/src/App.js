@@ -29,9 +29,8 @@ function App() {
           <Route path="/signup" component={SignupFormPage} />
           <Route path='/current' component={UserProfilePage} />
           <Route path="/albums/new" component={CreateAlbumForm} />
-          <Route exact path="/albums/:albumId" component={AlbumDetails} />
-          <Route exact path="/albums/:albumId/edit" component={EditAlbumForm} />
-          <Route exact path="/albums/:albumId/reviews/create-review" component={ReviewForm} formType="Create Review"/>
+          <Route path="/albums/:albumId/edit" component={EditAlbumForm} />
+          <Route path="/albums/:albumId" component={AlbumDetails} />
         </Switch>
       )}
     </>

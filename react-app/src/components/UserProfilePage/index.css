@@ -14,9 +14,11 @@
 
 .profile-page-tab-item-active {
     border-bottom: solid 2px black;
+    cursor: pointer;
 }
 
 .profile-page-tab-item:hover {
+    cursor: pointer;
     border-bottom: solid 2px black;
 }
 
