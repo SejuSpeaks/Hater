@@ -6,8 +6,12 @@
 }
 
 #submit-review-button {
-    width: 90%;
-    margin-bottom: 10px;
+    width: 85%;
+    margin-bottom: 18px;
+    opacity: 1;
+    border: none;
+    border-radius: 4px;
+    padding: 8px;
 }
 
 #submit-review-button.true {
@@ -23,7 +27,8 @@
 .star-container {
     display: flex;
     align-items: center;
-    margin-bottom: 6px;
+    margin-bottom: 16px;
+    margin-top: 10px;
 }
 
 .star {
@@ -62,10 +67,26 @@ h1 {
     font-size: 32px;
     font-weight: 700;
     line-height: 48px;
+    color: #171A1FFF;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 #review-text-input-label {
     align-self: flex-start;
     margin-bottom: 5px;
     margin-left: 5%;
+}
+
+.review-form-modal {
+    border: 4px solid #BDC1CAFF;
+    border-radius: 6px;
+    box-shadow: 0px 0px 1px;
+    padding: 25px;
+}
+
+
+#review-text-input {
+    border-radius: 4px;
+    border: 1px solid #1E2128FF;
 }

@@ -41,15 +41,6 @@ const ReviewForm = (props) => {
         e.preventDefault();
         setErrors({});
 
-        // unnecessary with isDisabled
-        // if (!reviewText) {
-        //     setErrors(prevErrors => ({ ...prevErrors, "reviewText": "Please add your review" }));
-        // }
-
-        // if (!rating || rating < 1 || rating > 5) {
-        //     setErrors(prevErrors => ({ ...prevErrors, "rating": "Please select a star rating" }));
-        // }
-
         let reviewData = {};
         let newReview = {};
         reviewData.rating = rating;
@@ -57,39 +48,41 @@ const ReviewForm = (props) => {
         reviewData.album_id = albumId;
 
         if (!review) {
-            newReview = await dispatch((createReview(reviewData)))
-            .catch(async (res) => {
-                const data = await res.json();
-                if (data && data.errors) {
-                    setErrors(data.errors)
+            try {
+                newReview = await dispatch((createReview(reviewData)));
+            }
+            catch (error) {
+                console.error("Error:", error);
                 }
-            })
-        } else if (formType === "Update Review") {
-            newReview = await dispatch(fetchEditReview(review))
-            .catch(async (res) => {
-                const data = await res.json();
-                if (data && data.errors) {
-                    setErrors(data.errors)
-                }
-            });
-        }
+            }
+
+        // else if (formType === "Update Review") {
+        //     newReview = await dispatch(fetchEditReview(review))
+        //     .catch(async (res) => {
+        //         const data = await res.json();
+        //         if (data && data.error) {
+        //             setErrors(data.error)
+        //         }
+        //     });
+        // }
         if (newReview) {
             closeModal();
         }
     }
 
-    const header = review ? "Update Your Review" : "Create a Review"
+    const header = review ? "Update Your Review" : "CREATE A REVIEW"
 
     return (
+        <div className="review-form-modal">
         <form className="review-form"
         onSubmit={handleSubmit}>
             <h1>{header}</h1>
             {Object.keys(errors).length !== 0 && <p>{`Errors: ${Object.values(errors)}`}</p>}
-            <label for="review-text-input" id="review-text-input-label">How was this album?</label>
+            <label htmlFor="review-text-input" id="review-text-input-label">How was this album?</label>
             <textarea
             type="textarea"
             id="review-text-input"
-            placeholder="Leave your review here..."
+            placeholder="Love it or hate it?"
             value={reviewText}
             onChange={(e) => setReviewText(e.target.value)}
             ></textarea>
@@ -108,13 +101,14 @@ const ReviewForm = (props) => {
             </div>
             <button
             type="submit"
-            isDisabled={isDisabled}
+            isdisabled={isDisabled.toString()}
             className={`${isDisabled.toString()} ${!isDisabled ? " clickable" : ""}`}
             id="submit-review-button"
             >
             Submit
             </button>
         </form>
+        </div>
     )
 }
 
