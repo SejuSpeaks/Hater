@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAlbumReviews } from "../../store/reviews";
+import { fetchAlbumReviews, fetchDeleteReview } from "../../store/reviews";
 import OpenModalButton from "../OpenModalButton";
 import ReviewForm from "../ReviewForms/ReviewForm";
+import ConfirmReviewDelete from "./ConfirmReviewDelete";
 import "./displayAlbumReviews.css";
 
 export const DisplayAlbumReviews = (props) => {
@@ -78,6 +79,11 @@ export const DisplayAlbumReviews = (props) => {
                         className="edit-review-button clickable"
                         buttonText="EDIT"
                         modalComponent={<ReviewForm review={review} formType="Update Review"/>}
+                    />
+                    <OpenModalButton
+                    className="delete-review-button clickable"
+                    buttonText="DELETE"
+                    modalComponent={<ConfirmReviewDelete reviewId={review.id} deleteReview={fetchDeleteReview}/>}
                     />
                     </div>
                 ) : (

@@ -3,6 +3,7 @@ const GET_USER_REVIEWS = 'reviews/GETREVIEWS';
 const ADD_REVIEW = "reviews/ADD_REVIEW";
 const GET_ALBUM_REVIEWS = 'reviews/GET_ALBUM_REVIEWS';
 const EDIT_REVIEW = "reviews/EDIT_REVIEW";
+const DELETE_REVIEW = "reviews/DELETE_REVIEW";
 
 /*---------------------------------------------------------------------------------------------- */
 
@@ -28,6 +29,11 @@ const getReviewsByAlbum = (reviews) => {
 const editReview = (review) => ({
     type: EDIT_REVIEW,
     review
+})
+
+const deleteReview = (reviewId) => ({
+    type: DELETE_REVIEW,
+    reviewId
 })
 
 export const fetchUserReviews = () => async dispatch => {
@@ -97,7 +103,7 @@ export const fetchEditReview = (review) => async (dispatch) => {
 	}
 };
 
-export const fetchAlbumReviews = (albumId) => async(dispatch) => {
+export const fetchAlbumReviews = (albumId) => async (dispatch) => {
     const response = await fetch(`/api/albums/${albumId}/reviews`);
 
     if (response.ok) {
@@ -108,6 +114,20 @@ export const fetchAlbumReviews = (albumId) => async(dispatch) => {
     }
 }
 
+export const fetchDeleteReview = (reviewId) => async (dispatch) => {
+    const response = await fetch(`/api/reviews/${reviewId}`, {
+        method: "DELETE",
+        headers: {
+			"Content-Type": "application/json",
+		},
+    })
+
+    if (response.ok) {
+        dispatch(deleteReview(reviewId));
+        return;
+    }
+
+}
 
 /*---------------------------------------------------------------------------------------------- */
 
@@ -131,6 +151,16 @@ const reviews = (state = {}, action) => {
             if (action.review) {
                 const updatedAlbumReviews = { ...state.albumReviews, [action.review.id]: action.review };
                 return { ...state, albumReviews: updatedAlbumReviews }
+            } else {
+                return state;
+            }
+        case DELETE_REVIEW:
+            if (action.reviewId) {
+                const id = action.reviewId
+                let newAlbumReviews = { ...state.albumReviews }
+                delete newAlbumReviews[id]
+                let newState = { ...state, albumReviews: newAlbumReviews }
+                return newState;
             } else {
                 return state;
             }
