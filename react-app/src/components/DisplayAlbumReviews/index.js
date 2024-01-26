@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAlbumReviews } from "../../store/reviews";
 import OpenModalButton from "../OpenModalButton";
@@ -15,16 +15,46 @@ export const DisplayAlbumReviews = (props) => {
         return state.reviews.albumReviews;
     });
 
+    const [usernames, setUsernames] = useState({});
+
+    const getUsername = async (userId) => {
+        try {
+            const response = await fetch(`/api/users/${userId}`)
+            const data = await response.json();
+            return data.username;
+
+        } catch (error) {
+            console.error(error);
+            return "";
+        }
+    }
+
     useEffect(() => {
         const fetchReviewData = async () => {
             try {
-                dispatch(fetchAlbumReviews(albumId))
+                await dispatch(fetchAlbumReviews(albumId))
             } catch (error) {
                 console.error("error fetching review data")
             }
         }
+
         fetchReviewData()
     }, [dispatch, albumId]);
+
+    useEffect(() => {
+        const fetchUsernames = async () => {
+          const usernamesObj = {};
+          const reviewArray = Object.values(reviews);
+
+          for (const review of reviewArray) {
+            const username = await getUsername(review.user_id);
+            usernamesObj[review.id] = username;
+          }
+          setUsernames(usernamesObj);
+        };
+
+        fetchUsernames();
+      }, [reviews, albumId]);
 
     let renderedReviews;
     if (reviews && Object.keys(reviews).length > 0) {
@@ -34,10 +64,11 @@ export const DisplayAlbumReviews = (props) => {
         renderedReviews = reviewArrayIds.reverse().map((id) => {
             const review = reviewArray[id];
             const showButtons = (review.user_id == userId);
+            const username = usernames[id];
             return (
             <div key={id}>
                 <p>{review["created_at"]}</p>
-                <p>user_id, will be username: {review["user_id"]}</p>
+                <p>{username}</p>
                 <p>{review["rating"]} stars</p>
                 <p>{review["review_text"]}</p>
                 {showButtons ? (

@@ -2,7 +2,7 @@
 const GET_USER_REVIEWS = 'reviews/GETREVIEWS';
 const ADD_REVIEW = "reviews/ADD_REVIEW";
 const GET_ALBUM_REVIEWS = 'reviews/GET_ALBUM_REVIEWS';
-const EDIT_REVIEW = "reviews/EDIT_REVIEW"
+const EDIT_REVIEW = "reviews/EDIT_REVIEW";
 
 /*---------------------------------------------------------------------------------------------- */
 
@@ -72,7 +72,6 @@ export const createReview = (review) => async (dispatch) => {
 
 export const fetchEditReview = (review) => async (dispatch) => {
     const { id, rating, review_text} = review;
-    console.log("sending res")
 	const response = await fetch(`/api/reviews/${id}`, {
 		method: "PUT",
 		headers: {
@@ -85,15 +84,10 @@ export const fetchEditReview = (review) => async (dispatch) => {
 	});
 
 	if (response.ok) {
-        console.log("res ok")
 		const data = await response.json();
-        console.log("working with data: " + data)
-        console.log(Object.keys(data))
-        console.log(Object.values(data))
 		dispatch(editReview(data));
 		return null;
 	} else if (response.status < 500) {
-        console.log("res not ok")
 		const data = await response.json();
 		if (data.errors) {
 			return data.errors;
@@ -107,9 +101,10 @@ export const fetchAlbumReviews = (albumId) => async(dispatch) => {
     const response = await fetch(`/api/albums/${albumId}/reviews`);
 
     if (response.ok) {
-        const data = await response.json()
-        dispatch(getReviewsByAlbum(data["reviews"]))
-        return response;
+        const data = await response.json();
+        console.log("keys: " + Object.keys(data))
+        console.log("values: " + Object.values(data))
+        dispatch(getReviewsByAlbum(data.reviews));
     } else {
         console.error("error in fetchAlbumReviews")
     }

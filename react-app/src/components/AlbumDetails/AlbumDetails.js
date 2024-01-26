@@ -34,9 +34,9 @@ const AlbumDetails = () => {
     useEffect(() => {
         const fetchAlbumAndReviewData = async () => {
             try {
-                dispatch(getAlbumDetails(albumId))
-                    .then(() => dispatch(fetchAlbumReviews(albumId))
-                    .then(() => setIsLoading(false)));
+                await dispatch(fetchAlbumReviews(albumId))
+                await dispatch(getAlbumDetails(albumId));
+                setIsLoading(false);
             } catch (error) {
                 console.error("error fetching album and review data")
             }
