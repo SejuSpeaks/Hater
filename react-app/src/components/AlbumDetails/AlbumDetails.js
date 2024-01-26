@@ -34,11 +34,11 @@ const AlbumDetails = () => {
     useEffect(() => {
         const fetchAlbumAndReviewData = async () => {
             try {
-                await dispatch(fetchAlbumReviews(albumId))
+                await dispatch(fetchAlbumReviews(albumId));
                 await dispatch(getAlbumDetails(albumId));
                 setIsLoading(false);
             } catch (error) {
-                console.error("error fetching album and review data")
+                console.error("error fetching album and review data");
             }
         }
         fetchAlbumAndReviewData()
@@ -54,10 +54,10 @@ const AlbumDetails = () => {
     const handleLike = async () => {
         console.log('/////////////handleLike before', userLiked);
         if (!userLiked) {
-            dispatch(postAlbumLike(albumId)).then(() => setUserLiked(true))
+            dispatch(postAlbumLike(albumId)).then(() => setUserLiked(true));
         }
         else {
-            dispatch(deleteAlbumLike(albumId)).then(() => setUserLiked(false))
+            dispatch(deleteAlbumLike(albumId)).then(() => setUserLiked(false));
         }
     }
 
@@ -108,11 +108,6 @@ const AlbumDetails = () => {
             </div>
             <div className="display-reviews">
                 <DisplayAlbumReviews userId={user.id} albumId={albumId}/>
-            {/* {(reviews && Object.keys(reviews).length > 0) ? (
-                renderedReviews
-                ) : (
-                <p>Be the first to post a review!</p>
-            )} */}
             </div>
         </section>
     )
