@@ -51,8 +51,10 @@ export const DisplayAlbumReviews = (props) => {
           setUsernames(usernamesObj);
         };
 
-        fetchUsernames();
-      }, [reviews, albumId]);
+        if (reviews && Object.keys(reviews).length > 0) {
+            fetchUsernames();
+        }
+      }, [albumId, reviews]);
 
     let renderedReviews;
     if (reviews && Object.keys(reviews).length > 0) {
@@ -61,7 +63,7 @@ export const DisplayAlbumReviews = (props) => {
 
         renderedReviews = reviewArrayIds.reverse().map((id) => {
             const review = reviewArray[id];
-            const showButtons = (review.user_id == userId);
+            const showButtons = (review.user_id === userId);
             const username = usernames[review.id];
 
             return (

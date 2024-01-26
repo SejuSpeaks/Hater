@@ -5,7 +5,7 @@ import { getAlbumDetails } from "../../store/albums";
 import OpenModalButton from "../OpenModalButton";
 import ReviewForm from "../ReviewForms/ReviewForm";
 import { DisplayAlbumReviews } from "../DisplayAlbumReviews";
-import { fetchAlbumReviews } from "../../store/reviews"
+// import { fetchAlbumReviews } from "../../store/reviews"
 import { postAlbumLike, deleteAlbumLike } from "../../store/likes";
 import { FaHeart } from "react-icons/fa";
 import "./AlbumDetails.css"
@@ -19,14 +19,9 @@ const AlbumDetails = () => {
         return state.albums.album
     })
 
-    const reviews = useSelector((state) => {
-        return state.reviews.albumReviews
-    });
-
     const sessionUser = useSelector((state) => {
         return state.session.user
     })
-
 
     const [isLoading, setIsLoading] = useState(true)
     const [userLiked, setUserLiked] = useState(null)
@@ -34,7 +29,7 @@ const AlbumDetails = () => {
     useEffect(() => {
         const fetchAlbumAndReviewData = async () => {
             try {
-                await dispatch(fetchAlbumReviews(albumId));
+                // await dispatch(fetchAlbumReviews(albumId));
                 await dispatch(getAlbumDetails(albumId));
                 setIsLoading(false);
             } catch (error) {
@@ -52,25 +47,6 @@ const AlbumDetails = () => {
     if (isLoading) return <h1>Loading...</h1>
 
     if (!album) return <h1>Album not found</h1>
-
-
-    let renderedReviews;
-    if (reviews) {
-        const reviewArray = Object.values(reviews);
-        const reviewArrayIds = Object.keys(reviewArray)
-
-        renderedReviews = reviewArrayIds.reverse().map((id) => {
-            const review = reviewArray[id]
-            return (
-            <div key={id}>
-                <p>{review["created_at"]}</p>
-                <p>user_id, will be username: {review["user_id"]}</p>
-                <p>{review["rating"]} stars</p>
-                <p>{review["review_text"]}</p>
-            </div>
-            )
-            });
-    }
 
     const handleLike = async () => {
         console.log('/////////////handleLike before', userLiked);

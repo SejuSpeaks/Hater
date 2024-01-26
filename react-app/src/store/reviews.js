@@ -102,8 +102,6 @@ export const fetchAlbumReviews = (albumId) => async(dispatch) => {
 
     if (response.ok) {
         const data = await response.json();
-        console.log("keys: " + Object.keys(data))
-        console.log("values: " + Object.values(data))
         dispatch(getReviewsByAlbum(data.reviews));
     } else {
         console.error("error in fetchAlbumReviews")
@@ -124,6 +122,13 @@ const reviews = (state = {}, action) => {
             return { ...reviews }
         case ADD_REVIEW:
             return { ...state, [action.payload.id]: action.payload };
+        case EDIT_REVIEW:
+            if (action.review) {
+                const updatedAlbumReviews = { ...state.albumReviews, [action.review.id]: action.review };
+                return { ...state, albumReviews: updatedAlbumReviews }
+            } else {
+                return state;
+            }
         case GET_ALBUM_REVIEWS:
             if (action.reviews) {
                 const albumReviews = action.reviews.reduce((obj, review) => {
