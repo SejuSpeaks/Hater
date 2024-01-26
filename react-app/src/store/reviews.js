@@ -15,7 +15,7 @@ const getReviews = (reviews) => {
 
 const addReview = (review) => ({
 	type: ADD_REVIEW,
-	payload: review,
+	review
 });
 
 const getReviewsByAlbum = (reviews) => {
@@ -58,7 +58,7 @@ export const createReview = (review) => async (dispatch) => {
 	if (response.ok) {
 		const data = await response.json();
 		dispatch(addReview(data));
-		return data;
+		// return data;
 	} else if (response.status < 500) {
 		    const data = await response.json();
             return data;
@@ -121,7 +121,12 @@ const reviews = (state = {}, action) => {
             }, {});
             return { ...reviews }
         case ADD_REVIEW:
-            return { ...state, [action.payload.id]: action.payload };
+            if (action.review) {
+                const updatedAlbumReviews = { ...state.albumReviews, [action.review.id]: action.review };
+                return { ...state, albumReviews: updatedAlbumReviews }
+            } else {
+                return state;
+            }
         case EDIT_REVIEW:
             if (action.review) {
                 const updatedAlbumReviews = { ...state.albumReviews, [action.review.id]: action.review };
