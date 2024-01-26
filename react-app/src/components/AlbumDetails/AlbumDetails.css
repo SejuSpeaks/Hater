@@ -2,10 +2,30 @@
     font-family: manrope, sans-serif;
 }
 
+.display-reviews {
+    padding-top: 10px;
+    padding-left: 30px;
+}
 .top-half {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
+    column-gap: 10px;
     padding-bottom: 20px;
+    padding-left: 20px;
+}
+
+.review-header{
+    color: gray;
+    padding-top: 50px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid lightgrey;
+    display: flex;
+    justify-content: space-between;
+}
+
+.review-bar {
+    padding-right: 10px;
+    padding-left: 30px;
 }
 
 .left {
@@ -26,6 +46,7 @@
 .left {
     grid-column-start: 1;
     grid-column-end: 3;
+    padding-bottom: 10px;
 }
 
 .likes {
@@ -37,30 +58,30 @@
     grid-column-start: 3;
     grid-column-end: 5;
     justify-self: start;
+    padding-left: 15px;
 }
 
 .right {
     align-self: center;
+    padding-right: 10px;
 }
 
 .rating-container {
-    border: 3px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: 3px solid black;
     box-sizing: border-box;
     border-radius: 50%;
     height: 100px;
     width: 100px;
-    position: relative;
-    text-align: center;
+    /* position: relative; */
+    /* text-align: center; */
     margin-bottom: 30px;
 }
 
 .rating {
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 38%;
-    font-size: 30pt;
-    transform: translateY(-50%);
+    font-size: 15pt;
 }
 
 .h2 {
@@ -80,6 +101,29 @@
 section {
     margin: 0 15px;
 }
+
+.post-review-button {
+    color: white;
+    background: #38736d;
+    opacity: 1;
+    border: none;
+    border-radius: 4px;
+    width: 100%;
+    height: 40px;
+    gap: 6px;
+}
+
+.likeBtn {
+    color: white;
+    background: #38736d;
+    opacity: 1;
+    border: none;
+    border-radius: 4px;
+    width: 50%;
+    height: 20px;
+    gap: 6px;
+}
+
 
 @media screen and (max-width:900px) {
     .wrapper {

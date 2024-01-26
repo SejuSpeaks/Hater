@@ -52,6 +52,7 @@ const AlbumDetails = () => {
 
     if (!album) return <h1>Album not found</h1>
 
+
     let renderedReviews;
     if (reviews) {
         const reviewArray = Object.values(reviews);
@@ -97,10 +98,10 @@ const AlbumDetails = () => {
             <div className="top-half">
             <div className="left">
                 <img className="image" alt='album_image' src={image_url}/>
-                <div hidden={sessionUser == null} className={`review-button`}>
+                <div hidden={sessionUser == null} className={`review-button`} id="reviewBtn">
                     <OpenModalButton
                     className="post-review-button clickable"
-                    buttonText="+POST A REVIEW"
+                    buttonText="+ POST A REVIEW"
                     modalComponent={<ReviewForm/>}
                     />
                 </div>
@@ -119,11 +120,15 @@ const AlbumDetails = () => {
             </div>
             <div className="right">
                 <div className="rating-container">
-                    <div className="rating">{avg_rating}</div>
+                    <div className="rating">{avg_rating === "" ? "new album" : avg_rating}</div>
                 </div>
-                <div className="likes"><FaHeart className="heart" /> {total_likes === 1 ? `${total_likes} like` : `${total_likes} likes`}</div>
-            {album && user && user.username !== album.artist && <button onClick={handleLike}>{!userLiked ? 'Like' : 'Unlike'}</button>}
+                <div className="likes"><FaHeart className="heart" /> {total_likes === "" ? "0 likes" : total_likes === 1 ? "1 like" : `${total_likes} likes`}</div>
+            {album && user && user.username !== album.artist && <button className="likeBtn" onClick={handleLike}>{!userLiked ? 'Like' : 'Unlike'}</button>}
                 </div>
+            </div>
+            <div className="review-header">
+            <p className="review-bar">POPULAR REVIEWS</p>
+            <p className="review-bar">MORE</p>
             </div>
             <div className="display-reviews">
             {(reviews && Object.keys(reviews).length > 0) ? (
