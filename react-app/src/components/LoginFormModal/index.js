@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { login } from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { CiMail } from "react-icons/ci";
-import { CiLock } from "react-icons/ci";
+import { TbMail } from "react-icons/tb";
+import { TbLock } from "react-icons/tb";
 import "./LoginForm.css";
 
 function LoginFormModal() {
@@ -25,7 +25,7 @@ function LoginFormModal() {
 
   return (
     <>
-      <form className="login__form"onSubmit={handleSubmit}>
+      <form className="login__form" onSubmit={handleSubmit}>
         <h1 id="login">LOG IN</h1>
         <ul>
           {errors.map((error, idx) => (
@@ -35,7 +35,7 @@ function LoginFormModal() {
         <label>
           Email
           <div className="login__icon-input">
-            <CiMail/>
+            <TbMail/>
             <input
               className="login__input"
               type="text"
@@ -49,7 +49,7 @@ function LoginFormModal() {
         <label>
           Password
           <div className="login__icon-input">
-            <CiLock/>
+            <TbLock/>
             <input
               className="login__input"
               type="password"
