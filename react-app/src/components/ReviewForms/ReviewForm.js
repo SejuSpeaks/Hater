@@ -6,7 +6,7 @@ import './ReviewForm.css';
 
 const ReviewForm = (props) => {
     const dispatch = useDispatch();
-    const { review, formType } = props
+    const { review } = props
     const albumId = useSelector((state) => state.albums.album.id);
 
     const [errors, setErrors] = useState({})
@@ -52,22 +52,19 @@ const ReviewForm = (props) => {
                 newReview = await dispatch((createReview(reviewData)));
             }
             catch (error) {
-                console.error("Error:", error);
+                console.error("Error: ", error);
             }
         }
 
-        // else if (formType === "Update Review") {
-        //     newReview = await dispatch(fetchEditReview(review))
-        //     .catch(async (res) => {
-        //         const data = await res.json();
-        //         if (data && data.error) {
-        //             setErrors(data.error)
-        //         }
-        //     });
-        // }
-        if (newReview) {
-            closeModal();
+        else {
+            try {
+                review.review_text = reviewText;
+                newReview = await dispatch(fetchEditReview(review))
+            } catch (error) {
+                console.error("Error: ", error);
+            }
         }
+        closeModal();
     }
 
     const header = review ? "Update Your Review" : "CREATE A REVIEW"
