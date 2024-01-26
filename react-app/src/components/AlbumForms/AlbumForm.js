@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { createAlbum, updateAlbum } from "../../store/albums";
-import * as moment from 'moment';
+// import * as moment from 'moment';
 import './AlbumForm.css'
 
 const AlbumForm = ({ album, formType}) => {
@@ -55,6 +55,8 @@ const AlbumForm = ({ album, formType}) => {
         // release_date = moment(release_date).format('YYYY-MM-DD')
     }
 
+    const albumImage = image_url ? image_url : 'https://hub.yamaha.com/wp-content/uploads/2021/09/How-vinyl-made-Fig.-2.jpg'
+
 
     return (
         <form onSubmit={handleSubmit} className="album-form">
@@ -63,43 +65,41 @@ const AlbumForm = ({ album, formType}) => {
             <li key={idx}>{error}</li>
             ))}
         </ul>
-            <h1>{header}</h1>
+            {/* <h1>{header}</h1> */}
             {/* <h2 className="form-titles">Name of Album</h2> */}
-            <label>
-                Title
+            <div className="container">
+            <label className="title">
                 <input
                     type="text"
                     id="title"
-                    placeholder="title"
+                    placeholder="TITLE"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     />
             <div className="errors">{errors.title}</div>
             </label>
-            <label>
-                Genre
+            <label className="genre">
                 <input
                     type="text"
                     id="genre"
-                    placeholder="genre"
+                    placeholder="GENRE"
                     value={genre}
                     onChange={(e) => setGenre(e.target.value)}
                     />
             <div className="errors">{errors.genre}</div>
             </label>
-            <label>
-                Description
-                <input
-                    type="text"
+            <label className="description">
+                <textarea
                     id="description"
-                    placeholder="description"
+                    rows='10'
+                    cols='33'
+                    placeholder="DESCRIPTION"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     />
             <div className="errors">{errors.description}</div>
             </label>
-            <label>
-                Release Date
+            <label className="date">
                 <input
                     type="date"
                     id="release_date"
@@ -109,18 +109,19 @@ const AlbumForm = ({ album, formType}) => {
                     />
             <div className="errors">{errors.release_date}</div>
             </label>
-            <label htmlFor="image_url">
-                Album Image
+            <img className="image" id="image" alt='album_image' src={albumImage}/>
+            <label htmlFor="image_url" className="url">
                 <input
                     type="url"
                     id="image_url"
-                    placeholder="Image URL"
+                    placeholder="IMAGE URL"
                     value={image_url}
                     onChange={(e) => setImage_url(e.target.value)}
                     />
             </label>
             <div className="btn">
             <button type="submit" className="submit-btn">{formType}</button>
+            </div>
             </div>
         </form>
     )

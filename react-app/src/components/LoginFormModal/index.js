@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { login } from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
+import { TbMail } from "react-icons/tb";
+import { TbLock } from "react-icons/tb";
 import "./LoginForm.css";
 
 function LoginFormModal() {
@@ -23,8 +25,8 @@ function LoginFormModal() {
 
   return (
     <>
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
+      <form className="login__form" onSubmit={handleSubmit}>
+        <h1 id="login">LOG IN</h1>
         <ul>
           {errors.map((error, idx) => (
             <li key={idx}>{error}</li>
@@ -32,21 +34,31 @@ function LoginFormModal() {
         </ul>
         <label>
           Email
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+          <div className="login__icon-input">
+            <TbMail/>
+            <input
+              className="login__input"
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              placeholder="Enter Email"
+            />
+          </div>
         </label>
         <label>
           Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div className="login__icon-input">
+            <TbLock/>
+            <input
+              className="login__input"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              placeholder="Enter Password"
+            />
+          </div>
         </label>
         <button type="submit">Log In</button>
       </form>

@@ -51,6 +51,27 @@ const AlbumDetails = () => {
 
     if (isLoading) return <h1>Loading...</h1>
 
+    if (!album) return <h1>Album not found</h1>
+
+
+    let renderedReviews;
+    if (reviews) {
+        const reviewArray = Object.values(reviews);
+        const reviewArrayIds = Object.keys(reviewArray)
+
+        renderedReviews = reviewArrayIds.reverse().map((id) => {
+            const review = reviewArray[id]
+            return (
+            <div key={id}>
+                <p>{review["created_at"]}</p>
+                <p>user_id, will be username: {review["user_id"]}</p>
+                <p>{review["rating"]} stars</p>
+                <p>{review["review_text"]}</p>
+            </div>
+            )
+            });
+    }
+
     const handleLike = async () => {
         console.log('/////////////handleLike before', userLiked);
         if (!userLiked) {
@@ -78,10 +99,10 @@ const AlbumDetails = () => {
             <div className="top-half">
             <div className="left">
                 <img className="image" alt='album_image' src={image_url}/>
-                <div hidden={sessionUser == null} className={`review-button`}>
+                <div hidden={sessionUser == null} className={`review-button`} id="reviewBtn">
                     <OpenModalButton
                     className="post-review-button clickable"
-                    buttonText="+POST A REVIEW"
+                    buttonText="+ POST A REVIEW"
                     modalComponent={<ReviewForm/>}
                     />
                 </div>
@@ -100,11 +121,15 @@ const AlbumDetails = () => {
             </div>
             <div className="right">
                 <div className="rating-container">
-                    <div className="rating">{avg_rating}</div>
+                    <div className="rating">{avg_rating === "" ? "new album" : avg_rating}</div>
                 </div>
-                <div className="likes"><FaHeart className="heart" /> {total_likes === 1 ? `${total_likes} like` : `${total_likes} likes`}</div>
-            {album && user && user.username !== album.artist && <button onClick={handleLike}>{!userLiked ? 'Like' : 'Unlike'}</button>}
+                <div className="likes"><FaHeart className="heart" /> {total_likes === "" ? "0 likes" : total_likes === 1 ? "1 like" : `${total_likes} likes`}</div>
+            {album && user && user.username !== album.artist && <button className="likeBtn" onClick={handleLike}>{!userLiked ? 'Like' : 'Unlike'}</button>}
                 </div>
+            </div>
+            <div className="review-header">
+            <p className="review-bar">POPULAR REVIEWS</p>
+            <p className="review-bar">MORE</p>
             </div>
             <div className="display-reviews">
                 <DisplayAlbumReviews userId={user.id} albumId={albumId}/>
