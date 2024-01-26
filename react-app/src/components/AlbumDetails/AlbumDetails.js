@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAlbumDetails } from "../../store/albums";
 import OpenModalButton from "../OpenModalButton";
 import ReviewForm from "../ReviewForms/ReviewForm";
+import { DisplayAlbumReviews } from "../DisplayAlbumReviews";
 import { fetchAlbumReviews } from "../../store/reviews"
 import { postAlbumLike, deleteAlbumLike } from "../../store/likes";
 import { FaHeart } from "react-icons/fa";
@@ -49,26 +50,6 @@ const AlbumDetails = () => {
     }, [album?.user_liked]);
 
     if (isLoading) return <h1>Loading...</h1>
-
-    if (!album) return <h1>Album not found</h1>
-
-    let renderedReviews;
-    if (reviews) {
-        const reviewArray = Object.values(reviews);
-        const reviewArrayIds = Object.keys(reviewArray)
-
-        renderedReviews = reviewArrayIds.reverse().map((id) => {
-            const review = reviewArray[id]
-            return (
-            <div key={id}>
-                <p>{review["created_at"]}</p>
-                <p>user_id, will be username: {review["user_id"]}</p>
-                <p>{review["rating"]} stars</p>
-                <p>{review["review_text"]}</p>
-            </div>
-            )
-            });
-    }
 
     const handleLike = async () => {
         console.log('/////////////handleLike before', userLiked);
@@ -126,11 +107,12 @@ const AlbumDetails = () => {
                 </div>
             </div>
             <div className="display-reviews">
-            {(reviews && Object.keys(reviews).length > 0) ? (
+                <DisplayAlbumReviews userId={user.id} albumId={albumId}/>
+            {/* {(reviews && Object.keys(reviews).length > 0) ? (
                 renderedReviews
                 ) : (
                 <p>Be the first to post a review!</p>
-            )}
+            )} */}
             </div>
         </section>
     )

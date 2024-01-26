@@ -71,8 +71,9 @@ export const createReview = (review) => async (dispatch) => {
 };
 
 export const fetchEditReview = (review) => async (dispatch) => {
-    const { review_id, rating, review_text} = review;
-	const response = await fetch(`/api/reviews/${review_id}`, {
+    const { id, rating, review_text} = review;
+    console.log("sending res")
+	const response = await fetch(`/api/reviews/${id}`, {
 		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",
@@ -84,10 +85,15 @@ export const fetchEditReview = (review) => async (dispatch) => {
 	});
 
 	if (response.ok) {
+        console.log("res ok")
 		const data = await response.json();
+        console.log("working with data: " + data)
+        console.log(Object.keys(data))
+        console.log(Object.values(data))
 		dispatch(editReview(data));
 		return null;
 	} else if (response.status < 500) {
+        console.log("res not ok")
 		const data = await response.json();
 		if (data.errors) {
 			return data.errors;

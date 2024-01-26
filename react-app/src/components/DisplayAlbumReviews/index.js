@@ -1,17 +1,18 @@
-import React from react;
-import { useDispatch, useParams } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchAlbumReviews } from "../../store/reviews";
 import OpenModalButton from "../OpenModalButton";
-import ReviewForms from "../ReviewForms/ReviewForm";
+import ReviewForm from "../ReviewForms/ReviewForm";
 import "./displayAlbumReviews.css";
 
-export const DisplayAlbumReviews = () => {
-    const dispatch = useDispatch;
+// currently showing: <DisplayAlbumReviews userId={user.id} albumId={albumId}/>
 
-    const { albumId, userId } = useParams();
+export const DisplayAlbumReviews = (props) => {
+    const dispatch = useDispatch();
+    const { albumId, userId } = props;
 
     const reviews = useSelector((state) => {
-        return state.reviews.albumReviews
+        return state.reviews.albumReviews;
     });
 
     useEffect(() => {
@@ -19,7 +20,7 @@ export const DisplayAlbumReviews = () => {
             try {
                 dispatch(fetchAlbumReviews(albumId))
             } catch (error) {
-                console.error("error fetching album and review data")
+                console.error("error fetching review data")
             }
         }
         fetchReviewData()
@@ -31,13 +32,24 @@ export const DisplayAlbumReviews = () => {
         const reviewArrayIds = Object.keys(reviewArray);
 
         renderedReviews = reviewArrayIds.reverse().map((id) => {
-            const review = reviewArray[id]
+            const review = reviewArray[id];
+            const showButtons = (review.user_id == userId);
             return (
             <div key={id}>
                 <p>{review["created_at"]}</p>
                 <p>user_id, will be username: {review["user_id"]}</p>
                 <p>{review["rating"]} stars</p>
                 <p>{review["review_text"]}</p>
+                {showButtons ? (
+                    <div className="modalButtons">
+                        <OpenModalButton
+                        className="edit-review-button clickable"
+                        buttonText="EDIT"
+                        modalComponent={<ReviewForm review={review} formType="Update Review"/>}
+                    />
+                    </div>
+                ) : (
+                <h1>show buttons false</h1>)}
                 {/*if review.user_id == userId, show open modal buttons*/}
             </div>
             )
