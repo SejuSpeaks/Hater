@@ -58,6 +58,7 @@ const ReviewForm = (props) => {
         else {
             try {
                 review.review_text = reviewText;
+                review.rating = rating;
                 await dispatch(fetchEditReview(review))
             } catch (error) {
                 console.error("Error: ", error);
@@ -66,7 +67,7 @@ const ReviewForm = (props) => {
         closeModal();
     }
 
-    const header = review ? "Update Your Review" : "CREATE A REVIEW"
+    const header = review ? "UPDATE YOUR REVIEW" : "CREATE A REVIEW"
 
     return (
         <div className="review-form-modal">

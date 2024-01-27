@@ -13,11 +13,11 @@ const ConfirmReviewDelete = (props) => {
             <p>Confirm review deletion</p>
 
             <div className="delete-review-buttons-container">
-                <button className="delete-review-buttons-delete" onClick={async () => dispatch(deleteReview(reviewId))
+                <button className="delete-review-buttons-delete clickable" onClick={async () => dispatch(deleteReview(reviewId))
                     .then(() => closeModal())}>
                     Yes (Delete Review)
                 </button>
-                <button className="delete-review-buttons" onClick={closeModal}>No (Keep Review)</button>
+                <button className="delete-review-buttons clickable" onClick={closeModal}>No (Keep Review)</button>
             </div>
         </div>
     )

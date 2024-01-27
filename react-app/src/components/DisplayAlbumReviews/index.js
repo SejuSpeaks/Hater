@@ -4,6 +4,7 @@ import { fetchAlbumReviews, fetchDeleteReview } from "../../store/reviews";
 import OpenModalButton from "../OpenModalButton";
 import ReviewForm from "../ReviewForms/ReviewForm";
 import ConfirmReviewDelete from "./ConfirmReviewDelete";
+import DisplayStars from "./DisplayStars";
 import "./displayAlbumReviews.css";
 
 export const DisplayAlbumReviews = (props) => {
@@ -12,6 +13,10 @@ export const DisplayAlbumReviews = (props) => {
 
     const reviews = useSelector((state) => {
         return state.reviews.albumReviews;
+    });
+
+    const user = useSelector((state) => {
+        return state.session.user;
     });
 
     useEffect(() => {
@@ -26,6 +31,8 @@ export const DisplayAlbumReviews = (props) => {
         fetchReviewData()
     }, [dispatch, albumId]);
 
+    // const makeDateString = (date) => (date).slice(5, 16);
+
     let renderedReviews;
     if (reviews && Object.keys(reviews).length > 0) {
         const reviewArray = Object.values(reviews);
@@ -36,26 +43,31 @@ export const DisplayAlbumReviews = (props) => {
             const showButtons = (review.user_id === userId);
 
             return (
-            <div key={id}>
-                <p>{review["created_at"]}</p>
-                <p>{review["username"]}</p>
-                <p>{review["rating"]} stars</p>
-                <p>{review["review_text"]}</p>
+            <div className="single-review-container">
+            <div className="single-review" key={id}>
+                <p className="user-name">@{review["username"] ? review["username"] : user.username}</p>
+                <div className="rating-and-star">
+                    {/* <div>{review["rating"]}</div> */}
+                    <DisplayStars rating={review["rating"]}/>
+                </div>
+                {/* <p className="review-date">{makeDateString(review["created_at"])}</p> */}
+                <p className="review-text">{review["review_text"]}</p>
                 {showButtons ? (
-                    <div className="modalButtons">
+                    <div className="modal-buttons">
                         <OpenModalButton
-                            className="edit-review-button clickable"
+                            className="edit-review-button clickable review-buttons"
                             buttonText="EDIT"
                             modalComponent={<ReviewForm review={review} formType="Update Review"/>}
                         />
                         <OpenModalButton
-                            className="delete-review-button clickable"
+                            className="delete-review-button clickable review-buttons"
                             buttonText="DELETE"
                             modalComponent={<ConfirmReviewDelete reviewId={review.id} deleteReview={fetchDeleteReview}/>}
                         />
                     </div>
                 ) : (
                 <></>)}
+            </div>
             </div>
             )
             });
@@ -64,7 +76,9 @@ export const DisplayAlbumReviews = (props) => {
     return (
         <div>
             {(reviews && Object.keys(reviews).length > 0) ? (
-                <div>{renderedReviews}</div>
+                <div className="reviews-list">
+                    {renderedReviews}
+                </div>
                 ) : (
                 <p>Be the first to post a review!</p>
             )}
