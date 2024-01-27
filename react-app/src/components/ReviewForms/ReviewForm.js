@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createReview, fetchEditReview } from "../../store/reviews";
+import { getAlbumDetails } from "../../store/albums";
 import { useModal } from "../../context/Modal";
 import './ReviewForm.css';
 
@@ -49,6 +50,7 @@ const ReviewForm = (props) => {
         if (!review) {
             try {
                 await dispatch((createReview(reviewData)));
+                await dispatch(getAlbumDetails(albumId));
             }
             catch (error) {
                 console.error("Error: ", error);
@@ -59,7 +61,8 @@ const ReviewForm = (props) => {
             try {
                 review.review_text = reviewText;
                 review.rating = rating;
-                await dispatch(fetchEditReview(review))
+                await dispatch(fetchEditReview(review));
+                await dispatch(getAlbumDetails(albumId));
             } catch (error) {
                 console.error("Error: ", error);
             }

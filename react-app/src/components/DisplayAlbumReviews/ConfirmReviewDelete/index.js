@@ -1,9 +1,10 @@
 import { useModal } from "../../../context/Modal";
 import { useDispatch } from "react-redux";
+import { getAlbumDetails } from "../../../store/albums";
 import "./ConfirmReviewDelete.css";
 
 const ConfirmReviewDelete = (props) => {
-    const { reviewId, deleteReview } = props;
+    const { reviewId, deleteReview, albumId } = props;
     const { closeModal } = useModal();
     const dispatch = useDispatch();
 
@@ -13,11 +14,18 @@ const ConfirmReviewDelete = (props) => {
             <p>Confirm review deletion</p>
 
             <div className="delete-review-buttons-container">
-                <button className="delete-review-buttons-delete clickable" onClick={async () => dispatch(deleteReview(reviewId))
-                    .then(() => closeModal())}>
+                <button
+                    className="delete-review-buttons-delete clickable"
+                    onClick={async () => dispatch(deleteReview(reviewId))
+                    .then(() => closeModal())
+                    .then(async () => dispatch(getAlbumDetails(albumId)))}>
                     Yes (Delete Review)
                 </button>
-                <button className="delete-review-buttons clickable" onClick={closeModal}>No (Keep Review)</button>
+                <button
+                    className="delete-review-buttons clickable"
+                    onClick={closeModal}>
+                    No (Keep Review)
+                </button>
             </div>
         </div>
     )

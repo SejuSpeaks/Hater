@@ -22,9 +22,9 @@ export const DisplayAlbumReviews = (props) => {
     useEffect(() => {
         const fetchReviewData = async () => {
             try {
-                await dispatch(fetchAlbumReviews(albumId))
+                await dispatch(fetchAlbumReviews(albumId));
             } catch (error) {
-                console.error("error fetching review data")
+                console.error("error fetching review data");
             }
         }
 
@@ -62,7 +62,7 @@ export const DisplayAlbumReviews = (props) => {
                         <OpenModalButton
                             className="delete-review-button clickable review-buttons"
                             buttonText="DELETE"
-                            modalComponent={<ConfirmReviewDelete reviewId={review.id} deleteReview={fetchDeleteReview}/>}
+                            modalComponent={<ConfirmReviewDelete reviewId={review.id} deleteReview={fetchDeleteReview} albumId={albumId}/>}
                         />
                     </div>
                 ) : (
@@ -78,7 +78,7 @@ export const DisplayAlbumReviews = (props) => {
             {(reviews && Object.keys(reviews).length > 0) ? (
                 <div className="reviews-list">
                     {renderedReviews}
-                    {user !== null ? <p>Be the first to post a review!</p> : <></>}
+                    {(user !== null && (reviews && Object.keys(reviews).length === 0)) ? <p>Be the first to post a review!</p> : <></>}
                 </div>
                 ) : (
                 <></>
