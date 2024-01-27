@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { TbSearch } from "react-icons/tb";
+import './GetAlbumsSearch.css';
 
 const GetAlbumSearch = ({ onSearch }) => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -11,11 +13,12 @@ const GetAlbumSearch = ({ onSearch }) => {
 
     return (
         <div className="albums-search">
+            <TbSearch/>
             <input
                 type="text"
                 value={searchTerm}
                 onChange={handleInputChange}
-                placeholder="Search Albums"
+                placeholder="Search for music"
             />
         </div>
     )

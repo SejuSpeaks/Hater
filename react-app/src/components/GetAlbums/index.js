@@ -1,7 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { getAlbums } from '../../store/albums';
 import GetAlbumSearch from '../GetAlbumsSearch';
+import { TbStarFilled } from "react-icons/tb";
+import './GetAlbums.css'
 
 const GetAlbums = () => {
     const dispatch = useDispatch();
@@ -42,19 +45,21 @@ const GetAlbums = () => {
     }
 
     return (
-        <div className="album__search-grid">
+        <div className="albums__search-grid">
             <GetAlbumSearch onSearch={handleSearchQuery}/>
-            <div className="albums-grid">
+            <div className="albums__grid">
                 {isLoaded && albums.length ?
                 albums.map(album => (
-                    <ul key={album.id} className="album">
-                        <li>{album.image_url}</li>
-                        <li>{album.title}</li>
-                        <li>{album.artist}</li>
-                        <li>{album.genre}</li>
-                        <li>{album.release_date}</li>
-                        <li>{album.avg_rating || 'No Rating'}</li>
-                    </ul>
+                    <Link key={album.id} to={`/albums/${album.id}`}>
+                        <div className="albums__container">
+                            <img className="albums__cover" src={album.image_url} alt={`${album.title} cover`} />
+                            <p>{album.title}</p>
+                            <p>{album.artist}</p>
+                            <p>{album.genre}</p>
+                            <p>{album.release_date}</p>
+                            <div className="albums__rating"><TbStarFilled/> <span>{album.avg_rating || 'No Rating'}</span></div>
+                        </div>
+                    </Link>
                 ))
                 : <div>{noResultsMessage}</div>}
             </div>
