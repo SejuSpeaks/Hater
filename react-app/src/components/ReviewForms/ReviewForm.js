@@ -42,14 +42,13 @@ const ReviewForm = (props) => {
         setErrors({});
 
         let reviewData = {};
-        let newReview = {};
         reviewData.rating = rating;
         reviewData.review_text = reviewText;
         reviewData.album_id = albumId;
 
         if (!review) {
             try {
-                newReview = await dispatch((createReview(reviewData)));
+                await dispatch((createReview(reviewData)));
             }
             catch (error) {
                 console.error("Error: ", error);
@@ -59,7 +58,8 @@ const ReviewForm = (props) => {
         else {
             try {
                 review.review_text = reviewText;
-                newReview = await dispatch(fetchEditReview(review))
+                review.rating = rating;
+                await dispatch(fetchEditReview(review))
             } catch (error) {
                 console.error("Error: ", error);
             }
@@ -67,7 +67,7 @@ const ReviewForm = (props) => {
         closeModal();
     }
 
-    const header = review ? "Update Your Review" : "CREATE A REVIEW"
+    const header = review ? "UPDATE YOUR REVIEW" : "CREATE A REVIEW"
 
     return (
         <div className="review-form-modal">
@@ -83,7 +83,6 @@ const ReviewForm = (props) => {
                     value={reviewText}
                     onChange={(e) => setReviewText(e.target.value)}
                 ></textarea>
-                {/*change classname to stars-container if needed*/}
                 <div className="star-container">
                     {
                         starArray.map((starVal) => (

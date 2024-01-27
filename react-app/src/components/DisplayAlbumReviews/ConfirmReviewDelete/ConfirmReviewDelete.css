@@ -1,0 +1,37 @@
+.delete-review-container {
+    height: 115px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 25px;
+}
+
+.delete-review-buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding-bottom: 15px;
+}
+
+.delete-review-buttons-delete {
+    padding: 4px 7px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    color: #FFFFFFFF;
+    background: rgb(242, 3, 3);
+    opacity: 1;
+    border: none;
+    border-radius: 4px;
+    margin-right: 5px;
+}
+
+#delete-review-confirm-delete {
+    font-size: 25px;
+    padding-top: 15px;
+}
+
+.clickable:hover {
+    cursor: pointer;
+}

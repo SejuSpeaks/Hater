@@ -47,8 +47,6 @@ const AlbumForm = ({ album, formType}) => {
         }
     }
 
-    const header = formType === "Create Album" ? "Create a Album" : "Update your Album"
-
     if (formType === "Update Album") {
         const dateObj = new Date(release_date)
         release_date = dateObj.toISOString().split('T')[0];
@@ -65,8 +63,6 @@ const AlbumForm = ({ album, formType}) => {
             <li key={idx}>{error}</li>
             ))}
         </ul>
-            {/* <h1>{header}</h1> */}
-            {/* <h2 className="form-titles">Name of Album</h2> */}
             <div className="container">
             <label className="title">
                 <input
