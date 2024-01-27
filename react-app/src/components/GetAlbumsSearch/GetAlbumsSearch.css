@@ -1,0 +1,22 @@
+.albums-search {
+    align-items: center;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    display: flex;
+    margin: 20px auto;
+    width: 250px;
+}
+
+.albums-search input {
+    border: none;
+}
+
+.albums-search input:focus {
+    outline: none;
+}
+
+.albums-search svg {
+    padding: 5px;
+}
