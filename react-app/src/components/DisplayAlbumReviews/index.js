@@ -14,20 +14,6 @@ export const DisplayAlbumReviews = (props) => {
         return state.reviews.albumReviews;
     });
 
-    const [usernames, setUsernames] = useState({});
-
-    const getUsername = async (userId) => {
-        try {
-            const response = await fetch(`/api/users/${userId}`)
-            const data = await response.json();
-            return data.username;
-
-        } catch (error) {
-            console.error(error);
-            return "";
-        }
-    }
-
     useEffect(() => {
         const fetchReviewData = async () => {
             try {
@@ -40,23 +26,6 @@ export const DisplayAlbumReviews = (props) => {
         fetchReviewData()
     }, [dispatch, albumId]);
 
-    useEffect(() => {
-        const fetchUsernames = async () => {
-          const usernamesObj = {};
-          const reviewArray = Object.values(reviews);
-
-          for (const review of reviewArray) {
-            const username = await getUsername(review.user_id);
-            usernamesObj[review.id] = username;
-          }
-          setUsernames(usernamesObj);
-        };
-
-        if (reviews && Object.keys(reviews).length > 0) {
-            fetchUsernames();
-        }
-      }, [albumId, reviews]);
-
     let renderedReviews;
     if (reviews && Object.keys(reviews).length > 0) {
         const reviewArray = Object.values(reviews);
@@ -65,26 +34,25 @@ export const DisplayAlbumReviews = (props) => {
         renderedReviews = reviewArrayIds.reverse().map((id) => {
             const review = reviewArray[id];
             const showButtons = (review.user_id === userId);
-            const username = usernames[review.id];
 
             return (
             <div key={id}>
                 <p>{review["created_at"]}</p>
-                <p>{username}</p>
+                <p>{review["username"]}</p>
                 <p>{review["rating"]} stars</p>
                 <p>{review["review_text"]}</p>
                 {showButtons ? (
                     <div className="modalButtons">
                         <OpenModalButton
-                        className="edit-review-button clickable"
-                        buttonText="EDIT"
-                        modalComponent={<ReviewForm review={review} formType="Update Review"/>}
-                    />
-                    <OpenModalButton
-                    className="delete-review-button clickable"
-                    buttonText="DELETE"
-                    modalComponent={<ConfirmReviewDelete reviewId={review.id} deleteReview={fetchDeleteReview}/>}
-                    />
+                            className="edit-review-button clickable"
+                            buttonText="EDIT"
+                            modalComponent={<ReviewForm review={review} formType="Update Review"/>}
+                        />
+                        <OpenModalButton
+                            className="delete-review-button clickable"
+                            buttonText="DELETE"
+                            modalComponent={<ConfirmReviewDelete reviewId={review.id} deleteReview={fetchDeleteReview}/>}
+                        />
                     </div>
                 ) : (
                 <></>)}
