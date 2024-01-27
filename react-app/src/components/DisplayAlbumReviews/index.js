@@ -9,7 +9,7 @@ import "./displayAlbumReviews.css";
 
 export const DisplayAlbumReviews = (props) => {
     const dispatch = useDispatch();
-    const { albumId, userId, artistId } = props;
+    const { albumId, userId } = props;
 
     const reviews = useSelector((state) => {
         return state.reviews.albumReviews;

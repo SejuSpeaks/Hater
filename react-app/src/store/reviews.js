@@ -61,6 +61,8 @@ export const createReview = (review) => async (dispatch) => {
 		}),
 	})
 
+    if (response.status === 403) return { "error": "You have already reviewed this album" }
+
 	if (response.ok) {
 		const data = await response.json();
 		dispatch(addReview(data));

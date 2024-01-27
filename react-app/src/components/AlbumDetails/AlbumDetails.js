@@ -15,8 +15,6 @@ const AlbumDetails = () => {
     const dispatch = useDispatch();
     const { albumId } = useParams();
 
-    const existingReview = { existingReview: false };
-
     const album = useSelector((state) => {
         return state.albums.album
     })

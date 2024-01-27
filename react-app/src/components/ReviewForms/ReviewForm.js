@@ -40,6 +40,7 @@ const ReviewForm = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("before seterrors: ", errors)
         setErrors({});
 
         let reviewData = {};
@@ -47,15 +48,20 @@ const ReviewForm = (props) => {
         reviewData.review_text = reviewText;
         reviewData.album_id = albumId;
 
-        console.log("rating: " + rating)
-
         if (!review) {
             try {
-                await dispatch((createReview(reviewData)));
-                await dispatch(getAlbumDetails(albumId));
-            }
-            catch (error) {
-                console.error("Error: ", error);
+                const res = await dispatch((createReview(reviewData)));
+                await dispatch(getAlbumDetails(albumId))
+                if (res && res.error) {
+                    setErrors(res)
+                }
+
+                if (!res) {
+                    closeModal();
+                }
+
+            } catch (error) {
+                console.log(error)
             }
         }
 
@@ -69,8 +75,7 @@ const ReviewForm = (props) => {
                 console.error("Error: ", error);
             }
         }
-        closeModal();
-    }
+      }
 
     const header = review ? "UPDATE YOUR REVIEW" : "CREATE A REVIEW"
 
@@ -79,7 +84,7 @@ const ReviewForm = (props) => {
             <form className="review-form"
                 onSubmit={handleSubmit}>
                 <h1>{header}</h1>
-                {Object.keys(errors).length !== 0 && <p>{`Errors: ${Object.values(errors)}`}</p>}
+                {Object.keys(errors).length !== 0 && <p>{`Errors: ${errors.error}`}</p>}
                 <label htmlFor="review-text-input" id="review-text-input-label">How was this album?</label>
                 <textarea
                     type="textarea"
