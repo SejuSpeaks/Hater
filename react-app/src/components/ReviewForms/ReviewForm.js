@@ -71,6 +71,7 @@ const ReviewForm = (props) => {
                 review.rating = rating;
                 await dispatch(fetchEditReview(review));
                 await dispatch(getAlbumDetails(albumId));
+                closeModal();
             } catch (error) {
                 console.error("Error: ", error);
             }
