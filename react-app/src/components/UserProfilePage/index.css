@@ -92,6 +92,8 @@
 .profile-page-albums-rating-container {
     display: flex;
     gap: 10px;
+    position: relative;
+    bottom: 30px;
     justify-content: flex-start;
     align-items: center;
 }
@@ -107,6 +109,8 @@
 
 .profile-page-album-artist {
     font-weight: bold;
+    position: relative;
+    bottom: 10px;
 }
 
 
