@@ -11,7 +11,7 @@ const ReviewForm = (props) => {
     const albumId = useSelector((state) => state.albums.album.id);
 
     const [errors, setErrors] = useState({})
-    const [rating, setRating] = useState(review ? review.rating : "")
+    const [rating, setRating] = useState(review ? review.rating : null)
     const [reviewText, setReviewText] = useState(review ? review.review_text : "");
     const [isDisabled, setIsDisabled] = useState(true);
     const [hoveredStarNum, setHoveredStarNum] = useState(null);
@@ -20,7 +20,7 @@ const ReviewForm = (props) => {
 
     useEffect(() => {
         if (reviewText.length < 10
-            || !rating) {
+            || rating == null) {
             setIsDisabled(true);
         } else {
             setIsDisabled(false);
@@ -46,6 +46,8 @@ const ReviewForm = (props) => {
         reviewData.rating = rating;
         reviewData.review_text = reviewText;
         reviewData.album_id = albumId;
+
+        console.log("rating: " + rating)
 
         if (!review) {
             try {
@@ -85,6 +87,7 @@ const ReviewForm = (props) => {
                     placeholder="Love it or hate it?"
                     value={reviewText}
                     onChange={(e) => setReviewText(e.target.value)}
+                    required
                 ></textarea>
                 <div className="star-container">
                     {
@@ -100,7 +103,7 @@ const ReviewForm = (props) => {
                 </div>
                 <button
                     type="submit"
-                    isdisabled={isDisabled.toString()}
+                    disabled={isDisabled}
                     className={`${isDisabled.toString()} ${!isDisabled ? " clickable" : ""}`}
                     id="submit-review-button"
                 >
