@@ -26,8 +26,8 @@ const Albums = ({ deleteAlbum, isDeleted }) => {
             <div className="profile-page-albums-container" key={album.id}>
                 <div onClick={() => history.push(`/albums/${album.id}`)}>
                     <img src={album.image_url} alt="album cover" className="profile-page-album-image" />
-                    <div id="profile-page-album-data-container">
-                        <p id="profile-page-album-title">{album.title}</p>
+                    <div className="profile-page-album-data-container">
+                        <p className="profile-page-album-title">{album.title}</p>
                         <p className="profile-page-album-artist">{album.artist}</p>
                     </div>
                 </div>

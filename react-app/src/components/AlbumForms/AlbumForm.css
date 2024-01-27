@@ -1,0 +1,126 @@
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    grid-template-areas:
+    "image image title title"
+    "image image genre genre"
+    "image image date date"
+    "url url description description"
+    "btn btn description description"
+    ". . description description";
+    column-gap: 10px;
+    row-gap: 10px;
+}
+
+.title {
+    grid-area: title;
+}
+
+#title {
+    height:40px;
+    width:400px;
+}
+
+::title {
+    color: lightgrey;
+    opacity: 1;
+}
+
+.genre {
+    grid-area: genre;
+
+}
+
+#genre {
+    height:40px;
+    width:400px;
+}
+
+::genre {
+    color: lightgrey;
+    opacity: 1;
+}
+
+.description {
+    grid-area: description;
+
+}
+
+#description {
+    height:150px;
+    width:400px;
+}
+
+::description {
+    color: lightgrey;
+    opacity: 1;
+}
+
+.date {
+    grid-area: date;
+}
+
+#release_date{
+    height:40px;
+    width:400px;
+}
+
+input[type=date]{
+    color: gray;
+    opacity: 1;
+}
+
+.image {
+    grid-area: image;
+}
+
+#image {
+    height: 300px;
+    width: 400px;
+}
+
+.url {
+    grid-area: url;
+
+}
+
+#image_url {
+    height:40px;
+    width:400px;
+}
+
+::image_url {
+    color: lightgrey;
+    opacity: 1;
+}
+
+.btn {
+    grid-area: btn;
+}
+
+.submit-btn {
+    height:50px;
+    width:400px;
+    color: white;
+    background: #71BBB2FF;
+    opacity: 1;
+    border: none;
+    border-radius: 4px;
+}
+
+@media screen and (max-width:900px) {
+    .wrapper {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-gap: 1em;
+    }
+}
+
+@media screen and (max-width:576px) {
+    .wrapper {
+        display: grid;
+        grid-template-columns: 100%;
+        grid-gap: 1em;
+    }
+}

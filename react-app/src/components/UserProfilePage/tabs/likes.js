@@ -21,8 +21,8 @@ const Likes = () => {
         return (
             <div className="profile-page-albums-container" onClick={() => history.push(`/albums/${like.id}`)} key={like.id} >
                 <img src={like.image_url} alt="album cover" className="profile-page-album-image" />
-                <div id="profile-page-album-data-container">
-                    <p id="profile-page-album-title">{like.title}</p>
+                <div className="profile-page-album-data-container">
+                    <p className="profile-page-album-title">{like.title}</p>
                     <p className="profile-page-album-artist">{like.artist}</p>
                 </div>
                 <p>{like.release_date}</p>

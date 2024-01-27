@@ -1,0 +1,68 @@
+.albums__search-grid {
+    box-sizing: border-box;
+    padding: 0 80px;
+    width: 100%;
+}
+
+.albums__grid {
+    display: grid;
+    grid-gap: 40px 24px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 24px;
+    padding: 0 80px;
+}
+
+/* Firefox made me do this */
+@media (max-width: 1350px) {
+    .albums__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 1050px) {
+    .albums__grid {
+        grid-template-columns: repeat(2, minmax(280px, 350px));
+      }
+  }
+
+  @media (max-width: 740px) {
+    .albums__grid {
+      grid-template-columns: repeat(1, minmax(280px, 400px));
+    }
+  }
+
+.albums__grid a {
+    color: black;
+    text-decoration: none;
+}
+
+.albums__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.albums__container p {
+    margin: 2px auto;
+}
+
+.albums__rating {
+    align-items: center;
+    display: flex;
+    margin: 5px auto;
+}
+
+.albums__rating span {
+    padding-left: 5px;
+}
+
+.albums__rating svg {
+    color: rgb(241, 194, 50);
+}
+
+.albums__cover {
+    margin-bottom: 5px;
+    width: 70%
+}

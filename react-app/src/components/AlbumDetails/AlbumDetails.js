@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAlbumDetails } from "../../store/albums";
 import OpenModalButton from "../OpenModalButton";
 import ReviewForm from "../ReviewForms/ReviewForm";
-import { fetchAlbumReviews } from "../../store/reviews"
+import { DisplayAlbumReviews } from "../DisplayAlbumReviews";
+// import { fetchAlbumReviews } from "../../store/reviews"
 import { postAlbumLike, deleteAlbumLike } from "../../store/likes";
 import { FaHeart } from "react-icons/fa";
+import formatAvgRating from '../../utils/formatAvgRating.js';
 import "./AlbumDetails.css"
 
 const AlbumDetails = () => {
@@ -18,13 +20,10 @@ const AlbumDetails = () => {
         return state.albums.album
     })
 
-    const reviews = useSelector((state) => {
-        return state.reviews.albumReviews
-    });
-
     const sessionUser = useSelector((state) => {
         return state.session.user
     })
+
 
 
     const [isLoading, setIsLoading] = useState(true)
@@ -33,11 +32,11 @@ const AlbumDetails = () => {
     useEffect(() => {
         const fetchAlbumAndReviewData = async () => {
             try {
-                dispatch(getAlbumDetails(albumId))
-                    .then(() => dispatch(fetchAlbumReviews(albumId))
-                    .then(() => setIsLoading(false)));
+                // await dispatch(fetchAlbumReviews(albumId));
+                await dispatch(getAlbumDetails(albumId));
+                setIsLoading(false);
             } catch (error) {
-                console.error("error fetching album and review data")
+                console.error("error fetching album and review data");
             }
         }
         fetchAlbumAndReviewData()
@@ -48,35 +47,28 @@ const AlbumDetails = () => {
         setUserLiked(album?.user_liked);
     }, [album?.user_liked]);
 
+
     if (isLoading) return <h1>Loading...</h1>
 
     if (!album) return <h1>Album not found</h1>
 
-    let renderedReviews;
-    if (reviews) {
-        const reviewArray = Object.values(reviews);
-        const reviewArrayIds = Object.keys(reviewArray)
+    let hiddenBtn;
 
-        renderedReviews = reviewArrayIds.reverse().map((id) => {
-            const review = reviewArray[id]
-            return (
-            <div key={id}>
-                <p>{review["created_at"]}</p>
-                <p>user_id, will be username: {review["user_id"]}</p>
-                <p>{review["rating"]} stars</p>
-                <p>{review["review_text"]}</p>
-            </div>
-            )
-            });
+    if (sessionUser === null) {
+        hiddenBtn = true
+    } else if (sessionUser.id === album.user_id) {
+        hiddenBtn = true
+    } else {
+        hiddenBtn = false
     }
 
     const handleLike = async () => {
         console.log('/////////////handleLike before', userLiked);
         if (!userLiked) {
-            dispatch(postAlbumLike(albumId)).then(() => setUserLiked(true))
+            dispatch(postAlbumLike(albumId)).then(() => setUserLiked(true));
         }
         else {
-            dispatch(deleteAlbumLike(albumId)).then(() => setUserLiked(false))
+            dispatch(deleteAlbumLike(albumId)).then(() => setUserLiked(false));
         }
     }
 
@@ -97,10 +89,10 @@ const AlbumDetails = () => {
             <div className="top-half">
             <div className="left">
                 <img className="image" alt='album_image' src={image_url}/>
-                <div hidden={sessionUser == null} className={`review-button`}>
+                <div hidden={hiddenBtn} className={`review-button`} id="reviewBtn">
                     <OpenModalButton
                     className="post-review-button clickable"
-                    buttonText="+POST A REVIEW"
+                    buttonText="+ POST A REVIEW"
                     modalComponent={<ReviewForm/>}
                     />
                 </div>
@@ -119,18 +111,18 @@ const AlbumDetails = () => {
             </div>
             <div className="right">
                 <div className="rating-container">
-                    <div className="rating">{avg_rating}</div>
+                    <div className="rating">{avg_rating === "" ? "new album" : formatAvgRating(avg_rating)}</div>
                 </div>
-                <div className="likes"><FaHeart className="heart" /> {total_likes === 1 ? `${total_likes} like` : `${total_likes} likes`}</div>
-            {album && user && user.username !== album.artist && <button onClick={handleLike}>{!userLiked ? 'Like' : 'Unlike'}</button>}
+                <div className="likes"><FaHeart className="heart" /> {total_likes === "" ? "0 likes" : total_likes === 1 ? "1 like" : `${total_likes} likes`}</div>
+            {album && user && user.username !== album.artist && <button className="likeBtn" onClick={handleLike}>{!userLiked ? 'Like' : 'Unlike'}</button>}
                 </div>
             </div>
+            <div className="review-header">
+            <p className="review-bar">POPULAR REVIEWS</p>
+            <p className="review-bar">MORE</p>
+            </div>
             <div className="display-reviews">
-            {(reviews && Object.keys(reviews).length > 0) ? (
-                renderedReviews
-                ) : (
-                <p>Be the first to post a review!</p>
-            )}
+                <DisplayAlbumReviews userId={(user && user.id) ? user.id : null} albumId={albumId} artistId={album.user_id}/>
             </div>
         </section>
     )
