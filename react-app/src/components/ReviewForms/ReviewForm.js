@@ -11,7 +11,7 @@ const ReviewForm = (props) => {
     const albumId = useSelector((state) => state.albums.album.id);
 
     const [errors, setErrors] = useState({})
-    const [rating, setRating] = useState(review ? review.rating : "")
+    const [rating, setRating] = useState(review ? review.rating : null)
     const [reviewText, setReviewText] = useState(review ? review.review_text : "");
     const [isDisabled, setIsDisabled] = useState(true);
     const [hoveredStarNum, setHoveredStarNum] = useState(null);
@@ -20,7 +20,7 @@ const ReviewForm = (props) => {
 
     useEffect(() => {
         if (reviewText.length < 10
-            || !rating) {
+            || rating == null) {
             setIsDisabled(true);
         } else {
             setIsDisabled(false);
@@ -40,6 +40,7 @@ const ReviewForm = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("before seterrors: ", errors)
         setErrors({});
 
         let reviewData = {};
@@ -49,11 +50,18 @@ const ReviewForm = (props) => {
 
         if (!review) {
             try {
-                await dispatch((createReview(reviewData)));
-                await dispatch(getAlbumDetails(albumId));
-            }
-            catch (error) {
-                console.error("Error: ", error);
+                const res = await dispatch((createReview(reviewData)));
+                await dispatch(getAlbumDetails(albumId))
+                if (res && res.error) {
+                    setErrors(res)
+                }
+
+                if (!res) {
+                    closeModal();
+                }
+
+            } catch (error) {
+                console.log(error)
             }
         }
 
@@ -67,8 +75,7 @@ const ReviewForm = (props) => {
                 console.error("Error: ", error);
             }
         }
-        closeModal();
-    }
+      }
 
     const header = review ? "UPDATE YOUR REVIEW" : "CREATE A REVIEW"
 
@@ -77,7 +84,7 @@ const ReviewForm = (props) => {
             <form className="review-form"
                 onSubmit={handleSubmit}>
                 <h1>{header}</h1>
-                {Object.keys(errors).length !== 0 && <p>{`Errors: ${Object.values(errors)}`}</p>}
+                {Object.keys(errors).length !== 0 && <p>{`Errors: ${errors.error}`}</p>}
                 <label htmlFor="review-text-input" id="review-text-input-label">How was this album?</label>
                 <textarea
                     type="textarea"
@@ -85,6 +92,7 @@ const ReviewForm = (props) => {
                     placeholder="Love it or hate it?"
                     value={reviewText}
                     onChange={(e) => setReviewText(e.target.value)}
+                    required
                 ></textarea>
                 <div className="star-container">
                     {
@@ -100,7 +108,7 @@ const ReviewForm = (props) => {
                 </div>
                 <button
                     type="submit"
-                    isdisabled={isDisabled.toString()}
+                    disabled={isDisabled}
                     className={`${isDisabled.toString()} ${!isDisabled ? " clickable" : ""}`}
                     id="submit-review-button"
                 >

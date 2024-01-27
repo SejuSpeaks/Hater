@@ -121,7 +121,7 @@ const AlbumDetails = () => {
             <p className="review-bar">MORE</p>
             </div>
             <div className="display-reviews">
-                <DisplayAlbumReviews userId={(user && user.id) ? user.id : null} albumId={albumId}/>
+                <DisplayAlbumReviews userId={(user && user.id) ? user.id : null} albumId={albumId} artistId={album.user_id}/>
             </div>
         </section>
     )

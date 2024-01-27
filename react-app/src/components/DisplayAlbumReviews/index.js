@@ -78,7 +78,12 @@ export const DisplayAlbumReviews = (props) => {
             {(reviews && Object.keys(reviews).length > 0) ? (
                 <div className="reviews-list">
                     {renderedReviews}
-                    {(user !== null && (reviews && Object.keys(reviews).length === 0)) ? <p>Be the first to post a review!</p> : <></>}
+                    {/* {console.log("user id: " + user.id + "artist id: " + artistId + "revs exists? " +)}
+                    {(user !== null
+                        && user.id !== artistId
+                        && (reviews && Object.keys(reviews).length == 0)) ?
+                        <p>Be the first to post a review!</p>
+                        : <></>} */}
                 </div>
                 ) : (
                 <></>
