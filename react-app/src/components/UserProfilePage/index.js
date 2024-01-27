@@ -55,8 +55,8 @@ const UserProfilePage = () => {
             <div className="profile-page-tabs-container">
 
                 <ul className="profile-page-tabs-ul">
-                    <li className={tab === 'reviews' ? activeTabCss : nonActiveTabCss} onClick={() => setTab('reviews')}>Reviewd Albums</li>
-                    <li className={tab === 'likes' ? activeTabCss : nonActiveTabCss} onClick={() => setTab('likes')}>Likes</li>
+                    <li className={tab === 'reviews' ? activeTabCss : nonActiveTabCss} onClick={() => setTab('reviews')}>Reviewed Albums</li>
+                    <li className={tab === 'likes' ? activeTabCss : nonActiveTabCss} onClick={() => setTab('likes')}>Liked Albums</li>
                     <li className={tab === 'albums' ? activeTabCss : nonActiveTabCss} onClick={() => setTab('albums')}>My Albums</li>
                 </ul>
             </div>
