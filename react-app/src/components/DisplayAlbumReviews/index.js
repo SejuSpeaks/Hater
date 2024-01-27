@@ -78,9 +78,10 @@ export const DisplayAlbumReviews = (props) => {
             {(reviews && Object.keys(reviews).length > 0) ? (
                 <div className="reviews-list">
                     {renderedReviews}
+                    {user !== null ? <p>Be the first to post a review!</p> : <></>}
                 </div>
                 ) : (
-                <p>Be the first to post a review!</p>
+                <></>
             )}
         </div>
     )
