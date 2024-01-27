@@ -8,6 +8,7 @@ import { DisplayAlbumReviews } from "../DisplayAlbumReviews";
 // import { fetchAlbumReviews } from "../../store/reviews"
 import { postAlbumLike, deleteAlbumLike } from "../../store/likes";
 import { FaHeart } from "react-icons/fa";
+import formatAvgRating from '../../utils/formatAvgRating.js';
 import "./AlbumDetails.css"
 
 const AlbumDetails = () => {
@@ -110,7 +111,7 @@ const AlbumDetails = () => {
             </div>
             <div className="right">
                 <div className="rating-container">
-                    <div className="rating">{avg_rating === "" ? "new album" : avg_rating}</div>
+                    <div className="rating">{avg_rating === "" ? "new album" : formatAvgRating(avg_rating)}</div>
                 </div>
                 <div className="likes"><FaHeart className="heart" /> {total_likes === "" ? "0 likes" : total_likes === 1 ? "1 like" : `${total_likes} likes`}</div>
             {album && user && user.username !== album.artist && <button className="likeBtn" onClick={handleLike}>{!userLiked ? 'Like' : 'Unlike'}</button>}
