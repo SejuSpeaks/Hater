@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAlbumDetails } from "../../store/albums";
 import OpenModalButton from "../OpenModalButton";
 import ReviewForm from "../ReviewForms/ReviewForm";
-import { fetchAlbumReviews } from "../../store/reviews"
+import { DisplayAlbumReviews } from "../DisplayAlbumReviews";
+// import { fetchAlbumReviews } from "../../store/reviews"
 import { postAlbumLike, deleteAlbumLike } from "../../store/likes";
 import { FaHeart } from "react-icons/fa";
 import "./AlbumDetails.css"
@@ -18,14 +19,9 @@ const AlbumDetails = () => {
         return state.albums.album
     })
 
-    const reviews = useSelector((state) => {
-        return state.reviews.albumReviews
-    });
-
     const sessionUser = useSelector((state) => {
         return state.session.user
     })
-
 
     const [isLoading, setIsLoading] = useState(true)
     const [userLiked, setUserLiked] = useState(null)
@@ -33,11 +29,11 @@ const AlbumDetails = () => {
     useEffect(() => {
         const fetchAlbumAndReviewData = async () => {
             try {
-                dispatch(getAlbumDetails(albumId))
-                    .then(() => dispatch(fetchAlbumReviews(albumId))
-                    .then(() => setIsLoading(false)));
+                // await dispatch(fetchAlbumReviews(albumId));
+                await dispatch(getAlbumDetails(albumId));
+                setIsLoading(false);
             } catch (error) {
-                console.error("error fetching album and review data")
+                console.error("error fetching album and review data");
             }
         }
         fetchAlbumAndReviewData()
@@ -52,32 +48,13 @@ const AlbumDetails = () => {
 
     if (!album) return <h1>Album not found</h1>
 
-
-    let renderedReviews;
-    if (reviews) {
-        const reviewArray = Object.values(reviews);
-        const reviewArrayIds = Object.keys(reviewArray)
-
-        renderedReviews = reviewArrayIds.reverse().map((id) => {
-            const review = reviewArray[id]
-            return (
-            <div key={id}>
-                <p>{review["created_at"]}</p>
-                <p>user_id, will be username: {review["user_id"]}</p>
-                <p>{review["rating"]} stars</p>
-                <p>{review["review_text"]}</p>
-            </div>
-            )
-            });
-    }
-
     const handleLike = async () => {
         console.log('/////////////handleLike before', userLiked);
         if (!userLiked) {
-            dispatch(postAlbumLike(albumId)).then(() => setUserLiked(true))
+            dispatch(postAlbumLike(albumId)).then(() => setUserLiked(true));
         }
         else {
-            dispatch(deleteAlbumLike(albumId)).then(() => setUserLiked(false))
+            dispatch(deleteAlbumLike(albumId)).then(() => setUserLiked(false));
         }
     }
 
@@ -131,11 +108,7 @@ const AlbumDetails = () => {
             <p className="review-bar">MORE</p>
             </div>
             <div className="display-reviews">
-            {(reviews && Object.keys(reviews).length > 0) ? (
-                renderedReviews
-                ) : (
-                <p>Be the first to post a review!</p>
-            )}
+                <DisplayAlbumReviews userId={(user && user.id) ? user.id : null} albumId={albumId}/>
             </div>
         </section>
     )

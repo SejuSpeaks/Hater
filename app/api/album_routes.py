@@ -5,6 +5,7 @@ from flask_login import current_user, login_required
 from datetime import datetime
 from sqlalchemy import or_, func, desc, case
 from sqlalchemy.sql import func
+from sqlalchemy.orm import joinedload
 
 album_routes = Blueprint('albums', __name__)
 
@@ -120,8 +121,10 @@ def get_album_reviews(id):
         return error, 404
 
     # Queries for all reviews of a given album
-    query = db.session.query(Review) \
+    query = db.session.query(Review, User.username) \
+        .join(User, Review.user_id == User.id) \
         .filter(Review.album_id == id) \
+        .options(joinedload(Review.user)) \
         .all()
 
     # Formats the data from the query above
@@ -133,9 +136,10 @@ def get_album_reviews(id):
                 "rating": review.rating,
                 "review_text": review.review_text,
                 "created_at": review.created_at,
-                "updated_at": review.updated_at
+                "updated_at": review.updated_at,
+                "username": username,
         }
-        for review in query
+        for review, username in query
     ]
 
     return { "reviews": reviews }

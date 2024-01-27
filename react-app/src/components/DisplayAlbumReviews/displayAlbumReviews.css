@@ -1,0 +1,33 @@
+.rating-and-star {
+    display: flex;
+    flex-direction: row;
+}
+
+.user-name {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.review-buttons {
+    padding: 4px 7px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    color: #FFFFFFFF;
+    background: #71BBB2FF;
+    opacity: 1;
+    border: none;
+    border-radius: 4px;
+    margin-right: 5px;
+}
+
+.single-review {
+    padding-top: 2px;
+    padding-bottom: 18px;
+    margin-left: 30px;
+}
+
+.single-review-container {
+    margin-left: -30px;
+    border-bottom: 1px solid lightgray;
+}
