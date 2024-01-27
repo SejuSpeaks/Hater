@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { getAlbums } from '../../store/albums';
 import GetAlbumSearch from '../GetAlbumsSearch';
 import { TbStarFilled } from "react-icons/tb";
+import formatAvgRating from '../../utils/formatAvgRating.js';
 import './GetAlbums.css'
 
 const GetAlbums = () => {
@@ -57,7 +58,7 @@ const GetAlbums = () => {
                             <p>{album.artist}</p>
                             <p>{album.genre}</p>
                             <p>{album.release_date}</p>
-                            <div className="albums__rating"><TbStarFilled/> <span>{album.avg_rating || 'No Rating'}</span></div>
+                            <div className="albums__rating"><TbStarFilled/> <span>{album.avg_rating ? formatAvgRating(album.avg_rating) : 'No Rating'}</span></div>
                         </div>
                     </Link>
                 ))
