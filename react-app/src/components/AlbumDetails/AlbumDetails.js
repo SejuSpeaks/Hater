@@ -5,7 +5,7 @@ import { getAlbumDetails } from "../../store/albums";
 import OpenModalButton from "../OpenModalButton";
 import ReviewForm from "../ReviewForms/ReviewForm";
 import { DisplayAlbumReviews } from "../DisplayAlbumReviews";
-// import { fetchAlbumReviews } from "../../store/reviews"
+import { fetchAlbumReviews } from "../../store/reviews"
 import { postAlbumLike, deleteAlbumLike } from "../../store/likes";
 import { FaHeart } from "react-icons/fa";
 import "./AlbumDetails.css"
@@ -22,6 +22,8 @@ const AlbumDetails = () => {
     const sessionUser = useSelector((state) => {
         return state.session.user
     })
+
+
 
     const [isLoading, setIsLoading] = useState(true)
     const [userLiked, setUserLiked] = useState(null)
@@ -44,9 +46,20 @@ const AlbumDetails = () => {
         setUserLiked(album?.user_liked);
     }, [album?.user_liked]);
 
+
     if (isLoading) return <h1>Loading...</h1>
 
     if (!album) return <h1>Album not found</h1>
+
+    let hiddenBtn;
+
+    if (sessionUser === null) {
+        hiddenBtn = true
+    } else if (sessionUser.id === album.user_id) {
+        hiddenBtn = true
+    } else {
+        hiddenBtn = false
+    }
 
     const handleLike = async () => {
         console.log('/////////////handleLike before', userLiked);
@@ -75,7 +88,7 @@ const AlbumDetails = () => {
             <div className="top-half">
             <div className="left">
                 <img className="image" alt='album_image' src={image_url}/>
-                <div hidden={sessionUser == null} className={`review-button`} id="reviewBtn">
+                <div hidden={hiddenBtn} className={`review-button`} id="reviewBtn">
                     <OpenModalButton
                     className="post-review-button clickable"
                     buttonText="+ POST A REVIEW"
