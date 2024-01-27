@@ -5,7 +5,7 @@ import { getAlbumDetails } from "../../store/albums";
 import OpenModalButton from "../OpenModalButton";
 import ReviewForm from "../ReviewForms/ReviewForm";
 import { DisplayAlbumReviews } from "../DisplayAlbumReviews";
-import { fetchAlbumReviews } from "../../store/reviews"
+// import { fetchAlbumReviews } from "../../store/reviews"
 import { postAlbumLike, deleteAlbumLike } from "../../store/likes";
 import { FaHeart } from "react-icons/fa";
 import "./AlbumDetails.css"
