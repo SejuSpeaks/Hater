@@ -59,3 +59,15 @@
     padding: 10px 20px;
     width: 100%;
 }
+
+.login__button-demo {
+    background-color: transparent;
+    border: none;
+    color: #38736d;
+    cursor: pointer;
+    display: block;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0 auto 12px auto;
+    text-decoration: underline;
+}
