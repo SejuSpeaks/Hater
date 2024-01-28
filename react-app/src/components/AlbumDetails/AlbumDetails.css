@@ -112,6 +112,7 @@
 
 .likeBtn {
     color: white;
+    cursor: pointer;
     background: #38736d;
     opacity: 1;
     border: none;
