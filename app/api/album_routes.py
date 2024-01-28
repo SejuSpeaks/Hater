@@ -234,6 +234,12 @@ def album_details(id):
             for key, val in sub.items():
                 merged_dict.setdefault(key, []).append(val)
 
+        #boolean to check if current user review album - KA
+        review_list = list(merged_dict['user_id'])
+
+        if current_user.get_id():
+            user_reviewed = int(current_user.get_id()) in review_list
+
         rating_list = list(merged_dict['rating'])
         rating_sum = sum(rating_list)
         rating_avg = rating_sum / len(rating_list)
@@ -293,7 +299,8 @@ def album_details(id):
             'image_url': album.image_url,
             'avg_rating': avg_review,
             'total_likes': total_likes,
-            'user_liked': user_liked
+            'user_liked': user_liked,
+            'user_reviewed': user_reviewed
         }
 
     return { "album": album_details }

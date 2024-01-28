@@ -121,6 +121,9 @@
     gap: 6px;
 }
 
+.likeBtn:hover {
+    cursor: pointer;
+}
 
 @media screen and (max-width:900px) {
     .wrapper {

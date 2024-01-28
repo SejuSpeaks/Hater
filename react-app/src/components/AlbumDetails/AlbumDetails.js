@@ -27,6 +27,7 @@ const AlbumDetails = () => {
 
     const [isLoading, setIsLoading] = useState(true)
     const [userLiked, setUserLiked] = useState(null)
+    const [userReviewed, setUserReviewed] = useState(null)
 
     useEffect(() => {
         const fetchAlbumAndReviewData = async () => {
@@ -39,23 +40,26 @@ const AlbumDetails = () => {
             }
         }
         fetchAlbumAndReviewData()
-    }, [dispatch, albumId, setIsLoading, userLiked]);
+    }, [dispatch, albumId, setIsLoading, userLiked, userReviewed]);
 
     // set user liked if album is available
     useEffect(() => {
         setUserLiked(album?.user_liked);
     }, [album?.user_liked]);
 
+    // set user reviewed if album is available
+    useEffect(() => {
+        setUserReviewed(album?.user_reviewed);
+    }, [album?.user_reviewed]);
 
     if (isLoading) return <h1>Loading...</h1>
 
     if (!album) return <h1>Album not found</h1>
 
     let hiddenBtn;
-
-    if (sessionUser === null) {
-        hiddenBtn = true
-    } else if (sessionUser.id === album.user_id) {
+    console.log("userReviewed", userReviewed)
+    console.log(album)
+    if (sessionUser === null | sessionUser.id === album.user_id | userReviewed) {
         hiddenBtn = true
     } else {
         hiddenBtn = false
