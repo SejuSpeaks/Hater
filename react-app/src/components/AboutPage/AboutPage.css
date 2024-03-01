@@ -37,7 +37,19 @@
     width: 200px;
 }
 
+.team__text {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.team__text svg {
+    color: black;
+    transform: scale(1.5);
+}
+
 .team__link {
     color: #38736d;
-    text-align: center;
+    margin-left: 10px;
+    /* text-align: center; */
 }

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { FaGithub } from "react-icons/fa";
 import './AboutPage.css';
 
 const AboutPage = () => {
@@ -49,7 +50,9 @@ const AboutPage = () => {
                             <div onMouseEnter={() => handleMouseEnter(user.id)} onMouseLeave={handleMouseLeave}>
                                 <img className={`team__avatar ${hovered === user.id ? 'animated' : ''}`} src={user.avatar_url} alt={user.login} />
                             </div>
-                            <h3 className="team__link">{user.login}</h3>
+                            <div className="team__text">
+                                <FaGithub/><h3 className="team__link">{user.login}</h3>
+                            </div>
                         </a>
                     </div>
                 ))
