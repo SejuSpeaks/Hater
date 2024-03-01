@@ -1,3 +1,43 @@
 #team {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 10px;
+}
+
+
+.team__member {
+    cursor: pointer;
+    padding: 50px;
+    position: relative;
+}
+
+
+.animated {
+    animation: rotateOnce 0.5s forwards;
+}
+
+
+@keyframes rotateOnce {
+    from {
+      transform: rotateY(0deg);
+    }
+    to {
+      transform: rotateY(360deg);
+    }
+  }
+
+.team__member a {
+    text-decoration: none;
+}
+
+.team__avatar {
+    border-radius: 100px;
+    display: block;
+    width: 200px;
+}
+
+.team__link {
+    color: #38736d;
+    text-align: center;
 }

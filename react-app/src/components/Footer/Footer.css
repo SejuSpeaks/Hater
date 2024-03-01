@@ -1,3 +1,9 @@
 #footer {
     margin: 20px 100px;
 }
+
+#footer__team a {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}

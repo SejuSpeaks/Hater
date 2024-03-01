@@ -4,6 +4,7 @@ import './AboutPage.css';
 const AboutPage = () => {
     const [userData, setUserData] = useState([]);
     const userNames = ['SejuSpeaks', 'KatharineArburn', 'triplegdev', 'h-guertler'];
+    const [hovered, setHovered] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -27,6 +28,14 @@ const AboutPage = () => {
         // eslint-disable-next-line
     }, []);
 
+    const handleMouseEnter = userId => {
+        setHovered(userId);
+    }
+
+    const handleMouseLeave = () => {
+        setHovered(null);
+    }
+
     !userData.length && <h1>Loading..</h1>;
 
     console.log(userData)
@@ -35,12 +44,14 @@ const AboutPage = () => {
         <div id="team">
             {
                 userData.map(user => (
-                    <a href={user.html_url} target="_blank">
-                        <div key={user.id} className="team__member">
-                            <img className="team__avatar" src={user.avatar_url} alt={user.login} />
-                            <h2>{user.login}</h2>
-                        </div>
-                    </a>
+                    <div key={user.id} className="team__member">
+                        <a href={user.html_url} target="_blank" rel="noreferrer">
+                            <div onMouseEnter={() => handleMouseEnter(user.id)} onMouseLeave={handleMouseLeave}>
+                                <img className={`team__avatar ${hovered === user.id ? 'animated' : ''}`} src={user.avatar_url} alt={user.login} />
+                            </div>
+                            <h3 className="team__link">{user.login}</h3>
+                        </a>
+                    </div>
                 ))
             }
         </div>

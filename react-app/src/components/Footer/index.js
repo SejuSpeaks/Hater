@@ -4,7 +4,7 @@ import './Footer.css';
 const Footer = () => {
     return (
         <footer id="footer">
-            <p>Powered by a team of <span><Link to={'/about'}>engineers</Link></span> 🚀</p>
+            <p>Powered by a team of <span id="footer__team"><Link to={'/about'}>engineers</Link></span> 🚀</p>
         </footer>
     )
 }
