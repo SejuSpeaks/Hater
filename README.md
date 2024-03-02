@@ -4,8 +4,8 @@
 - [Description](#description)
 - [Technologies](#technologies)
 - [Features](#features)
-- [Installation] (#installation)
-- [Contributors] (#contributors)
+- [Installation](https://github.com/SejuSpeaks/Hater/tree/readme-update?tab=readme-ov-file#installation)
+- [Contributors](https://github.com/SejuSpeaks/Hater/tree/readme-update?tab=readme-ov-file#installation)
 
 <br>
 
@@ -50,8 +50,6 @@ Hater is a music review site. Users can add their personal albums, search for ot
 - Unauthenticated users can view album details for all albums on the platform including reviews for each album
 - Unauthenticated users can search by title, artist, genre, description
 
-<br>
-
 ## Installation
 
    ### 1. Clone the repository
@@ -85,11 +83,12 @@ Hater is a music review site. Users can add their personal albums, search for ot
 <br>
 
 ## Contact Information
+-[**Jael Bueno**](https://api.github.com/users/SejuSpeaks)
 
-**Jael Bueno**
+-[**Katharine Arburn**](https://api.github.com/users/KatharineArburn)
 
-**Katharine Arburn**
+-[**Tony Garcia**](https://api.github.com/users/triplegdev)
 
-**Tony Garcia**
+-[**Hannah Guertler**](https://api.github.com/users/h-guertler)
 
-**Hannah Guertler**
+
