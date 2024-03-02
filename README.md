@@ -5,7 +5,7 @@
 - [Technologies](#technologies)
 - [Features](#features)
 - [Installation](#installation)
-- [Contributors](#contributors)
+- [[Contributors](https://github.com/SejuSpeaks/Hater/blob/readme-update/README.md#contact-information)
 
 <br>
 
