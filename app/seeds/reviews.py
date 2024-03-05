@@ -31,7 +31,7 @@ def seed_reviews():
     review13 = Review(
         user_id=2, album_id=6, review_text='Bozo next!!', rating=2)
     review14 = Review(
-        user_id=3, album_id=8, review_text='We love farmers and people who make good albums woohooo', rating=5)
+        user_id=3, album_id=8, review_text='I think this album really flourished when it came to structure and order wow what an amazing album loved loved loved', rating=5)
     review15 = Review(
         user_id=3, album_id=7, review_text='Time to wake up america... This guy stinks! hahahah', rating=2)
 
