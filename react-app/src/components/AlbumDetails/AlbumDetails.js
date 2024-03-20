@@ -83,7 +83,6 @@ const AlbumDetails = () => {
         total_likes
     } = album
 
-
     return  (
         <section className='page'>
             <div className="top-half">
@@ -114,11 +113,12 @@ const AlbumDetails = () => {
                         <div className="rating">{avg_rating === "" ? "new album" : formatAvgRating(avg_rating)}</div>
                     </div>
                     <div className="likes">
-                        <div className="heart-container" onClick={handleLike}>
-                            {!userLiked ? <FaRegHeart className="empty-heart" />  : <FaHeart className="heart" />}
+                        <div className={`heart-container ${user && user.username !== album.artist && 'heart-click'}`} onClick={user && user.username !== album.artist ? handleLike : null} >
+                            {!user ? <FaRegHeart className="empty-heart" />  : userLiked ? <FaHeart className="heart" /> : <FaRegHeart className="empty-heart" />}
                         </div>
                         {total_likes === "" ? "0 likes" : total_likes === 1 ? "1 like" : `${total_likes} likes`}
                     </div>
+                    {/* {album && user && user.username !== album.artist && <button className="likeBtn" onClick={handleLike}>{!userLiked ? 'Like' : 'Unlike'}</button>} */}
                 </div>
             </div>
             <div className="review-header">

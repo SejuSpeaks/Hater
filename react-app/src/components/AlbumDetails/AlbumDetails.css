@@ -33,9 +33,12 @@
 }
 
 .heart-container {
-    cursor: pointer;
     margin-right: 10px;
     width: 30px;
+}
+
+.heart-click {
+    cursor: pointer;
 }
 
 .heart, .empty-heart {
