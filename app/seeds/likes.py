@@ -10,10 +10,31 @@ def seed_likes():
         user_id=3, album_id=1)
     like3 = Like(
         user_id=2, album_id=3)
+    like4 = Like(
+        user_id=2, album_id=5)
+    like5 = Like(
+        user_id=2, album_id=7)
+    like6 = Like(
+        user_id=3, album_id=10)
+    like7 = Like(
+        user_id=1, album_id=4)
+    like8 = Like(
+        user_id=1, album_id=3)
+    like9 = Like(
+        user_id=3, album_id=6)
+    like10 = Like(
+        user_id=1, album_id=9)
 
     db.session.add(like1)
     db.session.add(like2)
     db.session.add(like3)
+    db.session.add(like4)
+    db.session.add(like5)
+    db.session.add(like6)
+    db.session.add(like7)
+    db.session.add(like8)
+    db.session.add(like9)
+    db.session.add(like10)
     db.session.commit()
 
 

@@ -6,9 +6,6 @@ import './index.css';
 const ConfirmDelete = ({ albumId, deleteAlbum }) => {
     const { closeModal } = useModal();
 
-
-
-
     return (
         <div className="delete-album-container">
             <b id="delete-album-confirm-delete">Delete Album</b>

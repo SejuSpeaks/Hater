@@ -10,6 +10,8 @@ import Navigation from "./components/Navigation";
 import AlbumDetails from "./components/AlbumDetails/AlbumDetails";
 import CreateAlbumForm from "./components/AlbumForms/CreateAlbumForm";
 import EditAlbumForm from "./components/AlbumForms/EditAlbumForm";
+import Footer from "./components/Footer";
+import AboutPage from "./components/AboutPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -31,10 +33,12 @@ function App() {
           <Route path="/albums/new" component={CreateAlbumForm} />
           <Route path="/albums/:albumId/edit" component={EditAlbumForm} />
           <Route path="/albums/:albumId" component={AlbumDetails} />
+          <Route path="/about" component={AboutPage} />
           <Route><h1>Page Not Found</h1></Route>
         </Switch>
       )}
       </main>
+      <Footer />
     </>
   );
 }
