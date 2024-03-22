@@ -18,14 +18,19 @@ const Likes = () => {
     }, [dispatch])
 
     const userLikes = Object.values(likes).map(like => {
+        let title = like.title
+        const widthOfContainer = 20;
+        if (title.length > widthOfContainer) {
+            title = `${title.substring(0, widthOfContainer - 3)}...`
+        }
         return (
             <div className="profile-page-albums-container" onClick={() => history.push(`/albums/${like.id}`)} key={like.id} >
-                <img src={like.image_url} alt="album cover" className="profile-page-album-image" />
                 <div className="profile-page-album-data-container">
-                    <p className="profile-page-album-title">{like.title}</p>
+                    <img src={like.image_url} alt="album cover" className="profile-page-album-image" />
                     <p className="profile-page-album-artist">{like.artist}</p>
+                    <p className="profile-page-album-title">{title}</p>
+                    <p>{like.release_date}</p>
                 </div>
-                <p>{like.release_date}</p>
             </div>
         );
     })
