@@ -39,8 +39,6 @@ const AboutPage = () => {
 
     !userData.length && <h1>Loading..</h1>;
 
-    console.log(userData)
-
     return (
         <div id="team">
             {

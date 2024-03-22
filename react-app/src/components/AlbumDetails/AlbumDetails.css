@@ -32,9 +32,25 @@
     flex-basis: 10px;
 }
 
+.heart-container {
+    margin-right: 10px;
+    width: 30px;
+}
+
+.heart-click {
+    cursor: pointer;
+}
+
+.heart, .empty-heart {
+    size: 100%;
+}
+
 .heart {
-    size: 30px;
     color: #DE3B40FF;
+}
+
+.empty-heart {
+    color: black;
 }
 
 .image {
@@ -49,6 +65,7 @@
 }
 
 .likes {
+    display: flex;
     font-size: 30px;
     font-weight: 400;
 }

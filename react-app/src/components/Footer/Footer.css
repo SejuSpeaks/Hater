@@ -2,6 +2,13 @@
     margin: 100px 100px 20px;
 }
 
+@media (max-width: 740px) {
+    #footer {
+      margin: 100px auto 20px;
+      text-align: center;
+    }
+  }
+
 #footer__team a {
     color: black;
     font-weight: bold;
