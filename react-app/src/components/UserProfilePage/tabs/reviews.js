@@ -18,7 +18,7 @@ const Reviews = () => {
     const userReviews = Object.values(reviews).map(review => {
         let title = review.title
         const widthOfContainer = 20;
-        if (title.length > widthOfContainer) {
+        if (title && title.length > widthOfContainer) {
             title = `${title.substring(0, widthOfContainer - 3)}...`
         }
         return (

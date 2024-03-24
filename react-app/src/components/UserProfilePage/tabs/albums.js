@@ -25,7 +25,7 @@ const Albums = ({ deleteAlbum, isDeleted }) => {
     const userAlbums = Object.values(albums).map(album => {
         let title = album.title
         const widthOfContainer = 20;
-        if (title.length > widthOfContainer) {
+        if (title && title.length > widthOfContainer) {
             title = `${title.substring(0, widthOfContainer - 3)}...`
         }
 
