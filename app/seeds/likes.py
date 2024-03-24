@@ -11,19 +11,19 @@ def seed_likes():
     like3 = Like(
         user_id=2, album_id=3)
     like4 = Like(
-        user_id=2, album_id=5)
+        user_id=3, album_id=5)
     like5 = Like(
-        user_id=2, album_id=7)
+        user_id=1, album_id=7)
     like6 = Like(
-        user_id=3, album_id=10)
+        user_id=2, album_id=10)
     like7 = Like(
         user_id=1, album_id=4)
     like8 = Like(
-        user_id=1, album_id=3)
+        user_id=3, album_id=3)
     like9 = Like(
         user_id=3, album_id=6)
     like10 = Like(
-        user_id=1, album_id=9)
+        user_id=2, album_id=9)
 
     db.session.add(like1)
     db.session.add(like2)
