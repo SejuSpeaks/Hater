@@ -97,11 +97,11 @@ const AlbumDetails = () => {
                     </div>
                 </div>
                 <div className="center">
-                    <h2 className="h2">{title}</h2>
-                    <h3 className="h3">{artist}</h3>
-                    <h4 className="h4">{release_date}</h4>
-                    <h4 className="h4">{genre}</h4>
-                    <p>{description ? description : `Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                    <h2 className="h2 title">{title}</h2>
+                    <h3 className="h3 artist">{artist}</h3>
+                    <h4 className="h4 release_date">{release_date}</h4>
+                    <h4 className="h4 genre">{genre}</h4>
+                    <p className="description">{description ? description : `Lorem ipsum dolor sit amet, consectetur adipiscing elit
                         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                         Eu ultrices vitae auctor eu augue ut lectus. Elit at imperdiet dui accumsan sit
                         amet nulla facilisi morbi. Porttitor eget dolor morbi non arcu.
