@@ -20,7 +20,7 @@ const Likes = () => {
     const userLikes = Object.values(likes).map(like => {
         let title = like.title
         const widthOfContainer = 20;
-        if (title.length > widthOfContainer) {
+        if (title && title.length > widthOfContainer) {
             title = `${title.substring(0, widthOfContainer - 3)}...`
         }
         return (
