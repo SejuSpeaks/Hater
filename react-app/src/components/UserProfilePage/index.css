@@ -81,10 +81,10 @@
     margin-right: 5px;
 }
 
-/* .profile-page-album-buttons-container {
-    display: flex;
-    gap: 10px;
-} */
+.profile-page-album-buttons:hover {
+    cursor: pointer;
+}
+
 
 .profile-page-album-image {
     width: 150px;
@@ -176,8 +176,9 @@
 
     .profile-page-album-buttons-container {
         display: flex;
-        justify-content: flex-start;
+        justify-content: center;
     }
+
 
     .album-title-user-page {
         white-space: nowrap;
