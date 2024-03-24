@@ -77,7 +77,7 @@ Hater is a music review site. Users can add their personal albums, search for ot
       ```
    ### 5. Run the dev server
       ```sh
-      npm run dev
+      npm run start
       ```
    ### 6. Open the app in your browser
 
@@ -93,5 +93,3 @@ Hater is a music review site. Users can add their personal albums, search for ot
 -[**Tony Garcia**](https://github.com/triplegdev)
 
 -[**Hannah Guertler**](https://github.com/h-guertler)
-
-
