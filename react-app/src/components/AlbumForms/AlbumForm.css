@@ -110,17 +110,54 @@ input[type=date]{
 }
 
 @media screen and (max-width:900px) {
-    .wrapper {
-        display: grid;
-        grid-template-columns: 50% 50%;
-        grid-gap: 1em;
-    }
-}
 
-@media screen and (max-width:576px) {
-    .wrapper {
-        display: grid;
-        grid-template-columns: 100%;
-        grid-gap: 1em;
+    .container {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+        flex-wrap: wrap;
+        width: 100%;
+        gap: 4px;
+    }
+
+
+    #title {
+        height:40px;
+        width:98%;
+    }
+
+    #genre {
+        height:40px;
+        width:98%;
+    }
+
+    #description {
+        height:150px;
+        width:98%;
+    }
+
+    #release_date{
+        height:40px;
+        width:98%;
+    }
+
+    #image {
+        height: auto;
+        max-width:100%;
+    }
+
+    #image_url {
+        height:40px;
+        width:98%;
+    }
+
+    .submit-btn {
+        height:50px;
+        width:98%;
+        color: white;
+        background: #71BBB2FF;
+        opacity: 1;
+        border: none;
+        border-radius: 4px;
     }
 }
