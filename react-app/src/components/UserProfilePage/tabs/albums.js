@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserAlbums } from "../../../store/albums";
+import { isOverflown } from "../../../utils/scrollArrows";
 import ConfirmDelete from "../../ConfirmDelete";
 import OpenModalButton from "../../OpenModalButton";
 import { useHistory } from "react-router-dom";
@@ -10,6 +11,7 @@ const Albums = ({ deleteAlbum, isDeleted }) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [isLoaded, setIsLoaded] = useState(false);
+    const [scrollArrows, setScrollArrows] = useState(false)
     const albums = useSelector(state => state.albums);
 
 
@@ -22,6 +24,7 @@ const Albums = ({ deleteAlbum, isDeleted }) => {
         history.push(`albums/${id}/edit`)
     }
 
+    //map through fetched album data returning jsx for each elemenet
     const userAlbums = Object.values(albums).map(album => {
         let title = album.title
         const widthOfContainer = 20;
@@ -46,10 +49,63 @@ const Albums = ({ deleteAlbum, isDeleted }) => {
         );
     })
 
+    useEffect(() => {
+        const albumsContainer = document.querySelector('.profile-page-album-container-whole')
+        const childrenOfAlbumsContainer = document.getElementsByClassName('profile-page-albums-container')
+
+        isOverflown(albumsContainer, childrenOfAlbumsContainer, setScrollArrows)
+
+
+        window.addEventListener('resize', () => isOverflown(albumsContainer, childrenOfAlbumsContainer, setScrollArrows));
+
+        return () => {
+            window.removeEventListener('resize', () => isOverflown(albumsContainer, childrenOfAlbumsContainer, setScrollArrows));
+        };
+
+    }, [isLoaded])
 
     return (
         <div className="profile-page-content-container">
+            <div>
+                {scrollArrows && (<>
+                    <svg
+                        className="scroll-arrow-user-page"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
+                        <path d="M15 18l-6-6 6-6" />
+                    </svg>
+                </>)}
+
+            </div>
             {isLoaded && userAlbums}
+            <div>
+                {scrollArrows && (
+                    <>
+                        <svg
+                            className="scroll-arrow-user-page"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </>
+                )}
+            </div>
         </div>
     );
 
