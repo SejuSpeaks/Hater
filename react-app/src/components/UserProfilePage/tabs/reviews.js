@@ -58,6 +58,10 @@ const Reviews = () => {
             <div>
                 {scrollArrows && (<>
                     <svg
+                        onClick={() => {
+                            let container = document.querySelector('.profile-page-content-container')
+                            container.scrollLeft += container.offsetWidth
+                        }}
                         className="scroll-arrow-user-page"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -79,6 +83,10 @@ const Reviews = () => {
                 {scrollArrows && (
                     <>
                         <svg
+                            onClick={() => {
+                                let container = document.querySelector('.profile-page-content-container')
+                                container.scrollLeft -= container.offsetWidth
+                            }}
                             className="scroll-arrow-user-page"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
