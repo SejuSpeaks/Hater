@@ -1,4 +1,4 @@
-const formatAvgRating= (rating) => {
+const formatAvgRating = (rating) => {
     const floatNumber = parseFloat(rating);
     //add two decimal places and remove trailing zeroes
     const formattedNumber = floatNumber.toFixed(2).replace(/\.?0+$/, '');

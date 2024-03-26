@@ -58,7 +58,7 @@
 
 .profile-page-content-container {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     overflow-x: scroll;
     margin: 30px 40px;
 }
@@ -67,6 +67,16 @@
     background: transparent;
 }
 
+.scroll-arrow-user-page {
+    z-index: 100;
+    padding: 100px;
+    padding: 29px;
+}
+
+.scroll-arrow-user-page:hover {
+    background-color: rgba(113, 187, 178, 0.219);
+    border-radius: 100%;
+}
 
 .profile-page-album-buttons {
     padding: 4px 7px;
