@@ -31,8 +31,6 @@ export const DisplayAlbumReviews = (props) => {
         fetchReviewData()
     }, [dispatch, albumId]);
 
-    // const makeDateString = (date) => (date).slice(5, 16);
-
     let renderedReviews;
     if (reviews && Object.keys(reviews).length > 0) {
         const reviewArray = Object.values(reviews);
@@ -43,14 +41,12 @@ export const DisplayAlbumReviews = (props) => {
             const showButtons = (review.user_id === userId);
 
             return (
-            <div className="single-review-container">
-            <div className="single-review" key={id}>
+            <div className="single-review-container" key={id}>
+            <div className="single-review">
                 <p className="user-name">@{review["username"] ? review["username"] : user.username}</p>
                 <div className="rating-and-star">
-                    {/* <div>{review["rating"]}</div> */}
                     <DisplayStars rating={review["rating"]}/>
                 </div>
-                {/* <p className="review-date">{makeDateString(review["created_at"])}</p> */}
                 <p className="review-text">{review["review_text"]}</p>
                 {showButtons ? (
                     <div className="modal-buttons">
@@ -78,12 +74,6 @@ export const DisplayAlbumReviews = (props) => {
             {(reviews && Object.keys(reviews).length > 0) ? (
                 <div className="reviews-list">
                     {renderedReviews}
-                    {/* {console.log("user id: " + user.id + "artist id: " + artistId + "revs exists? " +)}
-                    {(user !== null
-                        && user.id !== artistId
-                        && (reviews && Object.keys(reviews).length == 0)) ?
-                        <p>Be the first to post a review!</p>
-                        : <></>} */}
                 </div>
                 ) : (
                 <></>
