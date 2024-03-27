@@ -7,11 +7,12 @@
     padding-left: 30px;
 }
 .top-half {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    /* column-gap: 10px; */
-    padding-bottom: 20px;
-    padding-left: 20px;
+    margin: auto;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    column-gap: 50px;
+    align-items: center;
 }
 
 .review-header{
@@ -30,6 +31,7 @@
 
 .left {
     flex-basis: 10px;
+    /* align-self: start; */
 }
 
 .heart-container {
@@ -58,21 +60,13 @@
     width: 300px;
 }
 
-.left {
-    grid-column-start: 1;
-    grid-column-end: 2;
-    padding-bottom: 10px;
-}
-
 .likes {
     display: flex;
-    font-size: 30px;
+    font-size: 175%;
     font-weight: 400;
 }
 
 .center {
-    grid-column-start: 2;
-    grid-column-end: 4;
     justify-self: start;
     padding-left: 15px;
 }
@@ -80,6 +74,10 @@
 .right {
     align-self: center;
     padding-right: 10px;
+}
+
+.left {
+    align-self: center;
 }
 
 .rating-container {
@@ -141,6 +139,12 @@
 
 
 @media screen and (max-width:900px) {
+
+    .page {
+        margin: auto;
+        padding-right: 5px;
+    }
+
     .likes {
         display: flex;
         font-size: 25px;
@@ -151,17 +155,26 @@
     .top-half {
         display: flex;
         justify-content: space-around;
+        align-content: center;
         flex-direction: column;
         flex-wrap: wrap;
         max-width: 100%;
 
     }
 
+    .center {
+        align-self: center;
+        padding-bottom: 10px;
+    }
     .right {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         align-items: center;
         gap: 5px;
+    }
+
+    .title, .artist, .release_date, .genre, .description {
+        text-align: center;
     }
 
     .rating-container {
