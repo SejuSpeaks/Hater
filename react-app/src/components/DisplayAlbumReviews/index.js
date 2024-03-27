@@ -66,7 +66,7 @@ export const DisplayAlbumReviews = (props) => {
             </div>
             </div>
             )
-            });
+        });
     }
 
     return (
