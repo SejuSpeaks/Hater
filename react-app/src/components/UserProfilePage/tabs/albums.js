@@ -25,7 +25,7 @@ const Albums = ({ deleteAlbum, isDeleted }) => {
     const userAlbums = Object.values(albums).map(album => {
         let title = album.title
         const widthOfContainer = 20;
-        if (title.length > widthOfContainer) {
+        if (title && title.length > widthOfContainer) {
             title = `${title.substring(0, widthOfContainer - 3)}...`
         }
 
@@ -36,10 +36,10 @@ const Albums = ({ deleteAlbum, isDeleted }) => {
                     <div className="profile-page-album-data-container">
                         <p className="album-title-user-page">{title}</p>
                     </div>
-                    <div className="profile-page-album-buttons-container">
-                        <button className="profile-page-album-buttons" onClick={() => redirectToUpdate(album.id)}>UPDATE</button>
-                        <OpenModalButton className={'profile-page-album-buttons'} buttonText={"DELETE"} modalComponent={<ConfirmDelete deleteAlbum={deleteAlbum} albumId={album.id} />} />
-                    </div>
+                </div>
+                <div className="profile-page-album-buttons-container">
+                    <button className="profile-page-album-buttons" onClick={() => redirectToUpdate(album.id)}>UPDATE</button>
+                    <OpenModalButton className={'profile-page-album-buttons'} buttonText={"DELETE"} modalComponent={<ConfirmDelete deleteAlbum={deleteAlbum} albumId={album.id} />} />
                 </div>
 
             </div>

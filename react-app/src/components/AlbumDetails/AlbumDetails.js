@@ -9,6 +9,8 @@ import { DisplayAlbumReviews } from "../DisplayAlbumReviews";
 import { postAlbumLike, deleteAlbumLike } from "../../store/likes";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
+import { FaMusic } from "react-icons/fa";
+import { IoMdMusicalNote } from "react-icons/io";
 import formatAvgRating from '../../utils/formatAvgRating.js';
 import "./AlbumDetails.css"
 
@@ -49,7 +51,7 @@ const AlbumDetails = () => {
     }, [album?.user_liked]);
 
 
-    if (isLoading) return <h1>Loading...</h1>
+    if (isLoading) return <h1><FaMusic /> <IoMdMusicalNote /> <FaMusic /> <IoMdMusicalNote /></h1>
 
     if (!album) return <h1>Album not found</h1>
 
