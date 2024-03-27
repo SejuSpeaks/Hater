@@ -12,10 +12,7 @@
     display: flex;
     justify-content: space-between;
     column-gap: 50px;
-    /* grid-template-columns: repeat(3, 1fr); */
-    /* column-gap: 10px; */
-    /* padding-bottom: 20px; */
-    /* padding-left: 20px; */
+    align-items: center;
 }
 
 .review-header{
@@ -65,7 +62,7 @@
 
 .likes {
     display: flex;
-    font-size: 30px;
+    font-size: 175%;
     font-weight: 400;
 }
 
@@ -77,6 +74,10 @@
 .right {
     align-self: center;
     padding-right: 10px;
+}
+
+.left {
+    align-self: center;
 }
 
 .rating-container {
