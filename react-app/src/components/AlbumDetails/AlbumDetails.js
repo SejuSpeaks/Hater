@@ -88,37 +88,40 @@ const AlbumDetails = () => {
     return  (
         <section className='page'>
             <div className="top-half">
-                <div className="left">
-                    <img className="image" alt='album_image' src={image_url}/>
-                    <div hidden={hiddenBtn} className={`review-button`} id="reviewBtn">
-                        <OpenModalButton
-                        className="post-review-button clickable"
-                        buttonText="+ POST A REVIEW"
-                        modalComponent={<ReviewForm/>}
-                        />
+                <div className="left-center">
+                    <div className="left">
+                        <img className="image" alt='album_image' src={image_url}/>
+                        <div hidden={hiddenBtn} className={`review-button`} id="reviewBtn">
+                            <OpenModalButton
+                            className="post-review-button clickable"
+                            buttonText="+ POST A REVIEW"
+                            modalComponent={<ReviewForm/>}
+                            />
+                        </div>
+                    </div>
+                    <div className="center">
+                        <h2 className="h2 title">{title}</h2>
+                        <h3 className="h3 artist">{artist}</h3>
+                        <h4 className="h4 release_date">{release_date}</h4>
+                        <h4 className="h4 genre">{genre}</h4>
+                        <p className="description">{description ? description : `Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            Eu ultrices vitae auctor eu augue ut lectus. Elit at imperdiet dui accumsan sit
+                            amet nulla facilisi morbi. Porttitor eget dolor morbi non arcu.
+                            Pellentesque massa placerat duis ultricies lacus sed turpis tincidunt.`}
+                        </p>
                     </div>
                 </div>
-                <div className="center">
-                    <h2 className="h2 title">{title}</h2>
-                    <h3 className="h3 artist">{artist}</h3>
-                    <h4 className="h4 release_date">{release_date}</h4>
-                    <h4 className="h4 genre">{genre}</h4>
-                    <p className="description">{description ? description : `Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                        Eu ultrices vitae auctor eu augue ut lectus. Elit at imperdiet dui accumsan sit
-                        amet nulla facilisi morbi. Porttitor eget dolor morbi non arcu.
-                        Pellentesque massa placerat duis ultricies lacus sed turpis tincidunt.`}
-                    </p>
-                </div>
+
                 <div className="right">
                     <div className="rating-container">
                         <div className="rating">{avg_rating === "" ? "new album" : formatAvgRating(avg_rating)}</div>
                     </div>
                     <div className="likes">
-                        <div className={`heart-container ${user && user.username !== album.artist && 'heart-click'}`} onClick={user && user.username !== album.artist ? handleLike : null} >
+                        <div className={`heart-container ${user && user.username !== album.artist && 'heart-click'} ${user && user.username === album.artist && 'disabled'}`} onClick={handleLike} >
                             {!user ? <FaRegHeart className="empty-heart" />  : userLiked ? <FaHeart className="heart" /> : <FaRegHeart className="empty-heart" />}
                         </div>
-                        {total_likes === "" ? "0 likes" : total_likes === 1 ? "1 like" : `${total_likes} likes`}
+                        <span>{total_likes === "" ? "0 likes" : total_likes === 1 ? "1 like" : `${total_likes} likes`}</span>
                     </div>
                     {/* {album && user && user.username !== album.artist && <button className="likeBtn" onClick={handleLike}>{!userLiked ? 'Like' : 'Unlike'}</button>} */}
                 </div>
