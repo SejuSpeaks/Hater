@@ -15,6 +15,12 @@
     align-items: center;
 }
 
+.left-center {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
 .review-header{
     color: gray;
     padding-top: 50px;
@@ -35,8 +41,9 @@
 }
 
 .heart-container {
-    margin-right: 10px;
+    margin-right: 5px;
     width: 30px;
+    height: 30px;
 }
 
 .heart-click {
@@ -64,16 +71,22 @@
     display: flex;
     font-size: 175%;
     font-weight: 400;
+    justify-content: center;
+}
+
+.likes span {
+    font-size: 20px;
 }
 
 .center {
     justify-self: start;
-    padding-left: 15px;
+    /* padding-left: 15px; */
 }
 
 .right {
     align-self: center;
     padding-right: 10px;
+    justify-items: center;
 }
 
 .left {
@@ -137,8 +150,12 @@
     gap: 6px;
 }
 
+.disabled {
+    display: none;
+}
 
-@media screen and (max-width:900px) {
+
+@media screen and (max-width:990px) {
 
     .page {
         margin: auto;
@@ -159,7 +176,12 @@
         flex-direction: column;
         flex-wrap: wrap;
         max-width: 100%;
+    }
 
+    .left-center {
+        display: flex;
+        flex-direction: column;
+        gap: unset;
     }
 
     .center {
@@ -170,7 +192,7 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         align-items: center;
-        gap: 5px;
+        gap: 30px;
     }
 
     .title, .artist, .release_date, .genre, .description {
