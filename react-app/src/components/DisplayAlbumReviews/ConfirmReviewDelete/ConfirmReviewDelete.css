@@ -35,3 +35,40 @@
 .clickable:hover {
     cursor: pointer;
 }
+
+@media (max-width: 480px) {
+    .delete-review-container {
+        width: 70vw;
+        height: 50vmin;
+    }
+
+    #delete-review-confirm-delete {
+        padding-top: 2px;
+    }
+
+    p {
+        margin-top: 2px;
+    }
+
+    .delete-review-buttons-container {
+        height: 10%;
+        border-radius: 4px;
+        overflow: visible;
+    }
+
+    .delete-review-buttons-delete {
+        height: 235%;
+        font-size: 12px;
+        padding: 5px 4px;
+        line-height: 14px;
+        overflow: visible;
+    }
+
+    .delete-review-buttons {
+        height: 235%;
+        font-size: 12px;
+        padding: 5px 4px;
+        line-height: 14px;
+        overflow: visible;
+    }
+}
