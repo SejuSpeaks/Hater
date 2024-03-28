@@ -52,6 +52,7 @@
 
     .delete-review-buttons-container {
         height: 10%;
+        border-radius: 4px;
         overflow: visible;
     }
 
