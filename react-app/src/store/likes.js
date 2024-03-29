@@ -10,7 +10,6 @@ const getLikes = (likes) => {
 }
 
 export const fetchLikes = () => async dispatch => {
-    console.log('we are fetching likes')
     const response = await fetch('/api/likes/current');
 
     if (response.ok) {
