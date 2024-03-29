@@ -98,8 +98,15 @@ h1 {
     }
 }
 
-@media (max-width: 319px) {
+@media (max-width: 415px) {
     #review-form-header {
-        font-size: 17px;
+        font-size: 25px;
+    }
+}
+
+@media (max-width: 320px) {
+    #review-form-header {
+        font-size: 20px;
+        text-align: center;
     }
 }
