@@ -72,3 +72,21 @@
         overflow: visible;
     }
 }
+
+@media (max-width: 319px) {
+    .delete-review-buttons-delete {
+        height: 300%;
+        font-size: 12px;
+        padding: 5px 4px;
+        line-height: 14px;
+        overflow: visible;
+    }
+
+    .delete-review-buttons {
+        height: 300%;
+        font-size: 12px;
+        padding: 5px 4px;
+        line-height: 14px;
+        overflow: visible;
+    }
+}
