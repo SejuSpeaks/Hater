@@ -91,8 +91,15 @@ h1 {
     border: 1px solid #1E2128FF;
 }
 
+
 @media (max-width: 750px) {
     .review-form-modal {
         width: 70vw;
+    }
+}
+
+@media (max-width: 319px) {
+    #review-form-header {
+        font-size: 17px;
     }
 }
