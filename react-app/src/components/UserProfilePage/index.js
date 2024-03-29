@@ -61,7 +61,7 @@ const UserProfilePage = () => {
                 </ul>
             </div>
 
-            <div>
+            <div className="profile-page-album-container-whole">
                 {tab === 'reviews' && <Reviews />}
                 {tab === 'likes' && <Likes />}
                 {tab === 'albums' && <Albums deleteAlbum={deleteAlbum} isDeleted={isDeleted} />}

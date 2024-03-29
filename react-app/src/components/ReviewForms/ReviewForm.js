@@ -84,7 +84,7 @@ const ReviewForm = (props) => {
         <div className="review-form-modal">
             <form className="review-form"
                 onSubmit={handleSubmit}>
-                <h1>{header}</h1>
+                <h1 id="review-form-header">{header}</h1>
                 {Object.keys(errors).length !== 0 && <p>{`Errors: ${errors.error}`}</p>}
                 <label htmlFor="review-text-input" id="review-text-input-label">How was this album?</label>
                 <textarea

@@ -30,8 +30,7 @@ header {
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 9999;
-
+  z-index: 1;
 }
 
 .header__logo {
@@ -131,5 +130,11 @@ header {
   }
   .header__post-album {
     display: none;
+  }
+}
+
+@media (max-width: 415px) {
+  header {
+    display: flex;
   }
 }

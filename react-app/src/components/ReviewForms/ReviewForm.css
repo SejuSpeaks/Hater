@@ -90,3 +90,23 @@ h1 {
     border-radius: 4px;
     border: 1px solid #1E2128FF;
 }
+
+
+@media (max-width: 750px) {
+    .review-form-modal {
+        width: 70vw;
+    }
+}
+
+@media (max-width: 415px) {
+    #review-form-header {
+        font-size: 25px;
+    }
+}
+
+@media (max-width: 320px) {
+    #review-form-header {
+        font-size: 20px;
+        text-align: center;
+    }
+}

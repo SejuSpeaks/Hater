@@ -1,5 +1,6 @@
 /*UL TABS, NAV*/
 
+
 .profile-page-tabs-container {
     border-bottom: solid lightgrey 1px;
     margin: 0px 20px;
@@ -57,9 +58,25 @@
 
 .profile-page-content-container {
     display: flex;
+    align-items: center;
+    overflow-x: scroll;
     margin: 30px 40px;
 }
 
+.profile-page-content-container::-webkit-scrollbar {
+    background: transparent;
+}
+
+.scroll-arrow-user-page {
+    z-index: 100;
+    padding: 100px;
+    padding: 29px;
+}
+
+.scroll-arrow-user-page:hover {
+    background-color: rgba(113, 187, 178, 0.219);
+    border-radius: 100%;
+}
 
 .profile-page-album-buttons {
     padding: 4px 7px;
@@ -74,10 +91,10 @@
     margin-right: 5px;
 }
 
-/* .profile-page-album-buttons-container {
-    display: flex;
-    gap: 10px;
-} */
+.profile-page-album-buttons:hover {
+    cursor: pointer;
+}
+
 
 .profile-page-album-image {
     width: 150px;
@@ -92,25 +109,38 @@
 .profile-page-albums-rating-container {
     display: flex;
     gap: 10px;
-    position: relative;
-    bottom: 30px;
     justify-content: flex-start;
     align-items: center;
 }
+
+.profile-page-album-container-whole {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+
 
 .profile-page-albums-container:hover {
     cursor: pointer;
 }
 
 .profile-page-albums-container {
-    margin: 0px 25px;
+    display: flex;
+    padding: 10px;
+    max-width: 150px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.profile-page-albums-container>p {
+    margin: 0px;
 }
 
 
 .profile-page-album-artist {
     font-weight: bold;
-    position: relative;
-    bottom: 10px;
+    margin: 0px;
 }
 
 
@@ -119,7 +149,48 @@
     flex-direction: column;
     justify-content: center;
     text-align: left;
-    margin: 10px 0px;
+    /* margin: 10px 0px; */
     /* position: relative;
     bottom: 20px; */
+}
+
+
+@media screen and (max-width: 420px) {
+    .profile-page-tabs-ul {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .profile-page-content-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-page-tab-item-active {
+        border-bottom: none;
+        background-color: #E4E6E7;
+    }
+
+    .profile-page-album-data-container {
+        display: flex;
+        padding: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .user-albums-whole-outer {
+        padding: 10px;
+    }
+
+
+    .profile-page-album-buttons-container {
+        display: flex;
+        justify-content: center;
+    }
+
+
+    .album-title-user-page {
+        white-space: nowrap;
+    }
 }

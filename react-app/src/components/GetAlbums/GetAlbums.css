@@ -4,6 +4,12 @@
     width: 100%;
 }
 
+@media (max-width: 415px) {
+    .albums__search-grid {
+        padding: 0 20px;
+    }
+}
+
 .albums__grid {
     display: grid;
     grid-gap: 40px 24px;
